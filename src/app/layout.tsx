@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Roboto, Montserrat } from "next/font/google";
 import "./globals.css";
 
-
 const roboto = Roboto({
   variable: "--font-roboto",
   subsets: ["latin"],
@@ -28,9 +27,7 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${montserrat.variable} antialiased min-h-screen bg-[#fefefe]`}
       >
-        <main className="px-4 py-4 ">
-        {children}
-        </main>
+        <main className="px-4 py-4 ">{children}</main>
       </body>
     </html>
   );
