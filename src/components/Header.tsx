@@ -7,11 +7,11 @@ interface HeaderProps {
 
 export default function Header({ buttons = [] }: HeaderProps) {
   const styles = {
-    headerStyle: "bg-primary p-4 flex justify-between items-center text-white",
+    headerStyle: "",
   };
 
   return (
-    <header className={styles.headerStyle}>
+    <header className="bg-primary p-4 flex justify-between items-center text-white">
       <Logo />
 
       <nav className="flex gap-3">
