@@ -23,11 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" className="h-full">
       <body
-        className={`${roboto.variable} ${montserrat.variable} antialiased min-h-screen bg-[#fefefe]`}
+        className={`${roboto.variable} ${montserrat.variable} antialiased min-h-screen flex flex-col bg-[#fefefe]`}
       >
-        <main>{children}</main>
+        <main className="flex-1 flex flex-col">{children}</main>
       </body>
     </html>
   );
