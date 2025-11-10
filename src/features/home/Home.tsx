@@ -1,7 +1,8 @@
+import Header from "@/components/Header"
 export default function Home(){
     return (
       <div>
-        <h1>Hola desde HomePage</h1>
+<Header></Header>
       </div>
     )
   }
