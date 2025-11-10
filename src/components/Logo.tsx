@@ -3,7 +3,7 @@ import { NotebookPen } from "lucide-react";
 
 export default function Logo() {
   return (
-    <div className="bg-primary flex align-center">
+    <div className="flex align-center">
       <Link
         href="/"
         className="text-surface uppercase tracking-wide font-black text-5xl flex gap-1 items-center"
