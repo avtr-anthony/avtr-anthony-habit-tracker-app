@@ -27,7 +27,7 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${montserrat.variable} antialiased min-h-screen bg-[#fefefe]`}
       >
-        <main className="px-4 py-4 ">{children}</main>
+        <main>{children}</main>
       </body>
     </html>
   );
