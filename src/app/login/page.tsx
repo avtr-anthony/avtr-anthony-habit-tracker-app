@@ -1,10 +1,11 @@
 import Header from "@/features/ui/Header";
 import Card from "@/features/ui/CardAuth";
+import Container from "@/features/ui/Container";
 export default function Login() {
   return (
     <div className="flex flex-col flex-1 min-h-0">
       <Header />
-      <div className="flex flex-1 flex-col justify-center items-center">
+      <Container>
         <Card
           title="Iniciar Sesión"
           inputs={[
@@ -23,7 +24,7 @@ export default function Login() {
           footerLinkText="Regístrate aquí"
           footerHref="/register"
         />
-      </div>
+      </Container>
     </div>
   );
 }

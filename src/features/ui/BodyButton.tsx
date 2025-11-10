@@ -1,5 +1,8 @@
+import Link from "next/link";
+
 export interface ButtonProps {
   label: string;
+  href?: string;
   onClick?: () => void;
   variant?: "primary" | "secondary" | "outline";
   type?: "button" | "submit";
@@ -7,6 +10,7 @@ export interface ButtonProps {
 
 export default function Button({
   label,
+  href,
   onClick,
   variant = "primary",
   type = "button",
@@ -18,7 +22,13 @@ export default function Button({
     outline:
       "border border-primary text-primary hover:bg-primary hover:text-white",
   };
-
+  if (href) {
+    return (
+      <Link href={href} className={`${base} ${variants[variant]}`}>
+        {label}
+      </Link>
+    );
+  }
   return (
     <button
       type={type}
