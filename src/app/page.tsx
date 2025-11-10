@@ -1,4 +1,5 @@
+import HomeFeature from '@/features/home/Home'
 
-export default function Home() {
-  return <h1>Inicio</h1>
+export default function HomePage() {
+  return <HomeFeature />
 }
