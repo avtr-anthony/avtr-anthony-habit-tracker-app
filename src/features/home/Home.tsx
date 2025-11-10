@@ -1,5 +1,5 @@
-import Header from "@/components/Header";
-import Button from "@/components/BodyButton";
+import Header from "@/features/ui/Header";
+import Button from "@/features/ui/BodyButton";
 
 export default function Home() {
   return (
