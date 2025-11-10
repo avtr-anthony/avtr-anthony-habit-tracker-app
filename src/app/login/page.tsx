@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/features/ui/Header";
 
 export default function Login() {
   return (
