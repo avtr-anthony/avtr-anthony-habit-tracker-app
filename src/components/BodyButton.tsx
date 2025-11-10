@@ -11,7 +11,7 @@ export default function Button({
   variant = "primary",
   type = "button",
 }: ButtonProps) {
-  const base = "px-5 py-2 rounded-lg font-medium transition";
+  const base = "px-7 py-3 rounded-lg font-medium transition";
   const variants = {
     primary: "bg-primary text-white hover:bg-primaryHover cursor-pointer",
     secondary: "bg-secondary text-white hover:opacity-90",
