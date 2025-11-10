@@ -4,14 +4,6 @@
   --foreground: #171717;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 @theme {
   --color-background: #F3F6F4;
   --color-surface: #FFFFFF;
@@ -27,8 +19,15 @@
 }
 
 body {
-  height: 100%;
+  min-height: 100vh;
   background-color: var(--background);
   font-family: var(--font-montserrat), sans-serif;
+}
+
+h1 {
+  color: var(--color-text)
+}
+p {
+  color: var(--color-text-secondary)
 }
 
