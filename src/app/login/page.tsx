@@ -4,15 +4,15 @@ import Container from "@/features/ui/Container";
 
 export default function Login() {
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="bg-background flex min-h-screen flex-col">
       <Header />
       <Container>
-        <section className="flex flex-col md:flex-row items-center justify-center w-full h-full gap-10">
-          <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-lg">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-text mb-4">
+        <section className="flex h-full w-full flex-col items-center justify-center gap-10 md:flex-row">
+          <div className="flex max-w-lg flex-col items-center text-center md:items-start md:text-left">
+            <h1 className="text-text mb-4 text-4xl font-extrabold sm:text-5xl md:text-6xl">
               Bienvenido de nuevo
             </h1>
-            <p className="text-base sm:text-lg text-textSecondary leading-relaxed">
+            <p className="text-textSecondary text-base leading-relaxed sm:text-lg">
               Inicia sesión para continuar construyendo tus hábitos diarios.
             </p>
           </div>
@@ -23,17 +23,17 @@ export default function Login() {
                 {
                   label: "Correo",
                   type: "email",
-                  placeholder: "Ingresa tu correo",
+                  placeholder: "Ingresa tu correo"
                 },
                 {
                   label: "Contraseña",
                   type: "password",
-                  placeholder: "******",
-                },
+                  placeholder: "******"
+                }
               ]}
               button={{
                 label: "Ingresar",
-                variant: "primary",
+                variant: "primary"
               }}
               footerText="¿No tienes cuenta?"
               footerLinkText="Regístrate aquí"

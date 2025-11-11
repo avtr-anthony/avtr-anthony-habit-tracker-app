@@ -4,30 +4,30 @@ import "./globals.css";
 
 const roboto = Roboto({
   variable: "--font-roboto",
-  subsets: ["latin"],
+  subsets: ["latin"]
 });
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
-  subsets: ["latin"],
+  subsets: ["latin"]
 });
 
 export const metadata: Metadata = {
   title: "Hábitos Diarios App",
-  description: "Lleva un seguimiento de tus hábitos",
+  description: "Lleva un seguimiento de tus hábitos"
 };
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="es" className="h-full">
       <body
-        className={`${roboto.variable} ${montserrat.variable} antialiased min-h-screen flex flex-col bg-background text-text`}
+        className={`${roboto.variable} ${montserrat.variable} bg-background text-text flex min-h-screen flex-col antialiased`}
       >
-        <main className="flex-1 flex flex-col">{children}</main>
+        <main className="flex flex-1 flex-col">{children}</main>
       </body>
     </html>
   );

@@ -18,14 +18,14 @@ export default function CardAuth({
   footerText,
   footerLinkText,
   footerHref,
-  onSubmit,
+  onSubmit
 }: CardProps) {
   return (
     <form
       onSubmit={onSubmit}
-      className="flex flex-col bg-surface rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-sm sm:max-w-md border border-border"
+      className="bg-surface border-border flex w-full max-w-sm flex-col rounded-2xl border p-6 shadow-xl sm:max-w-md sm:p-8"
     >
-      <h1 className="text-2xl sm:text-3xl font-bold text-primary mb-6 text-center sm:text-left">
+      <h1 className="text-primary mb-6 text-center text-2xl font-bold sm:text-left sm:text-3xl">
         {title || "Default"}
       </h1>
 
@@ -35,17 +35,14 @@ export default function CardAuth({
         ))}
       </div>
 
-      <div className="flex justify-end mt-6">
+      <div className="mt-6 flex justify-end">
         <Button {...button} type="submit" />
       </div>
 
       {footerText && footerLinkText && footerHref && (
-        <p className="text-sm text-textSecondary mt-6 text-center">
+        <p className="text-textSecondary mt-6 text-center text-sm">
           {footerText}{" "}
-          <a
-            href={footerHref}
-            className="text-primary hover:underline font-medium"
-          >
+          <a href={footerHref} className="text-primary font-medium hover:underline">
             {footerLinkText}
           </a>
         </p>

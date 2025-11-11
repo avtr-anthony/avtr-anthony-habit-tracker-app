@@ -8,17 +8,17 @@ export default function Home() {
       <Header
         buttons={[
           { label: "Inicio Sesión", href: "/login", variant: "outline" },
-          { label: "Registrarse", href: "/register", variant: "primary" },
+          { label: "Registrarse", href: "/register", variant: "primary" }
         ]}
       />
       <Container>
-        <section className="flex flex-col items-center justify-center w-full h-full text-center">
-          <div className="max-w-3xl flex flex-col items-center md:items-start gap-4 mb-10">
-            <p className="italic text-base sm:text-lg md:text-xl text-textSecondary leading-relaxed">
-              Construir hábitos saludables no se trata de cambiar de un día para
-              otro, sino de avanzar paso a paso.
+        <section className="flex h-full w-full flex-col items-center justify-center text-center">
+          <div className="mb-10 flex max-w-3xl flex-col items-center gap-4 md:items-start">
+            <p className="text-textSecondary text-base leading-relaxed italic sm:text-lg md:text-xl">
+              Construir hábitos saludables no se trata de cambiar de un día para otro, sino de
+              avanzar paso a paso.
             </p>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase text-text leading-tight">
+            <h1 className="text-text text-4xl leading-tight font-black uppercase sm:text-5xl md:text-6xl lg:text-7xl">
               Sé la mejor versión de ti
             </h1>
           </div>

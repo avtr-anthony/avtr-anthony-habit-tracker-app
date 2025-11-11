@@ -9,14 +9,11 @@ export default function InputField({
   label,
   type = "text",
   placeholder = "",
-  name,
+  name
 }: InputFieldProps) {
   return (
-    <div className="flex flex-col w-full">
-      <label
-        htmlFor={name}
-        className="mb-1 text-sm font-medium text-textSecondary"
-      >
+    <div className="flex w-full flex-col">
+      <label htmlFor={name} className="text-textSecondary mb-1 text-sm font-medium">
         {label}
       </label>
       <input
@@ -24,7 +21,7 @@ export default function InputField({
         name={name}
         type={type}
         placeholder={placeholder}
-        className="w-full p-2 sm:p-3 border rounded-lg border-border focus:outline-none focus:ring-2 focus:ring-primary transition"
+        className="border-border focus:ring-primary w-full rounded-lg border p-2 transition focus:ring-2 focus:outline-none sm:p-3"
       />
     </div>
   );

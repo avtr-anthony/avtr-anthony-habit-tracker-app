@@ -6,9 +6,9 @@ export default function Logo() {
     <div className="flex items-center">
       <Link
         href="/"
-        className="flex items-center gap-2 font-black uppercase tracking-wide text-surface text-3xl sm:text-4xl md:text-5xl"
+        className="text-surface flex items-center gap-2 text-3xl font-black tracking-wide uppercase sm:text-4xl md:text-5xl"
       >
-        <NotebookPen className="w-7 h-7 sm:w-9 sm:h-9" />
+        <NotebookPen className="h-7 w-7 sm:h-9 sm:w-9" />
         Habiario
       </Link>
     </div>
