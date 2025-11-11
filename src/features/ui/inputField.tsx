@@ -12,12 +12,20 @@ export default function InputField({
   name,
 }: InputFieldProps) {
   return (
-    <input
-      id={name}
-      name={name}
-      type={type}
-      placeholder={placeholder}
-      className="flex p-2 border rounded-lg border-border focus:outline-border"
-    ></input>
+    <div className="flex flex-col w-full">
+      <label
+        htmlFor={name}
+        className="mb-1 text-sm font-medium text-textSecondary"
+      >
+        {label}
+      </label>
+      <input
+        id={name}
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        className="w-full p-2 sm:p-3 border rounded-lg border-border focus:outline-none focus:ring-2 focus:ring-primary transition"
+      />
+    </div>
   );
 }
