@@ -28,9 +28,20 @@ export default function Register() {
       return;
     }
 
-    // Redirigimos y captamos errores
+    // Post, Redirigimos y captamos errores
     try {
-      await registerUser(email, password);
+      const user = await registerUser(email, password);
+
+      await fetch("api/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          uid: user.uid,
+          email: user.email,
+          username: String(form.get("username")),
+        }),
+      });
+
       router.push("/login");
     } catch (err: unknown) {
       if (err instanceof Error) {
