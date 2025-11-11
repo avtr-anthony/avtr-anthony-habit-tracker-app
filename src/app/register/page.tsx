@@ -7,7 +7,7 @@ export default function Register() {
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <Container>
-        <section className="flex flex-col md:flex-row items-center justify-center w-full min-h-[calc(100vh-80px)] px-4 sm:px-6 md:px-10 lg:px-20 gap-10">
+        <section className="flex flex-col md:flex-row items-center justify-center w-full h-full gap-10">
           <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-lg">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-text mb-4">
               Crea tu cuenta

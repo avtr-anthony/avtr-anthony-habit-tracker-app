@@ -12,7 +12,7 @@ export default function Home() {
         ]}
       />
       <Container>
-        <section className="flex flex-col items-center justify-center w-full h-full px-4 sm:px-6 md:px-10 lg:px-20 text-center">
+        <section className="flex flex-col items-center justify-center w-full h-full text-center">
           <div className="max-w-3xl flex flex-col items-center md:items-start gap-4 mb-10">
             <p className="italic text-base sm:text-lg md:text-xl text-textSecondary leading-relaxed">
               Construir hábitos saludables no se trata de cambiar de un día para
