@@ -24,9 +24,22 @@ export function useLogin() {
       return;
     }
 
+    
     try {
-      // Intenta iniciar sesión con Firebase Auth
-      await loginUser(email, password);
+      // Inicia sesión en Firebase
+      const user = await loginUser(email, password);
+      const token = await user.getIdToken();
+
+      const res = await fetch("/api/auth/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      });
+
+      if (!res.ok) {
+        setError("Error al verificar la sesión.");
+        return;
+      }
       // Redirige al panel de hábitos si todo sale bien
       router.push("/habitos");
     } catch (err: unknown) {

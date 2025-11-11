@@ -20,31 +20,31 @@ export function useRegister() {
     const confPassword = String(form.get("confPassword"));
     const username = String(form.get("username"));
 
-    // Validación: campos vacíos
+    // campos vacíos
     if (!username.trim() || !email.trim() || !password.trim() || !confPassword.trim()) {
       setError("Todos los campos son obligatorios");
       return;
     }
 
-    // Validación: formato del nombre de usuario
+    // formato del nombre de usuario
     if (!/^[A-Za-z0-9_]{3,20}$/.test(username)) {
       setError("Usuario solo puede contener letras, números o _");
       return;
     }
 
-    // Validación: longitud mínima del usuario
+    // longitud mínima del usuario
     if (username.length < 3) {
       setError("Usuario debe contener al menos 3 caracteres");
       return;
     }
 
-    // Validación: contraseñas coinciden
+    // contraseñas coinciden
     if (password !== confPassword) {
       setError("Las contraseñas no coinciden");
       return;
     }
 
-    // Validación: longitud mínima de la contraseña
+    // longitud mínima de la contraseña
     if (password.length < 8) {
       setError("La contraseña debe tener al menos 8 caracteres");
       return;
