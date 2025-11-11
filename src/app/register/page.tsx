@@ -13,7 +13,8 @@ export default function Register() {
               Crea tu cuenta
             </h1>
             <p className="text-textSecondary text-base leading-relaxed sm:text-lg">
-              Regístrate y comienza a construir los hábitos que transformarán tu día a día.
+              Regístrate y comienza a construir los hábitos que transformarán tu
+              día a día.
             </p>
           </div>
           <div className="w-full max-w-md">
@@ -23,27 +24,27 @@ export default function Register() {
                 {
                   label: "Nombre Usuario",
                   type: "text",
-                  placeholder: "Nombre de usuario"
+                  placeholder: "Ingresa tu usuario",
                 },
                 {
                   label: "Correo",
                   type: "email",
-                  placeholder: "Ingresa tu correo"
+                  placeholder: "Ingresa tu correo",
                 },
                 {
                   label: "Contraseña",
                   type: "password",
-                  placeholder: "Contraseña"
+                  placeholder: "******",
                 },
                 {
                   label: "Repite Contraseña",
                   type: "password",
-                  placeholder: "Repite tu contraseña"
-                }
+                  placeholder: "******",
+                },
               ]}
               button={{
                 label: "Registrarse",
-                variant: "primary"
+                variant: "primary",
               }}
               footerText="¿Ya tienes cuenta?"
               footerLinkText="Ingresa aquí"
