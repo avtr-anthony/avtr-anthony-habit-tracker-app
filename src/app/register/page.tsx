@@ -1,8 +1,48 @@
+"use client";
 import Header from "@/features/ui/Header";
 import Card from "@/features/ui/CardAuth";
 import Container from "@/features/ui/Container";
+import { useRouter } from "next/navigation";
+import { registerUser } from "@/lib/authService";
+import { useState } from "react";
 
 export default function Register() {
+  // Manejo registro y errores
+  const router = useRouter();
+  const [error, setError] = useState("");
+
+  // handle formu
+  async function handleRegister(ev: React.FormEvent<HTMLFormElement>) {
+    // Se evita el relooad y limpiamos errores previos
+    ev.preventDefault();
+    setError("");
+
+    // Extraccion de valores
+    const form = new FormData(ev.currentTarget);
+    const email = String(form.get("email"));
+    const password = String(form.get("password"));
+    const confPassword = String(form.get("confPassword"));
+
+    if (password !== confPassword) {
+      setError("Las contraseñas no coinciden");
+      return;
+    }
+
+    // Redirigimos y captamos errores
+    try {
+      await registerUser(email, password);
+      router.push("/habitos");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+        console.error("Error al registrar:", err.message);
+      } else {
+        setError("Error desconocido");
+        console.error("Error al registrar (sin tipo):", err);
+      }
+    }
+  }
+
   return (
     <div className="bg-background flex min-h-screen flex-col">
       <Header />
@@ -20,26 +60,31 @@ export default function Register() {
           <div className="w-full max-w-md">
             <Card
               title="Regístrate"
+              onSubmit={handleRegister}
               inputs={[
                 {
                   label: "Nombre Usuario",
                   type: "text",
                   placeholder: "Ingresa tu usuario",
+                  name: "username",
                 },
                 {
                   label: "Correo",
                   type: "email",
                   placeholder: "Ingresa tu correo",
+                  name: "email",
                 },
                 {
                   label: "Contraseña",
                   type: "password",
                   placeholder: "******",
+                  name: "password",
                 },
                 {
                   label: "Repite Contraseña",
                   type: "password",
                   placeholder: "******",
+                  name: "confPassword",
                 },
               ]}
               button={{
@@ -50,6 +95,7 @@ export default function Register() {
               footerLinkText="Ingresa aquí"
               footerHref="/login"
             />
+            {error && <p className="text-error text-center mt-4">{error}</p>}
           </div>
         </section>
       </Container>
