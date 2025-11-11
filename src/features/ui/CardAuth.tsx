@@ -8,6 +8,7 @@ interface CardProps {
   footerText?: string;
   footerLinkText?: string;
   footerHref?: string;
+  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export default function CardAuth({
@@ -17,24 +18,29 @@ export default function CardAuth({
   footerText,
   footerLinkText,
   footerHref,
+  onSubmit,
 }: CardProps) {
   return (
-    <div className="flex flex-col bg-surface rounded-lg shadow-xl p-8 w-full max-w-md border border-border">
-      <h1 className="text-2xl font-bold text-primary mb-6">
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col bg-surface rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-sm sm:max-w-md border border-border"
+    >
+      <h1 className="text-2xl sm:text-3xl font-bold text-primary mb-6 text-center sm:text-left">
         {title || "Default"}
       </h1>
+
       <div className="flex flex-col gap-4 text-left">
         {inputs.map((input, index) => (
           <InputField key={index} {...input} />
         ))}
       </div>
 
-      <div className="flex justify-end mt-4">
-        <Button {...button} />
+      <div className="flex justify-end mt-6">
+        <Button {...button} type="submit" />
       </div>
 
       {footerText && footerLinkText && footerHref && (
-        <p className="text-sm text-text-secondary mt-6 text-center">
+        <p className="text-sm text-textSecondary mt-6 text-center">
           {footerText}{" "}
           <a
             href={footerHref}
@@ -44,6 +50,6 @@ export default function CardAuth({
           </a>
         </p>
       )}
-    </div>
+    </form>
   );
 }
