@@ -2,46 +2,10 @@
 import Header from "@/features/ui/Header";
 import Card from "@/features/ui/CardAuth";
 import Container from "@/features/ui/Container";
-import { useRouter } from "next/navigation";
-import { registerUser } from "@/lib/authService";
-import { useState } from "react";
+import { useRegister } from "@/hooks/useRegister";
 
 export default function Register() {
-  // Manejo registro y errores
-  const router = useRouter();
-  const [error, setError] = useState("");
-
-  // handle formu
-  async function handleRegister(ev: React.FormEvent<HTMLFormElement>) {
-    // Se evita el relooad y limpiamos errores previos
-    ev.preventDefault();
-    setError("");
-
-    // Extraccion de valores
-    const form = new FormData(ev.currentTarget);
-    const email = String(form.get("email"));
-    const password = String(form.get("password"));
-    const confPassword = String(form.get("confPassword"));
-
-    if (password !== confPassword) {
-      setError("Las contraseñas no coinciden");
-      return;
-    }
-
-    // Redirigimos y captamos errores
-    try {
-      await registerUser(email, password);
-      router.push("/login");
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-        console.error("Error al registrar:", err.message);
-      } else {
-        setError("Error desconocido");
-        console.error("Error al registrar (sin tipo):", err);
-      }
-    }
-  }
+  const { error, handleRegister } = useRegister();
 
   return (
     <div className="bg-background flex min-h-screen flex-col">
@@ -53,8 +17,7 @@ export default function Register() {
               Crea tu cuenta
             </h1>
             <p className="text-textSecondary text-base leading-relaxed sm:text-lg">
-              Regístrate y comienza a construir los hábitos que transformarán tu
-              día a día.
+              Regístrate y comienza a construir los hábitos que transformarán tu día a día.
             </p>
           </div>
           <div className="w-full max-w-md">
@@ -67,35 +30,40 @@ export default function Register() {
                   type: "text",
                   placeholder: "Ingresa tu usuario",
                   name: "username",
+                  maxLength: 20,
+                  pattern: "^[A-Za-z0-9_]+$"
                 },
                 {
                   label: "Correo",
                   type: "email",
                   placeholder: "Ingresa tu correo",
                   name: "email",
+                  maxLength: 35
                 },
                 {
                   label: "Contraseña",
                   type: "password",
                   placeholder: "******",
                   name: "password",
+                  maxLength: 12
                 },
                 {
                   label: "Repite Contraseña",
                   type: "password",
                   placeholder: "******",
                   name: "confPassword",
-                },
+                  maxLength: 12
+                }
               ]}
               button={{
                 label: "Registrarse",
-                variant: "primary",
+                variant: "primary"
               }}
               footerText="¿Ya tienes cuenta?"
-              footerLinkText="Ingresa aquí"
+              footerLinkText=" Ingresa aquí"
               footerHref="/login"
             >
-              {error && <p className="!text-error text-center mt-4">{error}</p>}
+              {error && <p className="!text-error mt-4 text-center">{error}</p>}
             </Card>
           </div>
         </section>
