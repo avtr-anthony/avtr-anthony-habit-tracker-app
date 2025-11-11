@@ -31,7 +31,7 @@ export default function Register() {
     // Redirigimos y captamos errores
     try {
       await registerUser(email, password);
-      router.push("/habitos");
+      router.push("/login");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -94,8 +94,9 @@ export default function Register() {
               footerText="¿Ya tienes cuenta?"
               footerLinkText="Ingresa aquí"
               footerHref="/login"
-            />
-            {error && <p className="text-error text-center mt-4">{error}</p>}
+            >
+              {error && <p className="!text-error text-center mt-4">{error}</p>}
+            </Card>
           </div>
         </section>
       </Container>

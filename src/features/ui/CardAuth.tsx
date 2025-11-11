@@ -8,6 +8,7 @@ interface CardProps {
   footerText?: string;
   footerLinkText?: string;
   footerHref?: string;
+  children?: React.ReactNode;
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
@@ -16,9 +17,10 @@ export default function CardAuth({
   inputs,
   button,
   footerText,
+  children,
   footerLinkText,
   footerHref,
-  onSubmit
+  onSubmit,
 }: CardProps) {
   return (
     <form
@@ -34,15 +36,18 @@ export default function CardAuth({
           <InputField key={index} {...input} />
         ))}
       </div>
-
+      {children}
       <div className="mt-6 flex justify-end">
         <Button {...button} type="submit" />
       </div>
 
       {footerText && footerLinkText && footerHref && (
         <p className="text-textSecondary mt-6 text-center text-sm">
-          {footerText}{" "}
-          <a href={footerHref} className="text-primary font-medium hover:underline">
+          {footerText}
+          <a
+            href={footerHref}
+            className="text-primary font-medium hover:underline"
+          >
             {footerLinkText}
           </a>
         </p>
