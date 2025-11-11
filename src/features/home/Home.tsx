@@ -11,20 +11,19 @@ export default function Home() {
           { label: "Registrarse", href: "/register", variant: "primary" },
         ]}
       />
-
       <Container>
-        <div className="flex flex-1 flex-col justify-center items-center">
-          <div className="max-w-3xl text-center flex-col gap-2 flex mb-10">
-            <p className="italic text-xl">
+        <section className="flex flex-col items-center justify-center w-full h-full px-4 sm:px-6 md:px-10 lg:px-20 text-center">
+          <div className="max-w-3xl flex flex-col items-center md:items-start gap-4 mb-10">
+            <p className="italic text-base sm:text-lg md:text-xl text-textSecondary leading-relaxed">
               Construir hábitos saludables no se trata de cambiar de un día para
-              otro, sino de avanzar paso a paso
+              otro, sino de avanzar paso a paso.
             </p>
-            <h1 className="text-6xl font-black uppercase">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase text-text leading-tight">
               Sé la mejor versión de ti
             </h1>
           </div>
           <Button label="Comienza ahora" variant="primary" href="/register" />
-        </div>
+        </section>
       </Container>
     </>
   );
