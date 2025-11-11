@@ -7,6 +7,8 @@ export interface InputFieldProps {
   type?: string;
   placeholder?: string;
   name?: string;
+  maxLength?: number;
+  pattern?: string;
 }
 
 export default function InputField({
@@ -14,9 +16,23 @@ export default function InputField({
   type = "text",
   placeholder = "",
   name,
+  maxLength,
+  pattern,
 }: InputFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
+  const [value, setValue] = useState("");
+
+  // Manejo de patter y restricciones en inputs
+  function handleChange(ev: React.ChangeEvent<HTMLInputElement>) {
+    const val = ev.target.value;
+    if (pattern) {
+      const regex = new RegExp(pattern);
+      if (regex.test(val) || val === "") setValue(val);
+    } else {
+      setValue(val);
+    }
+  }
 
   return (
     <div className="flex w-full flex-col">
@@ -33,6 +49,10 @@ export default function InputField({
           name={name}
           type={isPassword && showPassword ? "text" : type}
           placeholder={placeholder}
+          maxLength={maxLength}
+          pattern={pattern}
+          value={value}
+          onChange={handleChange}
           className="border-border focus:ring-primary w-full rounded-lg border p-2 pr-10 transition focus:ring-2 focus:outline-none sm:p-3"
         />
 
@@ -40,7 +60,7 @@ export default function InputField({
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-textSecondary hover:text-primary"
+            className="text-textSecondary hover:text-primary absolute top-1/2 right-3 -translate-y-1/2"
           >
             {showPassword ? (
               <EyeOff className="h-5 w-5" />

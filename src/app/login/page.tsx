@@ -2,35 +2,10 @@
 import Header from "@/features/ui/Header";
 import Card from "@/features/ui/CardAuth";
 import Container from "@/features/ui/Container";
-import { useRouter } from "next/navigation";
-import { loginUser } from "@/lib/authService";
-import { useState } from "react";
+import { useLogin } from "@/hooks/useLogin";
 
 export default function Login() {
-  const router = useRouter();
-  const [error, setError] = useState("");
-
-  async function handleLogin(ev: React.FormEvent<HTMLFormElement>) {
-    ev.preventDefault();
-    setError("");
-
-    const form = new FormData(ev.currentTarget);
-    const email = String(form.get("email"));
-    const password = String(form.get("password"));
-
-    try {
-      await loginUser(email, password);
-      router.push("/habitos");
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-        console.error("Error al iniciar sesion", err.message);
-      } else {
-        setError("Error desconocido");
-        console.error("Error al iniciar sesion", err);
-      }
-    }
-  }
+  const { error, handleLogin } = useLogin();
 
   return (
     <div className="bg-background flex min-h-screen flex-col">
@@ -54,24 +29,24 @@ export default function Login() {
                   label: "Correo",
                   type: "email",
                   placeholder: "Ingresa tu correo",
-                  name: "email",
+                  name: "email"
                 },
                 {
                   label: "Contraseña",
                   type: "password",
                   placeholder: "******",
-                  name: "password",
-                },
+                  name: "password"
+                }
               ]}
               button={{
                 label: "Ingresar",
-                variant: "primary",
+                variant: "primary"
               }}
               footerText="¿No tienes cuenta?"
-              footerLinkText="Regístrate aquí"
+              footerLinkText=" Regístrate aquí"
               footerHref="/register"
             >
-              {error && <p className="!text-error text-center mt-4">{error}</p>}
+              {error && <p className="!text-error mt-4 text-center">{error}</p>}
             </Card>
           </div>
         </section>
