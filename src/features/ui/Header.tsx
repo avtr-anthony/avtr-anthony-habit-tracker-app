@@ -5,14 +5,11 @@ import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { logoutUser } from "@/lib/authService";
-import Link from "next/link";
 import Logo from "./Logo";
-
+import Button from "./Button";
 interface HeaderButton {
   label: string;
   href?: string;
-  onClick?: () => void;
-  variant?: "primary" | "outline" | "close";
 }
 
 interface HeaderProps {
@@ -54,58 +51,29 @@ export default function Header({
     }
   }
 
-  const headerClass = clsx("flex w-full text-surface", {
-    "bg-primary": variant === "hDefault",
+  const headerClass = clsx("flex w-full text-surface  shadow-xl z-1", {
+    "bg-primary  ": variant === "hDefault",
     "bg-surface text-primary": variant === "hPanelNormal",
     "bg-secondary text-surface": variant === "hPanelTel"
   });
 
-  const buttonClass = (variant: "primary" | "outline" | "close" = "primary") =>
-    clsx(
-      "px-4 py-1 rounded-lg transition duration-300 ease-in-out text-sm sm:text-base font-medium cursor-pointer",
-      variant === "primary" && "bg-surface text-primary hover:opacity-90",
-      variant === "outline" && "border border-white text-white hover:bg-surface hover:text-primary",
-      variant === "close" && "bg-error text-surface hover:bg-errorHover"
-    );
-
   return (
     <header className={headerClass}>
-      <div className="flex w-full flex-col items-start justify-center p-4 sm:px-6 md:px-10">
+      <div className="x flex w-full flex-col items-start justify-end p-4 sm:px-6 md:px-10">
         <Logo />
-        <hr className="my-2 w-full opacity-70" />
-        <div className="flex w-full items-center gap-3">
-          <div className="mr-20 min-w-fit">
-            {showUser && username && (
-              <p className="text-surface text-xl font-bold tracking-wide md:text-3xl">
-                Hola, <span className="text-text">{username}</span>
-              </p>
-            )}
-          </div>
-          <div className="flex items-center justify-end gap-2">
-            {buttons.map((btn, i) =>
-              btn.href ? (
-                <Link
-                  key={i}
-                  href={btn.href}
-                  onClick={btn.onClick}
-                  className={buttonClass(btn.variant)}
-                >
-                  {btn.label}
-                </Link>
-              ) : (
-                <button key={i} onClick={btn.onClick} className={buttonClass(btn.variant)}>
-                  {btn.label}
-                </button>
-              )
-            )}
-          </div>
-          <div className="flex w-full items-center justify-end gap-2">
-            {showUser && (
-              <button onClick={handleLogout} className={buttonClass("close")}>
-                Cerrar sesión
-              </button>
-            )}
-          </div>
+
+        <div className="flex w-full items-center justify-between">
+          {showUser && username && (
+            <p className="text-surface flex text-xl font-bold tracking-wide md:text-3xl">
+              Hola, <span className="text-text">{username}</span>
+            </p>
+          )}
+          {showUser && <Button label="Cerrar Sesión" onClick={handleLogout} variant="close" />}
+        </div>
+        <div className="flex min-w-full items-center gap-2 lg:justify-end">
+          {buttons.map((btn, i) => (
+            <Button key={i} label={btn.label} href={btn.href} variant={variant} />
+          ))}
         </div>
       </div>
     </header>

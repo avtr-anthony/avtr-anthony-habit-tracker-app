@@ -25,9 +25,9 @@ export default function RootLayout({
   return (
     <html lang="es" className="h-full">
       <body
-        className={`${roboto.variable} ${montserrat.variable} bg-background text-text flex min-h-screen flex-col antialiased`}
+        className={`${roboto.variable} ${montserrat.variable} bg-background text-text flex h-full flex-col antialiased`}
       >
-        <main className="flex flex-1 flex-col">{children}</main>
+        <main className="flex h-full flex-1 flex-col">{children}</main>
       </body>
     </html>
   );
