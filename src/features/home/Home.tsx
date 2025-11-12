@@ -1,8 +1,15 @@
+"use client";
 import Header from "@/features/ui/Header";
 import Button from "@/features/ui/BodyButton";
 import Container from "../ui/Container";
+import { useRedirectLoginUser } from "@/hooks/useRedirectLogin";
+import Loading from "@/features/ui/Loading";
 
 export default function Home() {
+  const { loading } = useRedirectLoginUser();
+
+  if (loading) return <Loading />;
+
   return (
     <>
       <Header

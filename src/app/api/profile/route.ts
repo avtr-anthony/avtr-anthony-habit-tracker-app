@@ -16,3 +16,26 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Error Desconocido" }, { status: 500 });
   }
 }
+
+export async function GET(req: Request){
+  try {
+    const url = new URL(req.url)
+    const uid = url.searchParams.get("uid")
+
+    if (!uid) {
+      return NextResponse.json({error: "UID REQUERIDA"})
+    }
+
+    const {data, error} = await supabase
+    .from("users")
+    .select("username")
+    .eq("uid", uid)
+    .single()
+
+    if (error) throw error;
+
+    return NextResponse.json({ username: data.username }, { status: 200 });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
