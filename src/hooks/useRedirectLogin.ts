@@ -1,0 +1,25 @@
+import { auth } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
+import { useEffect, useState} from "react";
+import { onAuthStateChanged } from "firebase/auth";
+
+export function useRedirectLoginUser(){
+    const router = useRouter()
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          if (user) {
+            router.push("/habitos");
+          }
+    d
+          setTimeout(() => {
+            setLoading(false);
+          }, 1000);
+        });
+    
+        return () => unsubscribe();
+      }, [router]);
+
+    return{loading}
+}

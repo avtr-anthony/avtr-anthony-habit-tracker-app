@@ -24,7 +24,6 @@ export function useLogin() {
       return;
     }
 
-    
     try {
       // Inicia sesión en Firebase
       const user = await loginUser(email, password);

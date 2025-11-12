@@ -3,9 +3,14 @@ import Header from "@/features/ui/Header";
 import Card from "@/features/ui/CardAuth";
 import Container from "@/features/ui/Container";
 import { useLogin } from "@/hooks/useLogin";
+import { useRedirectLoginUser } from "@/hooks/useRedirectLogin";
+import Loading from "@/features/ui/Loading";
 
 export default function Login() {
+  const { loading } = useRedirectLoginUser();
   const { error, handleLogin } = useLogin();
+
+  if (loading) return <Loading />;
 
   return (
     <div className="bg-background flex min-h-screen flex-col">

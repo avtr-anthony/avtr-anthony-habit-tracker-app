@@ -16,6 +16,7 @@
   --color-border: #e5e7eb;
   --color-success: #6ee7b7;
   --color-error: #f87171;
+  --color-errorHover: #f56565;
 }
 
 body {

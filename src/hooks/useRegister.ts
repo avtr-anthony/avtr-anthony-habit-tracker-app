@@ -20,7 +20,6 @@ export function useRegister() {
     const confPassword = String(form.get("confPassword"));
     const username = String(form.get("username"));
 
-    const {data }
     // campos vacíos
     if (!username.trim() || !email.trim() || !password.trim() || !confPassword.trim()) {
       setError("Todos los campos son obligatorios");
