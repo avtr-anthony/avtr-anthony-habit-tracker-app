@@ -6,6 +6,7 @@ import { auth } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import Container from "@/features/ui/Container";
+import CardHabitos from "@/features/ui/CardHabitos";
 export default function Habitos() {
   const [username, setUsername] = useState("");
   const router = useRouter();
@@ -48,7 +49,7 @@ export default function Habitos() {
       </Header>
       <Container>
         <section className="flex h-full w-full">
-          <div>hoal</div>
+          <CardHabitos label="Primer habito" description="No te olvides de tomar agua hoy" />
         </section>
       </Container>
     </>
