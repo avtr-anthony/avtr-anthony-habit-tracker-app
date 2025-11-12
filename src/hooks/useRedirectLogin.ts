@@ -12,7 +12,7 @@ export function useRedirectLoginUser(){
           if (user) {
             router.push("/habitos");
           }
-    d
+    
           setTimeout(() => {
             setLoading(false);
           }, 3000);

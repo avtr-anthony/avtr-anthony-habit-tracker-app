@@ -1,7 +1,18 @@
-export default function Container({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex h-full w-full flex-1 flex-col items-center justify-center px-4 sm:px-6 md:px-8 lg:px-20">
-      {children}
-    </div>
-  );
+"use client";
+
+import clsx from "clsx";
+import React from "react";
+
+interface ContainerProps {
+  children: React.ReactNode;
+  variant?: "default" | "panel";
+}
+
+export default function Container({ children, variant = "default" }: ContainerProps) {
+  const containerClasses = clsx("w-full flex flex-1 bg-surface", {
+    "items-start justify-start p-0 bg-surface  ": variant === "panel",
+    "flex-col  items-center justify-center px-6 py-10 ": variant === "default"
+  });
+
+  return <div className={containerClasses}>{children}</div>;
 }
