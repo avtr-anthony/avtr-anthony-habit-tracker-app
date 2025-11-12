@@ -1,6 +1,7 @@
 "use client";
 import Header from "@/features/ui/Header";
 import Button from "@/features/ui/BodyButton";
+import Buttonheader from "@/features/ui/Button";
 import Container from "../ui/Container";
 import { useRedirectLoginUser } from "@/hooks/useRedirectLogin";
 import Loading from "@/features/ui/Loading";
@@ -13,10 +14,7 @@ export default function Home() {
   return (
     <>
       <Header
-        buttons={[
-          { label: "Inicio Sesión", href: "/login", variant: "outline" },
-          { label: "Registrarse", href: "/register", variant: "primary" }
-        ]}
+       
       />
       <Container>
         <section className="flex h-full w-full flex-col items-center justify-center text-center">
