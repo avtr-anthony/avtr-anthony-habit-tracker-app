@@ -2,8 +2,11 @@
 import Container from "@/features/ui/Container";
 import Header from "@/features/ui/Header";
 import CardHabitos from "@/features/ui/CardHabitos";
+import { useProtectedRoute } from "@/hooks/useProtectedRout";
 
 export default function Habitos() {
+  useProtectedRoute();
+
   return (
     <>
       <Header variant="hPanel" showUser />
