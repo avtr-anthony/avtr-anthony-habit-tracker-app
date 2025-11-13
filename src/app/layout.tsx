@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto, Montserrat } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -27,7 +28,7 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${montserrat.variable} bg-background text-text flex h-full flex-col antialiased`}
       >
-        <main className="flex h-full flex-1 flex-col">{children}</main>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

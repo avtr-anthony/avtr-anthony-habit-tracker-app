@@ -1,25 +1,16 @@
-import { auth } from "@/lib/firebase";
+"use client";
+
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState} from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { useAuth } from "@/context/AuthContext";
 
-export function useRedirectLoginUser(){
-    const router = useRouter()
-    const [loading, setLoading] = useState(true)
+export function useRedirectIfLoggedIn() {
+  const { user, loading } = useAuth();
+  const router = useRouter();
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-          if (user) {
-            router.push("/habitos");
-          }
-    
-          setTimeout(() => {
-            setLoading(false);
-          }, 800);
-        });
-    
-        return () => unsubscribe();
-      }, [router]);
-
-    return{loading}
+  useEffect(() => {
+    if (!loading && user) {
+      router.push("/habitos");
+    }
+  }, [user, loading, router]);
 }
