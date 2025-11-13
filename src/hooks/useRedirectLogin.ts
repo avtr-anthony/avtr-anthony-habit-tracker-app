@@ -15,7 +15,7 @@ export function useRedirectLoginUser(){
     
           setTimeout(() => {
             setLoading(false);
-          }, 2000);
+          }, 800);
         });
     
         return () => unsubscribe();

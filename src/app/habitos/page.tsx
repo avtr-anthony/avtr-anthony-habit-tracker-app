@@ -6,7 +6,7 @@ import CardHabitos from "@/features/ui/CardHabitos";
 export default function Habitos() {
   return (
     <>
-      <Header variant="hDefault" showUser  />
+      <Header variant="hPanel" showUser />
 
       <Container variant="panel">
         <section className="flex h-full w-full bg-gray-50">
