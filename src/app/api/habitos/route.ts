@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     // Obteniendo el token
-    const token = req.coockies.get("token")?.value;
+    const token = req.cookies.get("token")?.value;
 
     if (!token) {
       return NextResponse.json(
@@ -22,10 +22,10 @@ export async function POST(req: NextRequest) {
 
     // Obtener los datos
     const body = await req.json();
-    const { descripcion, nota, fecha, hora } = body;
+    const { descripcion, label, fecha, hora } = body;
 
     // Valida campos en caso de falten
-    if (!descripcion || !fecha || !hora) {
+    if (!descripcion || !fecha || !hora || !label) {
       return NextResponse.json({ error: "Faltan Campos" }, { status: 400 });
     }
 
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       .insert({
         user_id: userId,
         descripcion,
-        nota,
+        label,
         fecha,
         hora,
         completado: false

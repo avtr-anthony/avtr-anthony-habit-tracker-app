@@ -1,0 +1,43 @@
+export async function createHabito(payload: {
+  descripcion: string;
+  label: string;
+  fecha: string;
+  hora: string;
+}) {
+  const response = await fetch("/api/habitos", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    let message = "No se ha creado habito";
+
+    try {
+      const data = await response.json();
+      if (data.error) message = data.error;
+    } catch (_) {}
+
+    throw new Error(message);
+  }
+
+  return await response.json();
+}
+
+export async function getHabitos() {
+  const response = await fetch("/api/habitos", {
+    method: "GET"
+  });
+  if (!response.ok) {
+    let message = "Error al obtener los hábitos";
+
+    try {
+      const data = await response.json();
+      if (data.error) message = data.error;
+    } catch (_) {}
+
+    throw new Error(message);
+  }
+
+  return await response.json();
+}
