@@ -11,6 +11,7 @@ export function useCreateHabito() {
 
   async function handleCreate(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
+    setError("");
     setLoading(true);
 
     const form = new FormData(ev.currentTarget);
@@ -18,9 +19,8 @@ export function useCreateHabito() {
     const descripcion = String(form.get("descripcion") || "");
     const label = String(form.get("label") || "");
     const fecha = String(form.get("fecha") || "");
-    const hora = String(form.get("hora") || "");
 
-    if (!label || !fecha || !hora) {
+    if (!label || !fecha || !descripcion) {
       setError("Completa los campos");
       setLoading(false);
       return;
@@ -30,8 +30,7 @@ export function useCreateHabito() {
       await createHabito({
         descripcion,
         label,
-        fecha,
-        hora
+        fecha
       });
 
       router.push("/habitos");

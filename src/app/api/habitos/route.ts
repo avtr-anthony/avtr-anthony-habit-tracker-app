@@ -22,10 +22,10 @@ export async function POST(req: NextRequest) {
 
     // Obtener los datos
     const body = await req.json();
-    const { descripcion, label, fecha, hora } = body;
+    const { descripcion, label, fecha } = body;
 
     // Valida campos en caso de falten
-    if (!descripcion || !fecha || !hora || !label) {
+    if (!descripcion || !fecha || !label) {
       return NextResponse.json({ error: "Faltan Campos" }, { status: 400 });
     }
 
@@ -36,7 +36,6 @@ export async function POST(req: NextRequest) {
         descripcion,
         label,
         fecha,
-        hora,
         completado: false
       })
       .select("*")

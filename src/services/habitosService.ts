@@ -1,9 +1,4 @@
-export async function createHabito(payload: {
-  descripcion: string;
-  label: string;
-  fecha: string;
-  hora: string;
-}) {
+export async function createHabito(payload: { descripcion: string; label: string; fecha: string }) {
   const response = await fetch("/api/habitos", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
