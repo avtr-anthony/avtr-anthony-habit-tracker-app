@@ -22,9 +22,7 @@ export function useCreateHabito() {
 
     if (!label || !fecha || !hora) {
       setError("Completa los campos");
-      setTimeout(() => {
-        setLoading(false);
-      }, 300);
+      setLoading(false);
       return;
     }
 
@@ -37,6 +35,7 @@ export function useCreateHabito() {
       });
 
       router.push("/habitos");
+      return "success";
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
