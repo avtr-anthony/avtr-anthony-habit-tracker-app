@@ -1,11 +1,8 @@
 "use client";
 import { createHabito } from "@/services/habitosService";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function useCreateHabito() {
-  const router = useRouter();
-
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -23,24 +20,21 @@ export function useCreateHabito() {
     if (!label || !fecha || !descripcion) {
       setError("Completa los campos");
       setLoading(false);
-      return;
+      return null;
     }
 
     try {
-      await createHabito({
+      const nuevoHabito = await createHabito({
         descripcion,
         label,
         fecha
       });
 
-      router.push("/habitos");
-      return "success";
+      return nuevoHabito;
     } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Error desconocido al crear habito");
-      }
+      if (err instanceof Error) setError(err.message);
+      else setError("Error desconocido al crear hábito");
+      return null;
     } finally {
       setLoading(false);
     }
