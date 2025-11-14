@@ -1,7 +1,7 @@
 "use client";
 import Container from "@/features/ui/Container";
 import Header from "@/features/ui/Header";
-import CardHabitos from "@/features/ui/CardHabitos";
+import CardHabitos from "@/features/habitos/CardHabitos";
 import ModalDialog from "@/features/ui/ModalDialog";
 import FormHabito from "@/features/habitos/FormHabitos";
 import { useProtectedRoute } from "@/hooks/useProtectedRout";
