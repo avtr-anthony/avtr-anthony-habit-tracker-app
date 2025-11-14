@@ -11,14 +11,14 @@ import { useCreateHabito } from "@/hooks/habitos/useCreateHabitos";
 export default function Habitos() {
   useProtectedRoute();
   useCreateHabito();
-
+  
   const { habitos, openModal, setOpenModal, cargarHabitos } = useCargaHabitos();
   return (
     <>
       <Header variant="hPanel" showUser />
       <Container variant="panel">
         <section className="flex h-full w-full gap-6 bg-gray-50 p-6">
-          <nav className="hidden w-64 p-4 md:block">hola</nav>
+          <nav className="hidden"></nav>
 
           <div className="flex flex-1 flex-col gap-6">
             <div className="flex items-center justify-between">

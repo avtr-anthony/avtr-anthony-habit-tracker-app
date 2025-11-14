@@ -20,7 +20,7 @@ export async function createHabito(payload: { descripcion: string; label: string
 
   return await response.json();
 }
-
+   
 interface GetHabitosResponse {
   habitos: Habito[];
 }
