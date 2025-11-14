@@ -1,3 +1,5 @@
+import { Habito } from "@/types/Habito";
+
 export async function createHabito(payload: { descripcion: string; label: string; fecha: string }) {
   const response = await fetch("/api/habitos", {
     method: "POST",
@@ -19,7 +21,11 @@ export async function createHabito(payload: { descripcion: string; label: string
   return await response.json();
 }
 
-export async function getHabitos() {
+interface GetHabitosResponse {
+  habitos: Habito[];
+}
+
+export async function getHabitos(): Promise<GetHabitosResponse> {
   const response = await fetch("/api/habitos", {
     method: "GET"
   });
