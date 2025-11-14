@@ -1,27 +1,26 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { auth } from "@/lib/firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { useAuth } from "@/context/AuthContext";
 
 export function useGetUsername() {
+  const { user } = useAuth();
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const res = await fetch(`/api/profile?uid=${user.uid}`);
-        if (res.ok) {
-          const data = await res.json();
-          setUsername(data.username);
-        }
-      } else {
-        setUsername("");
-      }
-    });
+    if (!user) {
+      setUsername("");
+      return;
+    }
 
-    return () => unsubscribe();
-  }, []);
+    (async () => {
+      const res = await fetch(`/api/profile?uid=${user.uid}`);
+      if (res.ok) {
+        const data = await res.json();
+        setUsername(data.username);
+      }
+    })();
+  }, [user]);
 
   return username;
 }

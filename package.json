@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
-    
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.9",
     "@supabase/supabase-js": "^2.81.1",
     "clsx": "^2.1.1",
     "firebase": "^12.5.0",

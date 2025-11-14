@@ -17,7 +17,11 @@ interface HeaderProps {
   buttons?: HeaderButton[];
 }
 
-export default function Header({ variant, showUser = false, buttons = [] }: HeaderProps) {
+export default function Header({
+  variant = "hDefault",
+  showUser = false,
+  buttons = []
+}: HeaderProps) {
   const username = useGetUsername();
   const logout = useLogout();
 
