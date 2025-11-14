@@ -1,26 +1,38 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { adminAuth } from "@/lib/firebaseAdmin";
 
-// Verifica si el usuario tiene sesión antes de entrar a /habitos
-export function proxy(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const url = req.nextUrl.clone();
+  const token = req.cookies.get("token")?.value;
 
-  // Protege las rutas que comienzan con /habitos
-  if (url.pathname.startsWith("/habitos")) {
-    const token = req.cookies.get("token")?.value;
+  const isAuthRoute = url.pathname === "/login" || url.pathname === "/register";
+  const isProtectedRoute = url.pathname.startsWith("/habitos");
 
-    // Si no hay token, redirige al login
-    if (!token) {
-      url.pathname = "/login";
-      return NextResponse.redirect(url);
+  if (isProtectedRoute && !token) {
+    url.pathname = "/login";
+    return NextResponse.redirect(url);
+  }
+
+  if (token) {
+    try {
+      await adminAuth.verifyIdToken(token);
+    } catch (err) {
+      const res = NextResponse.redirect(new URL("/login", req.url));
+      res.cookies.delete("token");
+
+      return res;
     }
   }
 
-  // Si tiene token o no es una ruta protegida continúa
+  if (isAuthRoute && token) {
+    url.pathname = "/habitos";
+    return NextResponse.redirect(url);
+  }
+
   return NextResponse.next();
 }
 
-// Aplica este proxy a todas las rutas dentro de /habitos
 export const config = {
-  matcher: ["/habitos/:path*"],
+  matcher: ["/habitos/:path*", "/login", "/register"]
 };

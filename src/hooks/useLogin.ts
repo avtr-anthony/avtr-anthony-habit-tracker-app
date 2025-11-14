@@ -7,10 +7,9 @@ import { FirebaseError } from "firebase/app";
 export function useLogin() {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // Función principal para manejar el inicio de sesión
   async function handleLogin(ev: React.FormEvent<HTMLFormElement>) {
-    // No reload y vaciamos errores previos
     ev.preventDefault();
     setError("");
 
@@ -18,31 +17,32 @@ export function useLogin() {
     const email = String(form.get("email"));
     const password = String(form.get("password"));
 
-    // Validación simple antes de enviar
     if (!email || !password) {
       setError("Por favor, completa todos los campos.");
       return;
     }
 
     try {
-      // Inicia sesión en Firebase
+      setLoading(true);
       const user = await loginUser(email, password);
       const token = await user.getIdToken();
 
       const res = await fetch("/api/auth/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
+        body: JSON.stringify({ token })
       });
 
       if (!res.ok) {
         setError("Error al verificar la sesión.");
+        setLoading(false);
         return;
       }
-      // Redirige al panel de hábitos si todo sale bien
+
+      await new Promise((resolve) => setTimeout(resolve, 700));
+
       router.push("/habitos");
     } catch (err: unknown) {
-      // Manejo de errores específicos de Firebase
       if (err instanceof FirebaseError) {
         switch (err.code) {
           case "auth/invalid-credential":
@@ -58,12 +58,12 @@ export function useLogin() {
             setError("No se pudo iniciar sesión. Intenta nuevamente.");
         }
       } else {
-        // Error desconocido
         setError("Error desconocido.");
       }
+    } finally {
+      setLoading(false);
     }
   }
 
-  // Retorna el estado de error y la función de login
-  return { error, handleLogin };
+  return { error, loading, handleLogin };
 }

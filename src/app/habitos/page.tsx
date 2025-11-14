@@ -4,18 +4,21 @@ import Header from "@/features/ui/Header";
 import CardHabitos from "@/features/habitos/CardHabitos";
 import ModalDialog from "@/features/ui/ModalDialog";
 import FormHabito from "@/features/habitos/FormHabitos";
-import { useProtectedRoute } from "@/hooks/useProtectedRout";
 import { useCargaHabitos } from "@/hooks/habitos/useLoadHabitos";
 import { useCreateHabito } from "@/hooks/habitos/useCreateHabitos";
+import { useLogout } from "@/hooks/useLogOut";
+import Loading from "@/features/ui/Loading";
 
 export default function Habitos() {
-  useProtectedRoute();
+  const { logout, loading } = useLogout();
   useCreateHabito();
-  
   const { habitos, openModal, setOpenModal, cargarHabitos } = useCargaHabitos();
+
+  if (loading) return <Loading />;
+
   return (
     <>
-      <Header variant="hPanel" showUser />
+      <Header variant="hPanel" showUser onClick={logout} />
       <Container variant="panel">
         <section className="flex h-full w-full gap-6 bg-gray-50 p-6">
           <nav className="hidden"></nav>

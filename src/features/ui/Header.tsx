@@ -3,7 +3,6 @@ import clsx from "clsx";
 import Logo from "@/features/ui/Logo";
 import Button from "@/features/ui/Button";
 import { useGetUsername } from "@/hooks/useGetUsername";
-import { useLogout } from "@/hooks/useLogOut";
 
 interface HeaderButton {
   label: string;
@@ -15,15 +14,16 @@ interface HeaderProps {
   variant?: "hDefault" | "hPanel";
   showUser?: boolean;
   buttons?: HeaderButton[];
+  onClick?: () => void;
 }
 
 export default function Header({
   variant = "hDefault",
   showUser = false,
-  buttons = []
+  buttons = [],
+  onClick
 }: HeaderProps) {
   const username = useGetUsername();
-  const logout = useLogout();
 
   const headerClass = clsx(
     "w-full bg-primary text-surface shadow-xl z-1 p-4 sm:px-6 md:px-10 flex",
@@ -45,7 +45,7 @@ export default function Header({
           <p className="text-xl font-bold md:text-3xl">
             Hola, <span className="text-text">{username}</span>
           </p>
-          <Button label="Cerrar Sesión" onClick={logout} variant="close" />
+          <Button label="Cerrar Sesión" onClick={onClick} variant="close" />
         </div>
       )}
     </header>

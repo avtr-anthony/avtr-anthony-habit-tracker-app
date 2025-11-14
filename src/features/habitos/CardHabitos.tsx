@@ -6,10 +6,9 @@ import { Check, Ban, Trash } from "lucide-react";
 export interface HabitosCardProps {
   label?: string;
   description?: string;
-  onDelete: () => void;
 }
 
-export default function CardHabitos({ label, description, onDelete }: HabitosCardProps) {
+export default function CardHabitos({ label, description }: HabitosCardProps) {
   const [completed, setCompleted] = useState(false);
   const toggleCompleted = () => setCompleted((prev) => !prev);
 
@@ -24,10 +23,7 @@ export default function CardHabitos({ label, description, onDelete }: HabitosCar
   return (
     <div className={classes}>
       <div>
-        <button
-          onClick={onDelete}
-          className="text-error hover:text-errorHover cursor-pointer rounded-[100%] p-2 transition-all duration-300 ease-in-out"
-        >
+        <button className="text-error hover:text-errorHover cursor-pointer rounded-[100%] p-2 transition-all duration-300 ease-in-out">
           <Trash />
         </button>
       </div>
