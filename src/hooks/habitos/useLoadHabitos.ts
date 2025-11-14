@@ -26,6 +26,7 @@ export function useCargaHabitos() {
 
   return {
     habitos,
+    loading,
     openModal,
     setOpenModal,
     cargarHabitos
