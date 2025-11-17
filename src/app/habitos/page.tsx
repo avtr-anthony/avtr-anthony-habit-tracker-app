@@ -21,7 +21,7 @@ export default function Habitos() {
     <>
       <Header variant="hPanel" showUser onClick={logout} />
       <Container variant="panel">
-        <section className="h-full w-full flex-1 gap-4 bg-linear-to-b from-white to-slate-100 p-4">
+        <section className="h-auto w-full flex-1 gap-4 bg-linear-to-b from-white to-slate-100 p-4 md:h-full">
           <div className="flex h-full w-full flex-col gap-4">
             <div className="flex w-full items-center justify-between gap-4">
               <div className="bg-surface w-full rounded-xl border border-gray-100 p-4 shadow-xl">
@@ -37,9 +37,9 @@ export default function Habitos() {
               </div>
             </div>
 
-            <div className="grid h-full w-full grid-cols-[60%_40%] gap-4 overflow-hidden">
-              <div className="h-full overflow-x-scroll rounded-lg border border-gray-300 p-4 shadow-xl">
-                <div className="flex h-full min-w-max flex-col flex-wrap justify-evenly gap-4 pb-2">
+            <div className="grid h-full w-full grid-rows-[1fr_1fr] gap-4 md:grid-cols-[60%_40%] md:grid-rows-none md:overflow-hidden">
+              <div className="scrollbar- w-full overflow-x-auto overflow-y-hidden rounded-lg border border-gray-300 p-4 shadow-xl md:pb-0">
+                <div className="flex max-h-[400px] w-full flex-col flex-wrap gap-0 pr-6 md:h-full md:max-h-full md:min-w-max md:gap-4">
                   {habitos.map((h) => (
                     <CardHabitos
                       key={h.id_habito}
@@ -59,7 +59,7 @@ export default function Habitos() {
                 </div>
               </div>
 
-              <div className="bg-surface h-full">
+              <div className="row-start-1 flex bg-black md:col-start-2">
                 <p>hola</p>
               </div>
             </div>
