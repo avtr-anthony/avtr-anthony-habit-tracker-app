@@ -13,7 +13,7 @@ export default function CardHabitos({ label, description }: HabitosCardProps) {
   const toggleCompleted = () => setCompleted((prev) => !prev);
 
   const classes = clsx(
-    "rounded-lg shadow-xl/10 transition-colors duration-300 ease-in-out  w-full md:max-w-[350px] md:min-w-[350px] max-h-fit flex text-right gap-3 overflow-hidden",
+    "rounded-lg shadow-xl/10 transition-colors duration-300 ease-in-out  w-full md:max-w-[350px] md:min-w-[350px]  flex text-right gap-3 overflow-hidden",
     {
       "bg-primary text-surface": completed,
       "bg-surface text-textSecondary ": !completed
@@ -23,11 +23,11 @@ export default function CardHabitos({ label, description }: HabitosCardProps) {
   return (
     <div className={classes}>
       <div>
-        <button className="text-error hover:text-errorHover cursor-pointer rounded-[100%] p-2 transition-all duration-300 ease-in-out">
+        <button className="text-error hover:text-errorHover cursor-pointer rounded-[100%] p-4 transition-all duration-300 ease-in-out">
           <Trash />
         </button>
       </div>
-      <div className="flex w-full flex-col justify-center py-2">
+      <div className="flex w-full flex-col justify-center py-4">
         <h3
           className={clsx(
             "text-xl font-bold transition-colors duration-300 ease-in-out",

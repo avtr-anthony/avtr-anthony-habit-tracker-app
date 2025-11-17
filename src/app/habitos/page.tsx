@@ -35,7 +35,7 @@ export default function Habitos() {
 
             <div className="grid h-full w-full grid-cols-[80%_20%] gap-4 overflow-hidden">
               <div className="h-full overflow-x-scroll">
-                <div className="overflow-x-scrol flex h-full min-w-max flex-col flex-wrap justify-center gap-4 pb-0">
+                <div className="overflow-x-scrol flex h-full min-w-max flex-col flex-wrap justify-start gap-4 pb-0">
                   {habitos.map((h) => (
                     <CardHabitos key={h.id_habito} label={h.label} description={h.descripcion} />
                   ))}
