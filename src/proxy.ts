@@ -30,9 +30,14 @@ export async function proxy(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  if (url.pathname === "/" && token) {
+    url.basePath = "/habitos";
+    return NextResponse.redirect(url);
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/habitos/:path*", "/login", "/register"]
+  matcher: ["/", "/habitos/:path*", "/login", "/register"]
 };

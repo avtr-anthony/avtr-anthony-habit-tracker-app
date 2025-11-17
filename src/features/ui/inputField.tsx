@@ -9,6 +9,7 @@ export interface InputFieldProps {
   name?: string;
   maxLength?: number;
   pattern?: string;
+  defaultValue?: string;
 }
 
 export default function InputField({
@@ -18,14 +19,16 @@ export default function InputField({
   name,
   maxLength,
   pattern,
+  defaultValue = ""
 }: InputFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(defaultValue);
 
   // Manejo de patter y restricciones en inputs
   function handleChange(ev: React.ChangeEvent<HTMLInputElement>) {
     const val = ev.target.value;
+
     if (pattern) {
       const regex = new RegExp(pattern);
       if (regex.test(val) || val === "") setValue(val);
@@ -36,10 +39,7 @@ export default function InputField({
 
   return (
     <div className="flex w-full flex-col">
-      <label
-        htmlFor={name}
-        className="text-textSecondary mb-1 text-sm font-medium"
-      >
+      <label htmlFor={name} className="text-textSecondary mb-1 text-sm font-medium">
         {label}
       </label>
 
@@ -53,7 +53,7 @@ export default function InputField({
           pattern={pattern}
           value={value}
           onChange={handleChange}
-          className="border-border focus:ring-primary w-full rounded-lg border p-2 pr-10 transition focus:ring-2 focus:outline-none sm:p-3"
+          className="border-border focus:ring-primary w-full rounded-lg border p-2 pr-10 capitalize transition focus:ring-2 focus:outline-none sm:p-3"
         />
 
         {isPassword && (
@@ -62,11 +62,7 @@ export default function InputField({
             onClick={() => setShowPassword(!showPassword)}
             className="text-textSecondary hover:text-primary absolute top-1/2 right-3 -translate-y-1/2"
           >
-            {showPassword ? (
-              <EyeOff className="h-5 w-5" />
-            ) : (
-              <Eye className="h-5 w-5" />
-            )}
+            {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
           </button>
         )}
       </div>

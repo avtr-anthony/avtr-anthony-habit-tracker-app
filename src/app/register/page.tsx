@@ -3,13 +3,9 @@ import Header from "@/features/ui/Header";
 import Card from "@/features/ui/CardAuth";
 import Container from "@/features/ui/Container";
 import { useRegister } from "@/hooks/useRegister";
-import { useAuth } from "@/context/AuthContext";
 
 export default function Register() {
-  const { user } = useAuth();
   const { error, handleRegister } = useRegister();
-
-  if (user) return null;
 
   return (
     <div className="bg-background flex min-h-screen flex-col">

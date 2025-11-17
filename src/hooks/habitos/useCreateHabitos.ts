@@ -24,13 +24,13 @@ export function useCreateHabito() {
     }
 
     try {
-      const nuevoHabito = await createHabito({
+      await createHabito({
         descripcion,
         label,
         fecha
       });
 
-      return nuevoHabito;
+      return "success";
     } catch (err) {
       if (err instanceof Error) setError(err.message);
       else setError("Error desconocido al crear hábito");
