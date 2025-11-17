@@ -13,7 +13,7 @@ export default function CardHabitos({ label, description }: HabitosCardProps) {
   const toggleCompleted = () => setCompleted((prev) => !prev);
 
   const classes = clsx(
-    "rounded-lg shadow-xl/10 transition-colors duration-300 ease-in-out  w-full md:max-w-[450] h-auto flex text-right gap-3 overflow-hidden",
+    "rounded-lg shadow-xl/10 transition-colors duration-300 ease-in-out  w-full md:max-w-[350px] md:min-w-[350px] max-h-fit flex text-right gap-3 overflow-hidden",
     {
       "bg-primary text-surface": completed,
       "bg-surface text-textSecondary ": !completed
@@ -40,7 +40,7 @@ export default function CardHabitos({ label, description }: HabitosCardProps) {
         {description && <p className="text-surface text-md line-clamp-1">{description}</p>}
       </div>
 
-      <div className="flex h-full items-center">
+      <div className="flex h-full">
         <button
           onClick={toggleCompleted}
           className={clsx(
