@@ -9,12 +9,19 @@ import { useCreateHabito } from "@/hooks/habitos/useCreateHabitos";
 import { useLogout } from "@/hooks/useLogOut";
 import Loading from "@/features/ui/Loading";
 import { useDeleteHabito } from "@/hooks/habitos/useDeleteHabito";
+import { useState } from "react";
+import { Habito } from "@/types/Habito";
+import { useUpdateHabito } from "@/hooks/habitos/useUpdateHabito";
 
 export default function Habitos() {
   const { logout, loading } = useLogout();
   useCreateHabito();
   const { habitos, openModal, setOpenModal, cargarHabitos } = useCargaHabitos();
   const { handleDelete } = useDeleteHabito();
+  const { handleUpdate } = useUpdateHabito();
+  const [habitoEditando, setHabitoEditando] = useState<Habito | null>(null);
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
+
   if (loading) return <Loading />;
 
   return (
@@ -29,7 +36,10 @@ export default function Habitos() {
               </div>
               <div className="bg-surface rounded-xl border border-gray-100 p-4 shadow-xl">
                 <button
-                  onClick={() => setOpenModal(true)}
+                  onClick={() => {
+                    setHabitoEditando(null);
+                    setOpenModal(true);
+                  }}
                   className="bg-primary text-surface hover:bg-primaryHover h-10 w-10 rounded-full text-2xl font-bold shadow-md transition"
                 >
                   +
@@ -37,9 +47,9 @@ export default function Habitos() {
               </div>
             </div>
 
-            <div className="grid h-full w-full grid-rows-[1fr_1fr] gap-4 md:grid-cols-[60%_40%] md:grid-rows-none md:overflow-hidden">
-              <div className="scrollbar- w-full overflow-x-auto overflow-y-hidden rounded-lg border border-gray-300 p-4 shadow-xl md:pb-0">
-                <div className="flex max-h-[400px] w-full flex-col flex-wrap gap-0 pr-6 md:h-full md:max-h-full md:min-w-max md:gap-4">
+            <div className="grid h-full w-full grid-rows-[1fr_1fr] gap-4 md:grid-cols-[1fr_1fr] md:grid-rows-none md:overflow-hidden">
+              <div className="w-full overflow-x-auto overflow-y-hidden rounded-lg border border-gray-300 p-4 shadow-xl md:pb-0">
+                <div className="flex max-h-[400px] flex-col flex-wrap gap-0 md:h-full md:max-h-full md:min-w-max md:gap-4">
                   {habitos.map((h) => (
                     <CardHabitos
                       key={h.id_habito}
@@ -47,9 +57,31 @@ export default function Habitos() {
                       label={h.label}
                       description={h.descripcion}
                       onDelete={async (id) => {
-                        await handleDelete(id);
-                        cargarHabitos();
+                        const deleted = await handleDelete(id);
+                        if (deleted) {
+                          cargarHabitos();
+                        }
                       }}
+                      onEdit={(id) => {
+                        const hSeleccionado = habitos.find((x) => x.id_habito === id);
+                        if (hSeleccionado) {
+                          setHabitoEditando(hSeleccionado);
+                          setOpenModal(true);
+                        }
+                      }}
+                      completed={h.completado}
+                      onToggleCompleted={async (id, completed) => {
+                        setUpdatingId(id);
+                        try {
+                          const updated = await handleUpdate(id, { completado: completed });
+                          if (updated) cargarHabitos();
+                        } catch (error) {
+                          console.error("Error al actualizar hábito:", error);
+                        } finally {
+                          setUpdatingId(null);
+                        }
+                      }}
+                      isUpdating={updatingId === h.id_habito}
                     />
                   ))}
 
@@ -67,10 +99,18 @@ export default function Habitos() {
         </section>
       </Container>
 
-      <ModalDialog open={openModal} onClose={() => setOpenModal(false)}>
+      <ModalDialog
+        open={openModal}
+        onClose={() => {
+          setOpenModal(false);
+          setHabitoEditando(null);
+        }}
+      >
         <FormHabito
+          habito={habitoEditando}
           onSuccess={() => {
             setOpenModal(false);
+            setHabitoEditando(null);
             cargarHabitos();
           }}
         />
