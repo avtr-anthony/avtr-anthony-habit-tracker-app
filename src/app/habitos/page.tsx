@@ -24,7 +24,7 @@ export default function Habitos() {
           <nav className="hidden"></nav>
 
           <div className="flex flex-1 flex-col gap-6">
-            <div className="flex items-center justify-between">
+            <div className="flex w-full items-center justify-between">
               <h1 className="text-3xl font-bold">Tus Hábitos</h1>
 
               <button
@@ -35,14 +35,19 @@ export default function Habitos() {
               </button>
             </div>
 
-            <div className="flex flex-col gap-4">
-              {habitos.map((h) => (
-                <CardHabitos key={h.id_habito} label={h.label} description={h.descripcion} />
-              ))}
+            <div className="grid h-full w-full grid-cols-[80%_20%] gap-4">
+              <div className="/* ancho fijo por columna */ grid h-full flex-1 [grid-auto-columns:260px] grid-flow-col auto-rows-max gap-4 overflow-x-auto overflow-y-hidden">
+                {habitos.map((h) => (
+                  <CardHabitos key={h.id_habito} label={h.label} description={h.descripcion} />
+                ))}
 
-              {habitos.length === 0 && (
-                <p className="text-textSecondary text-center">No tienes hábitos todavía.</p>
-              )}
+                {habitos.length === 0 && (
+                  <p className="text-textSecondary text-center">No tienes hábitos todavía.</p>
+                )}
+              </div>
+              <div>
+                <p>hola</p>
+              </div>
             </div>
           </div>
         </section>

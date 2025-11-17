@@ -61,6 +61,7 @@ export function useLogin() {
         setError("Error desconocido.");
       }
     } finally {
+      await new Promise((resolve) => setTimeout(resolve, 600));
       setLoading(false);
     }
   }

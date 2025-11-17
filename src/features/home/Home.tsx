@@ -2,13 +2,8 @@
 import Header from "@/features/ui/Header";
 import Button from "@/features/ui/BodyButton";
 import Container from "../ui/Container";
-import Loading from "@/features/ui/Loading";
-import { useAuth } from "@/context/AuthContext";
 
 export default function Home() {
-  const { user, loading } = useAuth();
-  if (loading || user) return <Loading />;
-
   return (
     <>
       <Header

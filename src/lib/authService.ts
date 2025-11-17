@@ -15,11 +15,15 @@ export async function registerUser(email: string, password: string): Promise<Use
   return user;
 }
 
+export function destroyToken() {
+  document.cookie = `token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+}
 // Se revisa si existe una cuenta
 // Se devuelve nuevamente UserCredential
 // devuelve el user autenticado
-
 export async function loginUser(email: string, password: string) {
+  await signOut(auth);
+  destroyToken();
   const userCredential = await signInWithEmailAndPassword(auth, email, password);
   const idToken = await userCredential.user.getIdToken();
 
