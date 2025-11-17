@@ -15,7 +15,7 @@ export default function Login() {
       <Container>
         <section className="flex h-full w-full flex-col items-center justify-center gap-10 md:flex-row">
           <div className="flex max-w-lg flex-col items-center text-center md:items-start md:text-left">
-            <h1 className="text-text mb-4 text-4xl font-extrabold sm:text-5xl md:text-6xl">
+            <h1 className="text-surface mb-4 text-4xl font-extrabold sm:text-5xl md:text-6xl">
               Bienvenido de nuevo
             </h1>
             <p className="text-textSecondary text-base leading-relaxed sm:text-lg">
