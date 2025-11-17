@@ -10,7 +10,7 @@ interface UpdateHabitoBody {
 
 export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
   try {
-    const { id } = context.params;
+    const { id } = await context.params;
 
     const token = req.cookies.get("token")?.value;
     if (!token) {

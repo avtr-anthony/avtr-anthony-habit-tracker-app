@@ -10,6 +10,7 @@ export function useFormHabitos({ onSuccess }: UseFormHabitoProps) {
   const { handleCreate, error, loading } = useCreateHabito();
 
   async function onSubmit(ev: React.FormEvent<HTMLFormElement>) {
+    ev.preventDefault();
     const result = await handleCreate(ev);
 
     if (result === "success" && onSuccess) {
