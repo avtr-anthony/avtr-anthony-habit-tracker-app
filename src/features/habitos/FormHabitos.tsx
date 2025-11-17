@@ -28,7 +28,12 @@ export default function FormHabito({ onSuccess }: FormHabitoProps) {
         maxLength={120}
       />
 
-      <InputField label="Fecha" name="fecha" type="date" />
+      <InputField
+        label="Fecha"
+        name="fecha"
+        type="date"
+        defaultValue={new Date().toISOString().split("T")[0]}
+      />
 
       {error && <p className="text-error text-center text-sm">{error}</p>}
 

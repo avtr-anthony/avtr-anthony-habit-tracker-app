@@ -17,7 +17,7 @@ export default function CardHabitos({ id, label, description, onDelete }: Habito
   const classes = clsx(
     "rounded-lg shadow-lg/5 transition-colors duration-300 ease-in-out  w-full md:max-w-[350px] md:min-w-[350px]  flex text-right gap-3 overflow-hidden",
     {
-      "bg-primary text-surface": completed,
+      "bg-primary/40 text-textSecondary": completed,
       "bg-surface text-textSecondary ": !completed
     }
   );
@@ -35,14 +35,16 @@ export default function CardHabitos({ id, label, description, onDelete }: Habito
       <div className="flex w-full flex-col justify-center py-4">
         <h3
           className={clsx(
-            "text-xl font-bold transition-colors duration-300 ease-in-out",
-            completed ? "text-surface" : "text-text"
+            "text-xl font-bold capitalize transition-colors duration-300 ease-in-out",
+            completed ? "text-text" : "text-text"
           )}
         >
           {label}
         </h3>
 
-        {description && <p className="text-surface text-md line-clamp-1">{description}</p>}
+        {description && (
+          <p className="text-surface text-md line-clamp-1 capitalize">{description}</p>
+        )}
       </div>
 
       <div className="flex h-full">
