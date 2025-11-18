@@ -24,44 +24,38 @@ export default function CardHabitos({
   isUpdating = false
 }: HabitosCardProps) {
   const classes = clsx(
-    "rounded-xl shadow-lg transition-colors duration-300 ease-in-out w-full max-w-[420px] md:min-w-[420px] h-auto flex text-right gap-3 overflow-hidden backdrop-blur-xl min-h-[100px] md:min-h-[120px]",
+    "rounded-xl shadow-lg transition-all duration-300 ease-in-out w-full max-w-[440px] md:min-w-[420px] flex gap-3 backdrop-blur-xl h-[110px] md:h-[140px] border",
     {
-      "bg-primary/50 ": completed,
-
-      "bg-error/40  ": !completed
+      "bg-success/10 border-success": completed,
+      "bg-error/10 border-errorHover": !completed
     }
   );
 
   return (
     <div className="h-fit pr-4 pb-4 md:pr-0 md:pb-0">
       <div className={classes}>
-        <div className="flex flex-col justify-between p-4">
+        <div className="flex shrink-0 flex-col justify-between gap-3 px-3 py-4">
           <button
             onClick={() => onDelete?.(id)}
-            className={clsx("cursor-pointer rounded-full text-red-400 hover:text-red-600")}
             disabled={isUpdating}
+            className="text-error hover:text-errorHover shrink-0 cursor-pointer rounded-full p-1"
           >
-            <Trash size={28} />
+            <Trash size={22} />
           </button>
 
           <button
             onClick={() => onEdit?.(id)}
-            className={clsx(
-              "cursor-pointer transition-colors duration-300 ease-in-out",
-              completed
-                ? "text-green-500 hover:text-green-700"
-                : "text-yellow-500 hover:text-yellow-700"
-            )}
             disabled={isUpdating}
+            className="text-primaryHover hover:text-primary shrink-0 cursor-pointer rounded-full p-1"
           >
-            <PencilLine size={28} />
+            <PencilLine size={22} />
           </button>
         </div>
 
-        <div className="flex w-full flex-col justify-evenly pb-0 text-right">
+        <div className="flex w-full min-w-0 flex-1 flex-col justify-center py-4 pr-2 text-right">
           <h3
             className={clsx(
-              "text-lg font-black tracking-wider capitalize duration-300 md:text-2xl"
+              "line-clamp-1 text-lg font-black tracking-wider capitalize duration-300 md:px-3 md:text-2xl"
             )}
           >
             {label}
@@ -70,7 +64,7 @@ export default function CardHabitos({
           {description && (
             <p
               className={clsx(
-                "md:text-md !text-text/80 line-clamp-2 text-sm capitalize transition-colors duration-300"
+                "!text-text/80 line-clamp-2 w-full min-w-0 overflow-hidden px-0 text-xs text-ellipsis md:px-3 md:text-base"
               )}
             >
               {description}
@@ -78,19 +72,18 @@ export default function CardHabitos({
           )}
         </div>
 
-        <div>
+        <div className="flex shrink-0 items-center">
           <button
             onClick={() => onToggleCompleted?.(id, !completed)}
-            className={clsx(
-              "h-full cursor-pointer p-3 transition duration-300 ease-in-out disabled:opacity-50",
-              completed
-                ? "bg-green-500 text-white hover:bg-green-600"
-                : "bg-red-500 text-white hover:bg-red-600"
-            )}
             disabled={isUpdating}
-            aria-label={completed ? "Marcar como no completado" : "Marcar como completado"}
+            className={clsx(
+              "h-full cursor-pointer rounded-lg p-3 disabled:opacity-50",
+              completed
+                ? "bg-success text-surface hover:bg-success/80"
+                : "bg-error hover:bg-errorHover text-surface"
+            )}
           >
-            {completed ? <Ban size={25} /> : <Check size={25} />}
+            {completed ? <Ban size={22} /> : <Check size={22} />}
           </button>
         </div>
       </div>
