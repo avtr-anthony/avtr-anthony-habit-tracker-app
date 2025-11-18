@@ -19,7 +19,7 @@ export default function Container({ children, variant = "default" }: ContainerPr
 
   return (
     <div className={containerClasses}>
-      <div className="background-image h-full w-full px-6 py-10">{children}</div>
+      <div className="background-image h-full w-full px-6 py-6">{children}</div>
     </div>
   );
 }
