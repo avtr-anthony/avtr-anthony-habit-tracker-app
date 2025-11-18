@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="es" className="h-full">
       <body
-        className={`${roboto.variable} ${montserrat.variable} bg-background text-text flex h-full flex-col antialiased`}
+        className={`${roboto.variable} ${montserrat.variable} background-gradient text-text flex h-full flex-col antialiased`}
       >
         <AuthProvider>{children}</AuthProvider>
       </body>

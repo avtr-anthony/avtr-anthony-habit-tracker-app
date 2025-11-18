@@ -10,18 +10,16 @@ interface ContainerProps {
 
 export default function Container({ children, variant = "default" }: ContainerProps) {
   const containerClasses = clsx(
-    "w-full  h-auto  flex flex-1 bg-linear-to-br from-slate-200 via-slate-100 to-slate-300 md:overflow-hidden background-gradient",
+    "w-full  h-auto  flex flex-1 bg-linear-to-br from-slate-200 via-slate-100 to-slate-300 md:overflow-hidden background-gradient  ",
     {
       "items-start justify-start p-0 bg-surface  ": variant === "panel",
-      "flex-col  items-center justify-center px-6 py-10 ": variant === "default"
+      "flex-col  items-center justify-center  ": variant === "default"
     }
   );
 
   return (
-    <div
-      className={containerClasses}
-    >
-      {children}
+    <div className={containerClasses}>
+      <div className="background-image h-full w-full px-6 py-10">{children}</div>
     </div>
   );
 }

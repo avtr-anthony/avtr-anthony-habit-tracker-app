@@ -26,15 +26,17 @@ export default function Header({
   const username = useGetUsername();
 
   const headerClass = clsx(
-    "w-full bg-primary text-surface shadow-xl z-1 p-4 sm:px-6 md:px-10 flex",
-    variant === "hDefault" ? "flex-row items-center justify-between" : "flex-col items-start "
+    "w-full bg-surface/30 backdrop-blur-xl shadow-lg text-surface  z-1 p-4 sm:px-6 md:px-8 flex",
+    variant === "hDefault"
+      ? " flex-col items-start justify-start gap-2 md:gap-0 md:flex-row md:items-center md:justify-between "
+      : "flex-col items-start"
   );
 
   return (
     <header className={headerClass}>
       <Logo />
 
-      <div className="flex w-full items-center justify-end gap-2">
+      <div className="flex w-full items-center justify-start gap-2 md:justify-end">
         {buttons.map((btn, i) => (
           <Button key={i} label={btn.label} href={btn.href} variant={btn.variant} />
         ))}
