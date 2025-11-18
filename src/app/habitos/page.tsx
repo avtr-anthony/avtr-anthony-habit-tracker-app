@@ -28,13 +28,13 @@ export default function Habitos() {
     <>
       <Header variant="hPanel" showUser onClick={logout} />
       <Container variant="panel">
-        <section className="bg-op h-auto w-full flex-1 gap-4 bg-[url('/img/patron_v3.svg')] p-4 md:h-full">
+        <section className="bg-op h-auto w-full flex-1 gap-4 p-4 md:h-full">
           <div className="flex h-full w-full flex-col gap-4">
             <div className="flex w-full items-center justify-between gap-4">
-              <div className="bg-text/30 w-full rounded-xl p-4 shadow-xl backdrop-blur-xl">
-                <h1 className="!text-surface text-3xl font-bold">Tus Hábitos</h1>
+              <div className="bg-surface/20 w-full rounded-xl p-4 shadow-xl/5 backdrop-blur-2xl">
+                <h1 className="text-3xl font-bold">Tus Hábitos</h1>
               </div>
-              <div className="bg-surface/30 rounded-xl p-4 shadow-xl backdrop-blur-xl">
+              <div className="bg-surface/20 rounded-xl p-4 shadow-xl/5 backdrop-blur-xl">
                 <button
                   onClick={() => {
                     setHabitoEditando(null);
@@ -48,7 +48,7 @@ export default function Habitos() {
             </div>
 
             <div className="grid h-full w-full grid-rows-[1fr_1fr] gap-4 md:grid-cols-[1fr_1fr] md:grid-rows-none md:overflow-hidden">
-              <div className="scrollbar-transparent bg-text/30 w-full overflow-x-auto overflow-y-hidden rounded-lg p-4 shadow-xl backdrop-blur-xl md:pb-0">
+              <div className="scrollbar-transparent bg-surface/20 w-full overflow-x-auto overflow-y-hidden rounded-lg p-4 shadow-xl/5 backdrop-blur-xl md:pb-0">
                 <div className="flex h-full max-h-[400px] flex-col flex-wrap gap-0 md:max-h-full md:min-w-max md:gap-4">
                   {habitos.map((h) => (
                     <CardHabitos
@@ -91,7 +91,7 @@ export default function Habitos() {
                 </div>
               </div>
 
-              <div className="row-start-1 flex rounded-lg bg-black/30 backdrop-blur-xl md:col-start-2">
+              <div className="bg-surface/20 row-start-1 flex rounded-lg shadow-xl/5 backdrop-blur-xl md:col-start-2">
                 <p>hola</p>
               </div>
             </div>

@@ -26,11 +26,9 @@ export default function CardAuth({
     <form
       noValidate
       onSubmit={onSubmit}
-      className="bg-surface border-border flex w-full max-w-sm flex-col rounded-2xl border p-6 shadow-xl sm:max-w-md sm:p-8"
+      className="bg-surface/30 flex w-full max-w-sm flex-col rounded-2xl p-6 shadow-xl/5 backdrop-blur-xl sm:max-w-md sm:p-8"
     >
-      <h1 className="text-primary mb-6 text-2xl font-bold sm:text-center sm:text-3xl">
-        {title || "Default"}
-      </h1>
+      <h1 className="mb-6 text-2xl font-bold sm:text-center sm:text-3xl">{title || "Default"}</h1>
 
       <div className="flex flex-col gap-4 text-left">
         {inputs.map((input, index) => (

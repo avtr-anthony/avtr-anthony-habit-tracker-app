@@ -24,23 +24,21 @@ export default function CardHabitos({
   isUpdating = false
 }: HabitosCardProps) {
   const classes = clsx(
-    "rounded-xl shadow-lg transition-colors duration-300 ease-in-out w-full max-w-[420px] md:min-w-[420px] h-auto flex text-right gap-3 overflow-hidden backdrop-blur-xl",
+    "rounded-xl shadow-lg transition-colors duration-300 ease-in-out w-full max-w-[420px] md:min-w-[420px] h-auto flex text-right gap-3 overflow-hidden backdrop-blur-xl min-h-[100px] md:min-h-[120px]",
     {
-      "bg-primary/40 text-surface/80": completed,
+      "bg-primary/50 ": completed,
 
-      "bg-error/40  text-surface/80": !completed
+      "bg-error/40  ": !completed
     }
   );
 
   return (
     <div className="h-fit pr-4 pb-4 md:pr-0 md:pb-0">
       <div className={classes}>
-        <div className="flex flex-col justify-between gap-4 p-4">
+        <div className="flex flex-col justify-between p-4">
           <button
             onClick={() => onDelete?.(id)}
-            className={clsx(
-              "cursor-pointer rounded-full text-red-300 transition-all duration-300 ease-in-out hover:text-red-400 disabled:opacity-5"
-            )}
+            className={clsx("cursor-pointer rounded-full text-red-400 hover:text-red-600")}
             disabled={isUpdating}
           >
             <Trash size={28} />
@@ -49,10 +47,10 @@ export default function CardHabitos({
           <button
             onClick={() => onEdit?.(id)}
             className={clsx(
-              "cursor-pointer transition-all duration-300 ease-in-out disabled:opacity-50",
+              "cursor-pointer transition-colors duration-300 ease-in-out",
               completed
-                ? "text-green-300 hover:text-green-400"
-                : "text-yellow-300 hover:text-yellow-400"
+                ? "text-green-500 hover:text-green-700"
+                : "text-yellow-500 hover:text-yellow-700"
             )}
             disabled={isUpdating}
           >
@@ -60,11 +58,10 @@ export default function CardHabitos({
           </button>
         </div>
 
-        <div className="flex w-full flex-col justify-between py-4 pr-4 text-right">
+        <div className="flex w-full flex-col justify-evenly pb-0 text-right">
           <h3
             className={clsx(
-              "text-xl font-bold capitalize transition-colors duration-300 md:text-2xl",
-              completed ? "text-surface" : "text-surface"
+              "text-lg font-black tracking-wider capitalize duration-300 md:text-2xl"
             )}
           >
             {label}
@@ -73,8 +70,7 @@ export default function CardHabitos({
           {description && (
             <p
               className={clsx(
-                "line-clamp-2 text-lg capitalize transition-colors duration-300",
-                completed ? "text-gray-700" : "text-gray-300"
+                "md:text-md !text-text/80 line-clamp-2 text-sm capitalize transition-colors duration-300"
               )}
             >
               {description}
