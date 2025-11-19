@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth } from "@/lib/firebaseAdmin";
-import { supabase } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 interface UpdateHabitoBody {
   descripcion?: string;
@@ -20,7 +20,7 @@ export async function DELETE(req: NextRequest, context: { params: { id: string }
     const decoded = await adminAuth.verifyIdToken(token);
     const userId = decoded.uid;
 
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from("habitos")
       .delete()
       .eq("id_habito", id)
@@ -52,7 +52,7 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
 
     const body: UpdateHabitoBody = await req.json();
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from("habitos")
       .update(body)
       .eq("id_habito", id)
