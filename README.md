@@ -30,7 +30,7 @@ Aplicación web enfocada en llevar un seguimiento sobre los hábitos diarios de 
 
 | Método | Ruta                        | Descripción                |               |
 | ------ | --------------------------- | -------------------------- | ------------- |
-| GET    | /api/habits                 | Listar hábitos del usuario |               |
+| GET    | /api/habit                | Listar hábitos del usuario |               |
 | GET    | /api/habits?date=2025-11-07 | Obtener habito por fecha   | // Se aplica? |
 | POST   | /api/habits                 | Crear nuevo hábito         |               |
 | PUT    | /api/habits/:id             | Actualizar hábito          |               |
