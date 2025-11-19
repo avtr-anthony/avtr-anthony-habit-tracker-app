@@ -8,7 +8,7 @@ export default function Register() {
   const { error, handleRegister } = useRegister();
 
   return (
-    <div className="bg-background flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col">
       <Header />
       <Container>
         <section className="flex h-full w-full flex-col items-center justify-center gap-10 md:flex-row">

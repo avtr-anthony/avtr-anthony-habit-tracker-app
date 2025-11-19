@@ -21,7 +21,7 @@ export default function ModalDialog({ open, onClose, children }: ModalProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-md transition-all duration-300 ease-in-out" />
+          <div className="fixed inset-0 bg-black/5 backdrop-blur-lg transition-all duration-300 ease-in-out" />
         </TransitionChild>
 
         <div className="fixed inset-0 flex items-center justify-center p-4">
@@ -34,7 +34,7 @@ export default function ModalDialog({ open, onClose, children }: ModalProps) {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <DialogPanel className="bg-surface w-full max-w-md rounded-2xl p-6 shadow-xl">
+            <DialogPanel className="bg-surface/40 w-full max-w-md rounded-lg p-6 shadow-xl backdrop-blur-xl">
               {children}
             </DialogPanel>
           </TransitionChild>
