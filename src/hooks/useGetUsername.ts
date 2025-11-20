@@ -2,6 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { apiFetch } from "@/lib/apiClient";
+
+interface UsernameResponse {
+  username: string;
+}
 
 export function useGetUsername() {
   const { user } = useAuth();
@@ -14,10 +19,11 @@ export function useGetUsername() {
     }
 
     (async () => {
-      const res = await fetch(`/api/profile?uid=${user.uid}`);
-      if (res.ok) {
-        const data = await res.json();
+      try {
+        const data = await apiFetch<UsernameResponse>(`/api/profile?uid=${user.uid}`);
         setUsername(data.username);
+      } catch {
+        setUsername("");
       }
     })();
   }, [user]);

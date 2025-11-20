@@ -24,7 +24,7 @@ export default function CardHabitos({
   isUpdating = false
 }: HabitosCardProps) {
   const classes = clsx(
-    "rounded-xl shadow-lg transition-all duration-300 ease-in-out w-full max-w-[440px] md:min-w-[420px] flex gap-3 backdrop-blur-xl h-[110px] md:h-[140px] border",
+    "rounded-xl shadow-lg transition-all duration-300 ease-in-out w-full max-w-[440px] md:min-w-[420px] flex gap-3 backdrop-blur-xl h-[110px] md:h-[140px] w-[200px]  border",
     {
       "bg-success/10 border-success": completed,
       "bg-error/10 border-errorHover": !completed
@@ -32,7 +32,7 @@ export default function CardHabitos({
   );
 
   return (
-    <div className="h-fit pr-4 pb-4 md:pr-0 md:pb-0">
+    <div className="h-fit w-full pr-4 pb-4 md:w-fit md:pr-0 md:pb-0">
       <div className={classes}>
         <div className="flex shrink-0 flex-col justify-between gap-3 px-3 py-4">
           <button

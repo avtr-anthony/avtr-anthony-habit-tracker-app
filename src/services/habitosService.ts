@@ -1,46 +1,8 @@
 import { Habito } from "@/types/Habito";
+import { apiFetch } from "@/lib/apiClient";
 
-export async function createHabito(payload: { descripcion: string; label: string; fecha: string }) {
-  const response = await fetch("/api/habitos", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
-
-  if (!response.ok) {
-    let message = "No se ha creado habito";
-
-    try {
-      const data = await response.json();
-      if (data.error) message = data.error;
-    } catch (_) {}
-
-    throw new Error(message);
-  }
-
-  return await response.json();
-}
-
-interface GetHabitosResponse {
+export interface GetHabitosResponse {
   habitos: Habito[];
-}
-
-export async function getHabitos(): Promise<GetHabitosResponse> {
-  const response = await fetch("/api/habitos", {
-    method: "GET"
-  });
-  if (!response.ok) {
-    let message = "Error al obtener los hábitos";
-
-    try {
-      const data = await response.json();
-      if (data.error) message = data.error;
-    } catch (_) {}
-
-    throw new Error(message);
-  }
-
-  return await response.json();
 }
 
 interface UpdateHabitoPayload {
@@ -54,49 +16,37 @@ interface UpdateHabitoResponse {
   habito: Habito;
 }
 
-export async function updateHabito(
-  id: string,
-  payload: UpdateHabitoPayload
-): Promise<UpdateHabitoResponse> {
-  const response = await fetch(`/api/habitos/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
-
-  if (!response.ok) {
-    let message = "No se ha actualizado el hábito";
-
-    try {
-      const data = await response.json();
-      if (data.error) message = data.error;
-    } catch (_) {}
-
-    throw new Error(message);
-  }
-
-  return await response.json();
-}
-
 interface DeleteHabitoResponse {
   message: string;
 }
 
+// Crear hábito
+export async function createHabito(payload: { descripcion: string; label: string; fecha: string }) {
+  return apiFetch<{ habito: Habito }>("/api/habitos", {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+}
+
+// Obtener hábitos
+export async function getHabitos(): Promise<GetHabitosResponse> {
+  return apiFetch<GetHabitosResponse>("/api/habitos");
+}
+
+// Actualizar hábito
+export async function updateHabito(
+  id: string,
+  payload: UpdateHabitoPayload
+): Promise<UpdateHabitoResponse> {
+  return apiFetch<UpdateHabitoResponse>(`/api/habitos/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(payload)
+  });
+}
+
+// Eliminar hábito
 export async function deleteHabito(id: string): Promise<DeleteHabitoResponse> {
-  const response = await fetch(`/api/habitos/${id}`, {
+  return apiFetch<DeleteHabitoResponse>(`/api/habitos/${id}`, {
     method: "DELETE"
   });
-
-  if (!response.ok) {
-    let message = "No se ha eliminado el hábito";
-
-    try {
-      const data = await response.json();
-      if (data.error) message = data.error;
-    } catch (_) {}
-
-    throw new Error(message);
-  }
-
-  return await response.json();
 }
