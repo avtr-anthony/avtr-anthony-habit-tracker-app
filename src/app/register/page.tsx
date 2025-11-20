@@ -1,17 +1,24 @@
 "use client";
+
 import Header from "@/features/ui/Header";
 import Card from "@/features/ui/CardAuth";
 import Container from "@/features/ui/Container";
 import { useRegister } from "@/hooks/useRegister";
 
+// Componente de página de registro de usuario
 export default function Register() {
+  // Hook personalizado para manejar registro
   const { error, handleRegister } = useRegister();
 
   return (
     <div className="flex min-h-screen flex-col">
+      {/* Header de la página */}
       <Header />
+
+      {/* Contenedor principal */}
       <Container>
         <section className="flex h-full w-full flex-col items-center justify-center gap-10 md:flex-row">
+          {/* Sección de bienvenida y texto */}
           <div className="flex max-w-lg flex-col items-center text-center md:items-start md:text-left">
             <h1 className="text-text mb-4 text-4xl font-extrabold sm:text-5xl md:text-6xl">
               Crea tu cuenta
@@ -20,18 +27,20 @@ export default function Register() {
               Regístrate y comienza a construir los hábitos que transformarán tu día a día.
             </p>
           </div>
+
+          {/* Sección del formulario de registro */}
           <div className="w-full max-w-md">
             <Card
               title="Regístrate"
-              onSubmit={handleRegister}
+              onSubmit={handleRegister} // Función que se ejecuta al enviar el formulario
               inputs={[
                 {
                   label: "Nombre Usuario",
                   type: "text",
                   placeholder: "Ingresa tu usuario",
                   name: "username",
-                  maxLength: 20,
-                  pattern: "^[A-Za-z0-9_]+$"
+                  maxLength: 20, // Longitud máxima
+                  pattern: "^[A-Za-z0-9_]+$" // Validación de caracteres
                 },
                 {
                   label: "Correo",
@@ -63,6 +72,7 @@ export default function Register() {
               footerLinkText=" Ingresa aquí"
               footerHref="/login"
             >
+              {/* Mostrar mensaje de error si ocurre */}
               {error && <p className="!text-error mt-4 text-center">{error}</p>}
             </Card>
           </div>
