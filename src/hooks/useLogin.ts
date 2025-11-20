@@ -24,23 +24,7 @@ export function useLogin() {
 
     try {
       setLoading(true);
-      const user = await loginUser(email, password);
-      const token = await user.getIdToken();
-
-      const res = await fetch("/api/auth/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token })
-      });
-
-      if (!res.ok) {
-        setError("Error al verificar la sesión.");
-        setLoading(false);
-        return;
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 700));
-
+      await loginUser(email, password);
       router.push("/habitos");
     } catch (err: unknown) {
       if (err instanceof FirebaseError) {
@@ -61,7 +45,6 @@ export function useLogin() {
         setError("Error desconocido.");
       }
     } finally {
-      await new Promise((resolve) => setTimeout(resolve, 600));
       setLoading(false);
     }
   }
