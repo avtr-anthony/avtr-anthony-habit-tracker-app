@@ -1,41 +1,83 @@
-import { NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
-export async function POST(req: Request) {
+interface ProfileBody {
+  uid: string;
+  email: string;
+  username: string;
+}
+
+interface ErrorResponse {
+  error: string;
+}
+
+interface SuccessResponse {
+  user: {
+    uid: string;
+    username: string;
+    email: string;
+    created_at: Date;
+  };
+}
+
+export async function POST(
+  req: NextRequest
+): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
   try {
-    const { uid, email, username } = await req.json();
+    const body: ProfileBody = await req.json();
 
-    const { error } = await supabaseAdmin.from("users").insert([{ uid, email, username }]);
+    const { uid, email, username } = body;
 
-    if (error) throw error;
-    return NextResponse.json({ message: "Perfil guardado" }, { status: 200 });
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      return NextResponse.json({ error: err.message }, { status: 500 });
+    if (!uid || !email || !username) {
+      return NextResponse.json({ error: "Datos incompletos" }, { status: 400 });
     }
-    return NextResponse.json({ error: "Error Desconocido" }, { status: 500 });
+
+    const user = await prisma.user.upsert({
+      where: { uid },
+      update: {},
+      create: {
+        uid,
+        email,
+        username
+      }
+    });
+
+    return NextResponse.json({ user }, { status: 200 });
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : "Error desconocido";
+
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
 
-export async function GET(req: Request) {
+interface UsernameResponse {
+  username: string;
+}
+
+export async function GET(
+  req: NextRequest
+): Promise<NextResponse<UsernameResponse | ErrorResponse>> {
   try {
     const url = new URL(req.url);
     const uid = url.searchParams.get("uid");
 
     if (!uid) {
-      return NextResponse.json({ error: "UID REQUERIDA" });
+      return NextResponse.json({ error: "UID requerida" }, { status: 400 });
     }
 
-    const { data, error } = await supabaseAdmin
-      .from("users")
-      .select("username")
-      .eq("uid", uid)
-      .single();
+    const user = await prisma.user.findUnique({
+      where: { uid },
+      select: { username: true }
+    });
 
-    if (error) throw error;
+    if (!user) {
+      return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 });
+    }
 
-    return NextResponse.json({ username: data.username }, { status: 200 });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ username: user.username }, { status: 200 });
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : "Error desconocido";
+
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

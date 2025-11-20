@@ -16,11 +16,11 @@ export async function proxy(req: NextRequest) {
 
   if (token) {
     try {
-      await adminAuth.verifyIdToken(token);
+      const decoded = await adminAuth.verifyIdToken(token);
+      req.headers.set("x-user-uid", decoded.uid);
     } catch (err) {
       const res = NextResponse.redirect(new URL("/login", req.url));
       res.cookies.delete("token");
-
       return res;
     }
   }
@@ -31,7 +31,7 @@ export async function proxy(req: NextRequest) {
   }
 
   if (url.pathname === "/" && token) {
-    url.basePath = "/habitos";
+    url.pathname = "/habitos";
     return NextResponse.redirect(url);
   }
 

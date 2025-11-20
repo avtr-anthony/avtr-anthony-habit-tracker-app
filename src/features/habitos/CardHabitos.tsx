@@ -77,7 +77,7 @@ export default function CardHabitos({
             onClick={() => onToggleCompleted?.(id, !completed)}
             disabled={isUpdating}
             className={clsx(
-              "h-full cursor-pointer rounded-lg p-3 disabled:opacity-50",
+              "h-full cursor-pointer rounded-lg p-3 transition duration-300 ease-in-out disabled:opacity-50",
               completed
                 ? "bg-success text-surface hover:bg-success/80"
                 : "bg-error hover:bg-errorHover text-surface"
