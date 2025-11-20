@@ -9,6 +9,11 @@ export async function POST(req: NextRequest) {
     const token = req.cookies.get("token")?.value;
     if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
+    // Verificar que adminAuth esté inicializado antes de usarlo
+    if (!adminAuth) {
+      return NextResponse.json({ error: "Error de autenticación" }, { status: 500 });
+    }
+
     // Decodificar token para obtener UID del usuario
     const decoded = await adminAuth.verifyIdToken(token);
     const userId = decoded.uid;
@@ -62,6 +67,9 @@ export async function GET(req: NextRequest) {
     if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
     // Decodificar token para obtener UID del usuario
+    if (!adminAuth) {
+      return NextResponse.json({ error: "Error de autenticación" }, { status: 500 });
+    }
     const decoded = await adminAuth.verifyIdToken(token);
     const userId = decoded.uid;
 

@@ -28,12 +28,18 @@ export async function PUT(
     const token = req.cookies.get("token")?.value;
     if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
+    // Verificar que adminAuth no sea null antes de usarlo
+    if (!adminAuth) {
+      return NextResponse.json({ error: "Error servidor autenticación" }, { status: 500 });
+    }
+
     // Decodificar el token para obtener el UID del usuario
     const decoded = await adminAuth.verifyIdToken(token);
     const userId = decoded.uid;
 
     // Obtener los datos enviados en el body de la petición
     const body = await req.json();
+
 
     // Objeto que contendrá los campos permitidos a actualizar
     const allowedUpdates: UpdateHabitoBody & { completado?: boolean } = {};
@@ -79,7 +85,15 @@ export async function DELETE(
     if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
     // Decodificar token para obtener el UID del usuario
-    const decoded = await adminAuth.verifyIdToken(token);
+    if (!adminAuth) {
+      return NextResponse.json({ error: "Servicio de autenticación no disponible" }, { status: 500 });
+    }
+    let decoded;
+    try {
+      decoded = await adminAuth.verifyIdToken(token);
+    } catch (error) {
+      return NextResponse.json({ error: "Token inválido o expirado" }, { status: 401 });
+    }
     const userId = decoded.uid;
 
     // Eliminar el hábito de la base de datos filtrando por ID y user_id

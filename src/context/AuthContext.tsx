@@ -23,6 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Efecto para escuchar cambios en la autenticación de Firebase
   useEffect(() => {
+    if (!auth) return;
     // onAuthStateChanged escucha cambios en el estado de login
     const unsub = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser); // Actualizar usuario

@@ -11,6 +11,7 @@ import {
 // Crea una nueva cuenta en Firebase Auth.
 // Retorna únicamente la propiedad `user` del objeto UserCredential.
 export async function registerUser(email: string, password: string): Promise<User> {
+  if (!auth) throw new Error("Firebase Auth is not initialized");
   const { user } = await createUserWithEmailAndPassword(auth, email, password);
   return user;
 }
@@ -29,6 +30,7 @@ export function destroyToken() {
 // - Guarda dicho token en una cookie para que el backend pueda validar.
 // - Retorna el usuario autenticado.
 export async function loginUser(email: string, password: string) {
+  if (!auth) throw new Error("Firebase Auth is not initialized");
   await signOut(auth); // Asegura que no exista sesión previa
   destroyToken(); // Limpia token previo
 
@@ -47,5 +49,7 @@ export async function loginUser(email: string, password: string) {
 // Firebase elimina la sesión local automáticamente.
 // (No se implementa eliminación de cookies aquí, pero podría hacerse si se requiere)
 export async function logoutUser(): Promise<void> {
-  await signOut(auth);
+  if (auth) {
+    await signOut(auth);
+  }
 }
