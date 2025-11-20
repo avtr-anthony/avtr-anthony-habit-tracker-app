@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Habito {
+  id_habito   BigInt    @id @default(autoincrement())
+  user_id     String
+  descripcion String
+  label       String
+  fecha       DateTime  @db.Date
+  hora        DateTime  @default(dbgenerated("CURRENT_TIME")) @db.Time(6)
+  completado  Boolean?  @default(false)
+  created_at  DateTime? @default(now()) @db.Timestamp(6)
+  dia_semana  String?
+  user        User      @relation(fields: [user_id], references: [uid], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("habitos")
+}
+
+model User {
+  uid        String   @id
+  username   String
+  email      String   @unique
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  habitos    Habito[]
+
+  @@map("users")
+}

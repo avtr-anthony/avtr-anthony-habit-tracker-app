@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { adminAuth } from "@/lib/firebaseAdmin";
+import prisma from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
   try {
     const token = req.cookies.get("token")?.value;
-    if (!token) return Response.json({ error: "No autorizado" }, { status: 401 });
+    if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
     const decoded = await adminAuth.verifyIdToken(token);
     const userId = decoded.uid;
@@ -13,51 +13,58 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { descripcion, label, fecha } = body;
 
-    const { data, error } = await supabaseAdmin
-      .from("habitos")
-      .insert({
+    const userExists = await prisma.user.findUnique({
+      where: { uid: userId }
+    });
+
+    if (!userExists) {
+      return NextResponse.json(
+        { error: "El usuario no está registrado en la BD" },
+        { status: 400 }
+      );
+    }
+
+    const habito = await prisma.habito.create({
+      data: {
         user_id: userId,
         descripcion,
         label,
-        fecha,
+        fecha: new Date(fecha),
         completado: false
-      })
-      .select("*")
-      .single();
+      }
+    });
 
-    if (error) {
-      console.error("Error POST:", error);
-      return Response.json({ error: "No se pudo crear el hábito" }, { status: 500 });
-    }
+    const habitoResponse = {
+      ...habito,
+      id_habito: Number(habito.id_habito)
+    };
 
-    return Response.json({ habito: data }, { status: 201 });
+    return NextResponse.json({ habito: habitoResponse }, { status: 201 });
   } catch (err) {
     console.error("Error POST:", err);
-    return Response.json({ error: "Error servidor" }, { status: 500 });
+    return NextResponse.json({ error: "Error servidor" }, { status: 500 });
   }
 }
 
 export async function GET(req: NextRequest) {
   try {
     const token = req.cookies.get("token")?.value;
-    if (!token) return NextResponse.json({ error: "No Autorizado" }, { status: 401 });
+    if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
     const decoded = await adminAuth.verifyIdToken(token);
     const userId = decoded.uid;
 
-    // Usar supabaseAdmin que bypassea RLS ya que validamos autenticación en el servidor
-    const { data, error } = await supabaseAdmin
-      .from("habitos")
-      .select("*")
-      .eq("user_id", userId)
-      .order("created_at", { ascending: false });
+    const habitos = await prisma.habito.findMany({
+      where: { user_id: userId },
+      orderBy: { created_at: "desc" }
+    });
 
-    if (error) {
-      console.error("Error GET:", error);
-      return NextResponse.json({ error: "No se pudo obtener los habitos" }, { status: 500 });
-    }
+    const habitosResponse = habitos.map((h) => ({
+      ...h,
+      id_habito: Number(h.id_habito)
+    }));
 
-    return NextResponse.json({ habitos: data }, { status: 200 });
+    return NextResponse.json({ habitos: habitosResponse }, { status: 200 });
   } catch (err) {
     console.error("Error GET:", err);
     return NextResponse.json({ error: "Error servidor" }, { status: 500 });
