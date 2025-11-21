@@ -28,8 +28,10 @@ export async function proxy(req: NextRequest) {
   // Si existe token, se intenta verificar con Firebase Admin
   if (token) {
     try {
+      if (!adminAuth) {
+        throw new Error("Firebase Admin Auth is not initialized");
+      }
       // Se decodifica el token y se verifica que sea válido
-      if (!adminAuth) throw new Error("Firebase Admin no inicializado");
       const decoded = await adminAuth.verifyIdToken(token);
 
       // Si todo ok, se adjunta el UID en los headers para acceso interno

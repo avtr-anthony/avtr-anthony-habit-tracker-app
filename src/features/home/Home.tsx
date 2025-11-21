@@ -1,5 +1,3 @@
-"use client";
-
 import Header from "@/features/ui/Header";
 import Button from "@/features/ui/BodyButton";
 import Container from "../ui/Container";
