@@ -1,25 +1,28 @@
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { registerAndSaveUser } from "@/services/registerService";
 import { FirebaseError } from "firebase/app";
 
+// Hook personalizado para manejar el registro de usuarios
 export function useRegister() {
-  const router = useRouter();
-  const [error, setError] = useState("");
+  const router = useRouter(); // Router de Next.js para redirección
+  const [error, setError] = useState(""); // Estado para mensajes de error
 
   // Función principal que maneja el registro del usuario
   async function handleRegister(ev: React.FormEvent<HTMLFormElement>) {
-    // No reload y vaciamos errores previos
-    ev.preventDefault();
-    setError("");
+    ev.preventDefault(); // Evitar recarga de página
+    setError(""); // Limpiar errores previos
 
+    // Obtener datos del formulario
     const form = new FormData(ev.currentTarget);
     const email = String(form.get("email"));
     const password = String(form.get("password"));
     const confPassword = String(form.get("confPassword"));
     const username = String(form.get("username"));
 
+    // Validaciones locales
     if (!username.trim() || !email.trim() || !password.trim() || !confPassword.trim()) {
       setError("Todos los campos son obligatorios");
       return;
@@ -46,8 +49,10 @@ export function useRegister() {
     }
 
     try {
+      // Registrar usuario en Firebase y guardar en DB
       await registerAndSaveUser(username, email, password);
 
+      // Redirigir a login tras registro exitoso
       router.push("/login");
     } catch (err: unknown) {
       // Manejo de errores de Firebase
@@ -71,5 +76,6 @@ export function useRegister() {
     }
   }
 
+  // Retorna estado de error y función de registro
   return { error, handleRegister };
 }

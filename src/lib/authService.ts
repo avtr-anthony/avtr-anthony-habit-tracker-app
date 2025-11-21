@@ -7,35 +7,49 @@ import {
   User
 } from "firebase/auth";
 
-// Recibe parameters
-// crea una cuenta en firebase
-// devuelve objeto UserCredential (propiedad = user)
+// Recibe email y contraseña.
+// Crea una nueva cuenta en Firebase Auth.
+// Retorna únicamente la propiedad `user` del objeto UserCredential.
 export async function registerUser(email: string, password: string): Promise<User> {
+  if (!auth) throw new Error("Firebase Auth is not initialized");
   const { user } = await createUserWithEmailAndPassword(auth, email, password);
   return user;
 }
 
+// Elimina manualmente la cookie `token`
+// Esto fuerza al cliente a borrar el token de sesión.
 export function destroyToken() {
   document.cookie = `token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
 }
-// Se revisa si existe una cuenta
-// Se devuelve nuevamente UserCredential
-// devuelve el user autenticado
+
+// Inicia sesión con email y contraseña.
+// - Primero cierra cualquier sesión previa (signOut).
+// - Elimina el token previo por seguridad.
+// - Autentica al usuario con Firebase.
+// - Obtiene el idToken del usuario autenticado.
+// - Guarda dicho token en una cookie para que el backend pueda validar.
+// - Retorna el usuario autenticado.
 export async function loginUser(email: string, password: string) {
-  await signOut(auth);
-  destroyToken();
+  if (!auth) throw new Error("Firebase Auth is not initialized");
+  await signOut(auth); // Asegura que no exista sesión previa
+  destroyToken(); // Limpia token previo
+
   const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+  // Solicita a Firebase el idToken del usuario autenticado
   const idToken = await userCredential.user.getIdToken();
 
-  // Guardar el token en una cookie
+  // Guarda el token en una cookie para autenticar peticiones posteriores
   document.cookie = `token=${idToken}; path=/;`;
 
   return userCredential.user;
 }
 
-// Desconexión
-// firebase elimina sesión local
-// TODO: NO SE HA IMPLEMENTADO
+// Cierra la sesión del usuario.
+// Firebase elimina la sesión local automáticamente.
+// (No se implementa eliminación de cookies aquí, pero podría hacerse si se requiere)
 export async function logoutUser(): Promise<void> {
-  await signOut(auth);
+  if (auth) {
+    await signOut(auth);
+  }
 }
