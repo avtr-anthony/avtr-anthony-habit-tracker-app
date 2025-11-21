@@ -28,7 +28,7 @@ export default function CardAuth({
     <form
       noValidate
       onSubmit={onSubmit} // Maneja el submit del formulario
-      className="bg-surface/30 flex w-full max-w-sm flex-col rounded-2xl p-6 shadow-xl/5 backdrop-blur-xl sm:max-w-md sm:p-8"
+      className="bg-surface/20 flex w-full max-w-sm flex-col rounded-2xl p-6 shadow-xl/5 backdrop-blur-xl sm:max-w-md sm:p-8"
     >
       {/* Título del card */}
       <h1 className="mb-6 text-center text-2xl font-bold sm:text-3xl">{title || "Default"}</h1>
