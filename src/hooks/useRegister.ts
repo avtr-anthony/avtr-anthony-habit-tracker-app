@@ -4,11 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { registerAndSaveUser } from "@/services/registerService";
 import { FirebaseError } from "firebase/app";
+import { logoutUser } from "@/lib/authService";
 
 // Hook personalizado para manejar el registro de usuarios
 export function useRegister() {
   const router = useRouter(); // Router de Next.js para redirección
   const [error, setError] = useState(""); // Estado para mensajes de error
+  const [loading, setLoading] = useState(false);
+  const allowedDomains = ["gmail.com", "hotmail.com", "outlook.com", "live.com", "yahoo.com"];
 
   // Función principal que maneja el registro del usuario
   async function handleRegister(ev: React.FormEvent<HTMLFormElement>) {
@@ -38,6 +41,13 @@ export function useRegister() {
       return;
     }
 
+    const domain = email.split("@")[1]?.toLowerCase();
+
+    if (!domain || !allowedDomains.includes(domain)) {
+      setError("Solo se permiten correos conocidos como Gmail, Hotmail, Outlook o Yahoo.");
+      return;
+    }
+
     if (password !== confPassword) {
       setError("Las contraseñas no coinciden");
       return;
@@ -48,9 +58,12 @@ export function useRegister() {
       return;
     }
 
+    setLoading(true);
+
     try {
       // Registrar usuario en Firebase y guardar en DB
       await registerAndSaveUser(username, email, password);
+      await logoutUser();
 
       // Redirigir a login tras registro exitoso
       router.push("/login");
@@ -73,9 +86,11 @@ export function useRegister() {
       } else {
         setError("Error desconocido");
       }
+    } finally {
+      setLoading(false);
     }
   }
 
   // Retorna estado de error y función de registro
-  return { error, handleRegister };
+  return { error, handleRegister, loading };
 }

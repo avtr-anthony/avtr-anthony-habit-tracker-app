@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "react-calendar/dist/Calendar.css";
 :root {
   --foreground: #171717;
 }
@@ -72,3 +73,59 @@ p {
   background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.35) 1px, transparent 0);
   background-size: 20px 20px;
 }
+
+.calendar-habitos {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: var(--font-montserrat), sans-serif;
+  color: var(--color-text);
+}
+
+.calendar-habitos button {
+  border-radius: 12px;
+  margin: 5px 10px; 
+  transition: all 0.2s ease;
+}
+
+.calendar-habitos .react-calendar__navigation button {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.calendar-habitos .react-calendar__tile--active,
+.calendar-habitos .react-calendar__tile--active:enabled:focus,
+.calendar-habitos .react-calendar__tile--active:enabled:hover {
+  background: var(--color-primary) !important;
+  color: var(--color-surface) !important;
+}
+
+.calendar-habitos .react-calendar__tile--now {
+  background: rgba(201, 167, 245, 0.2);
+  border: 1px solid rgba(201, 167, 245, 0.3);
+}
+
+.calendar-habitos .react-calendar__tile:enabled:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+
+.calendar-habitos .react-calendar__month-view__days button {
+ margin: 2px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.calendar-habitos .react-calendar__month-view__days button:hover{
+  background-color: var(--color-);
+}
+
+.react-calendar__navigation__label {
+  pointer-events: none;
+  cursor: default !important;
+}
+
+

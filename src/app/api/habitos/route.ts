@@ -9,6 +9,14 @@ export async function POST(req: NextRequest) {
     const token = req.cookies.get("token")?.value;
     if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
+    // Verificar que el servicio de autenticación esté disponible
+    if (!adminAuth) {
+      return NextResponse.json(
+        { error: "Servicio de autenticación no disponible" },
+        { status: 500 }
+      );
+    }
+
     // Decodificar token para obtener UID del usuario
     const decoded = await adminAuth.verifyIdToken(token);
     const userId = decoded.uid;
@@ -62,13 +70,47 @@ export async function GET(req: NextRequest) {
     if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
     // Decodificar token para obtener UID del usuario
+    if (!adminAuth) {
+      return NextResponse.json(
+        { error: "Servicio de autenticación no disponible" },
+        { status: 500 }
+      );
+    }
     const decoded = await adminAuth.verifyIdToken(token);
     const userId = decoded.uid;
 
-    // Obtener todos los hábitos del usuario, ordenados por fecha de creación descendente
+    // Validar si se solicitó una fecha específica
+    const dateParam = req.nextUrl.searchParams.get("date");
+    let fechaFilter:
+      | {
+          gte: Date;
+          lte: Date;
+        }
+      | undefined;
+
+    if (dateParam) {
+      const parsedDate = new Date(dateParam);
+
+      if (Number.isNaN(parsedDate.getTime())) {
+        return NextResponse.json({ error: "Fecha inválida" }, { status: 400 });
+      }
+
+      const startOfDay = new Date(parsedDate);
+      startOfDay.setUTCHours(0, 0, 0, 0);
+
+      const endOfDay = new Date(parsedDate);
+      endOfDay.setUTCHours(23, 59, 59, 999);
+
+      fechaFilter = { gte: startOfDay, lte: endOfDay };
+    }
+
+    // Obtener todos los hábitos del usuario, opcionalmente filtrados por fecha
     const habitos = await prisma.habito.findMany({
-      where: { user_id: userId },
-      orderBy: { created_at: "desc" }
+      where: {
+        user_id: userId,
+        ...(fechaFilter ? { fecha: fechaFilter } : {})
+      },
+      orderBy: [{ fecha: "desc" }, { created_at: "desc" }]
     });
 
     // Preparar la respuesta, asegurando que los IDs sean números

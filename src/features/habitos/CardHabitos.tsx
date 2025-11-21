@@ -28,7 +28,7 @@ export default function CardHabitos({
 }: HabitosCardProps) {
   // Clases dinámicas según estado de completado
   const classes = clsx(
-    "rounded-xl shadow-lg transition-all duration-300 ease-in-out w-full max-w-[440px] md:min-w-[420px] flex gap-3 backdrop-blur-xl h-[110px] md:h-[140px] w-[200px]  border",
+    "rounded-xl shadow-lg transition-all duration-300 ease-in-out w-full max-w-[420px] md:min-w-[420px] flex gap-3 backdrop-blur-xl h-[110px] md:h-[110px] border",
     {
       "bg-success/10 border-success": completed,
       "bg-error/10 border-errorHover": !completed
@@ -44,7 +44,7 @@ export default function CardHabitos({
           <button
             onClick={() => onDelete?.(id)}
             disabled={isUpdating} // Deshabilitado mientras se actualiza
-            className="text-error hover:text-errorHover shrink-0 cursor-pointer rounded-full p-1"
+            className="text-error hover:text-errorHover shrink-0 cursor-pointer rounded-full p-1 transition-all duration-300 ease-in-out"
           >
             <Trash size={22} />
           </button>
@@ -53,7 +53,7 @@ export default function CardHabitos({
           <button
             onClick={() => onEdit?.(id)}
             disabled={isUpdating} // Deshabilitado mientras se actualiza
-            className="text-primaryHover hover:text-primary shrink-0 cursor-pointer rounded-full p-1"
+            className="text-primaryHover hover:text-primary shrink-0 cursor-pointer rounded-full p-1 transition-all duration-300 ease-in-out"
           >
             <PencilLine size={22} />
           </button>
@@ -64,7 +64,7 @@ export default function CardHabitos({
           {/* Etiqueta del hábito */}
           <h3
             className={clsx(
-              "line-clamp-1 text-lg font-black tracking-wider capitalize duration-300 md:px-3 md:text-2xl"
+              "text-md line-clamp-1 font-black tracking-wider capitalize duration-300 md:px-3 md:text-xl"
             )}
           >
             {label}
@@ -74,7 +74,7 @@ export default function CardHabitos({
           {description && (
             <p
               className={clsx(
-                "!text-text/80 line-clamp-2 w-full min-w-0 overflow-hidden px-0 text-xs text-ellipsis md:px-3 md:text-base"
+                "text-text/80! md:text-md line-clamp-2 w-full min-w-0 overflow-hidden px-0 text-xs text-ellipsis md:px-3"
               )}
             >
               {description}
@@ -88,7 +88,7 @@ export default function CardHabitos({
             onClick={() => onToggleCompleted?.(id, !completed)}
             disabled={isUpdating} // Deshabilitado mientras se actualiza
             className={clsx(
-              "h-full cursor-pointer rounded-lg p-3 transition duration-300 ease-in-out disabled:opacity-50",
+              "h-full cursor-pointer rounded-lg p-3 transition-all duration-300 ease-in-out disabled:opacity-50",
               completed
                 ? "bg-success text-surface hover:bg-success/80"
                 : "bg-error hover:bg-errorHover text-surface"
