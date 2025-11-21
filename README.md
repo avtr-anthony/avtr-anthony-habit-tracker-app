@@ -37,7 +37,7 @@ Aplicación web para llevar un seguimiento de hábitos diarios por usuario.
 
 ---
 
-## ![Diagrama de secuencia](./docs/images/diagramaSecuencia.png)
+## ![Diagrama de secuencia](./docs/images/diagramaSecuenciaV2.png)
 
 ## Cómo ejecutar el proyecto
 
@@ -161,7 +161,6 @@ CREATE POLICY "delete own habits"
   ON public.habitos FOR DELETE
   USING ((auth.uid())::uuid = user_id);
 ```
-
 
 ## Resumen del flujo completo
 
