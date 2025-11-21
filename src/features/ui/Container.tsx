@@ -13,7 +13,7 @@ interface ContainerProps {
 export default function Container({ children, variant = "default" }: ContainerProps) {
   // Clases dinámicas según la variante
   const containerClasses = clsx(
-    "w-full  h-auto  flex flex-1 bg-linear-to-br from-slate-200 via-slate-100 to-slate-300 md:overflow-hidden background-gradient  ",
+    "w-full  h-fit  flex flex-1 bg-linear-to-br from-slate-200 via-slate-100 to-slate-300 md:overflow-hidden background-gradient  ",
     {
       "items-start justify-start p-0 bg-surface  ": variant === "panel", // Estilo para panel
       "flex-col  items-center justify-center  ": variant === "default" // Estilo por defecto

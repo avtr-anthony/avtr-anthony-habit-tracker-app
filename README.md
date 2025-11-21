@@ -19,17 +19,25 @@ Aplicación web para llevar un seguimiento de hábitos diarios por usuario.
 
 - **Modelo base de datos (ERD)**  
    `erdV3.png` muestra las tablas `users` y `habitos` y su relación 1:N (un usuario tiene muchos hábitos).
-  ![ERD](./docs/images/erdV3.png)
+
+---
+
+![ERD](./docs/images/erdV3.png)
 
 - **Diagrama de arquitectura**  
    `diagramaArquitecturaV3.png` muestra el flujo: Usuario → Proxy/Middleware → Páginas Next → Hooks/Servicios → API Routes → Prisma → Supabase, más Docker y GitHub Actions + Firebase Hosting para deploy.
-  ![Diagrama de arquitectura](./docs/images/diagramaArquitecturaV3.png)
-
-- **Diagrama de secuencia**  
-   `diagramaSecuencia.png` resume el flujo de login con Firebase Auth y la carga/gestión de hábitos a través de las APIs protegidas.
-  ![Diagrama de secuencia](./docs/images/diagramaSecuencia.png)
 
 ---
+
+![Diagrama de arquitectura](./docs/images/diagramaArquitecturaV3.png)
+
+- **Diagrama de secuencia**
+
+  `diagramaSecuencia.png` resume el flujo de login con Firebase Auth y la carga/gestión de hábitos a través de las APIs protegidas.
+
+---
+
+## ![Diagrama de secuencia](./docs/images/diagramaSecuencia.png)
 
 ## Cómo ejecutar el proyecto
 

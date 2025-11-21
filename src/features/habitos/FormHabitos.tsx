@@ -7,18 +7,20 @@ import { Habito } from "@/types/Habito";
 interface FormHabitoProps {
   onSuccess?: () => void; // Callback al completar exitosamente
   habito?: Habito | null; // Hábito a editar (opcional)
+  defaultDate?: string; // Fecha por defecto cuando se crea uno nuevo
 }
 
 // Componente de formulario para crear o editar un hábito
-export default function FormHabito({ onSuccess, habito = null }: FormHabitoProps) {
+export default function FormHabito({ onSuccess, habito = null, defaultDate }: FormHabitoProps) {
   // Hook personalizado que maneja la lógica de formulario (envío, errores, loading)
   const { onSubmit, error, loading } = useFormHabitos({ onSuccess, habito });
 
   // Determina si el formulario está en modo edición
   const isEditMode = Boolean(habito?.id_habito);
 
-  // Fecha por defecto (del hábito o hoy)
-  const defaultDate = habito?.fecha?.split("T")[0] ?? new Date().toISOString().split("T")[0];
+  // Fecha por defecto (del hábito, fecha seleccionada o hoy)
+  const fallbackDate = defaultDate ?? new Date().toISOString().split("T")[0];
+  const inputDate = habito?.fecha?.split("T")[0] ?? fallbackDate;
 
   // Sufijo único para keys de inputs (para forzar re-render si cambia el hábito)
   const keySuffix = habito?.id_habito ?? "new";
@@ -58,7 +60,7 @@ export default function FormHabito({ onSuccess, habito = null }: FormHabitoProps
         label="Fecha"
         name="fecha"
         type="date"
-        defaultValue={defaultDate}
+        defaultValue={inputDate}
       />
 
       {/* Mensaje de error si existe */}

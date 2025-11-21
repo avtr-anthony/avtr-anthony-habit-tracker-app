@@ -5,6 +5,10 @@ export interface GetHabitosResponse {
   habitos: Habito[];
 }
 
+export interface GetHabitosParams {
+  date?: string;
+}
+
 interface UpdateHabitoPayload {
   descripcion?: string;
   label?: string;
@@ -29,8 +33,9 @@ export async function createHabito(payload: { descripcion: string; label: string
 }
 
 // Obtener hábitos
-export async function getHabitos(): Promise<GetHabitosResponse> {
-  return apiFetch<GetHabitosResponse>("/api/habitos");
+export async function getHabitos(params?: GetHabitosParams): Promise<GetHabitosResponse> {
+  const query = params?.date ? `?date=${encodeURIComponent(params.date)}` : "";
+  return apiFetch<GetHabitosResponse>(`/api/habitos${query}`);
 }
 
 // Actualizar hábito
