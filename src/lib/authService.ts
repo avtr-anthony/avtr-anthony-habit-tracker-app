@@ -2,6 +2,7 @@ import { auth } from "./firebase";
 
 import {
   createUserWithEmailAndPassword,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   signOut,
   User
@@ -35,6 +36,13 @@ export async function loginUser(email: string, password: string) {
   destroyToken(); // Limpia token previo
 
   const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+  if (!userCredential.user.emailVerified) {
+    await sendEmailVerification(userCredential.user);
+    await signOut(auth);
+    destroyToken();
+    throw new Error("email-not-verified");
+  }
 
   // Solicita a Firebase el idToken del usuario autenticado
   const idToken = await userCredential.user.getIdToken();

@@ -1,5 +1,6 @@
 import { registerUser } from "@/lib/authService";
 import { apiFetch } from "@/lib/apiClient";
+import { sendEmailVerification } from "firebase/auth";
 
 export async function registerAndSaveUser(username: string, email: string, password: string) {
   // 1. Primero registra al usuario en Firebase Authentication.
@@ -20,6 +21,10 @@ export async function registerAndSaveUser(username: string, email: string, passw
       username
     })
   });
+
+  if (user) {
+    await sendEmailVerification(user);
+  }
 
   // 3. Devuelves el usuario final, útil para redirecciones o estados.
   return user;

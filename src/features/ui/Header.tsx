@@ -53,7 +53,7 @@ export default function Header({
       {/* Sección para panel con usuario logueado */}
       {variant === "hPanel" && showUser && (
         <div className="flex w-full items-center justify-between">
-          <p className="!text-text text-xl font-bold md:text-3xl">
+          <p className="text-text! text-xl font-bold md:text-3xl">
             Hola, <span className="text-primaryHover">{username}</span>
           </p>
           <Button label="Cerrar Sesión" onClick={onClick} variant="close" />

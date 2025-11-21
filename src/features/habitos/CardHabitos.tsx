@@ -74,7 +74,7 @@ export default function CardHabitos({
           {description && (
             <p
               className={clsx(
-                "!text-text/80 md:text-md line-clamp-2 w-full min-w-0 overflow-hidden px-0 text-xs text-ellipsis md:px-3"
+                "text-text/80! md:text-md line-clamp-2 w-full min-w-0 overflow-hidden px-0 text-xs text-ellipsis md:px-3"
               )}
             >
               {description}

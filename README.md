@@ -85,29 +85,89 @@ Esto levanta un contenedor con la app en el puerto `3000` usando el `Dockerfile`
 
 ---
 
-## Endpoints API actuales
+## Flujo de autenticación y verificación de correo
 
-### Perfil de usuario (`/api/profile`)
+1. **Registro (cliente)**
+   - `useRegister` crea la cuenta con `firebase/auth`.
+   - Se fuerza que el correo sea de dominios populares (`gmail.com`, `hotmail.com`, `outlook.com`, `live.com`, `yahoo.com`) y que la contraseña tenga mínimo 8 caracteres.
+   - Tras crear el usuario se envía automáticamente el correo de verificación y se cierra la sesión local (`logoutUser`) para evitar que el usuario quede logueado sin confirmar.
+   - Finalmente se redirige a `/login`.
 
-> Se usa junto con Firebase Auth: primero se crea el usuario en Firebase, luego se guarda/lee su info adicional en la base de datos.
+2. **Verificación obligatoria**
+   - `loginUser` llama a `signInWithEmailAndPassword`, pero antes de emitir la cookie revisa `user.emailVerified`.
+   - Si no está verificado, reenvía el correo (`sendEmailVerification`), cierra la sesión y lanza el error `email-not-verified`.
+   - `useLogin` captura ese error y muestra “Debes verificar tu correo antes de iniciar sesión…”.
 
-| Método | Ruta                   | Descripción                          |
-| ------ | ---------------------- | ------------------------------------ |
-| POST   | `/api/profile`         | Crea/asegura el registro del usuario |
-| GET    | `/api/profile?uid=UID` | Obtiene el `username` por `uid`      |
+3. **Cookies de sesión**
+   - Cuando el correo ya está verificado, `loginUser` pide el `idToken` y lo guarda en la cookie `token`.
+   - Ese token se usa en `requireNoAuth` y en todas las API Routes para validar al usuario mediante Firebase Admin (`auth.uid()`).
+
+4. **Protecciones en la UI**
+   - `LoginClient` y `RegisterClient` solo consideran “autenticado” a un usuario con `emailVerified`.
+   - Si un usuario sin verificar navega atrás/adelante entre `/login` y `/register`, las pantallas se renderizan sin mostrar el loading infinito.
+
+## APIs y flujo de datos
+
+### Perfil (`/api/profile`)
+
+| Método | Ruta                   | Descripción                              |
+| ------ | ---------------------- | ---------------------------------------- |
+| POST   | `/api/profile`         | Guarda `uid`, `email`, `username` en BD  |
+| GET    | `/api/profile?uid=UID` | Devuelve el `username` asociado al `uid` |
 
 ### Hábitos (`/api/habitos`)
 
-Todos estos endpoints requieren un **token válido** en la cookie (Firebase ID Token). El middleware y las rutas validan el token antes de acceder a la base de datos.
+| Método | Ruta               | Descripción                               |
+| ------ | ------------------ | ----------------------------------------- |
+| GET    | `/api/habitos`     | Lista hábitos del usuario autenticado     |
+| POST   | `/api/habitos`     | Crea un hábito (fecha + título + desc)    |
+| PUT    | `/api/habitos/:id` | Actualiza campos (label, desc, completed) |
+| DELETE | `/api/habitos/:id` | Elimina un hábito propio                  |
 
-| Método | Ruta               | Descripción                           |
-| ------ | ------------------ | ------------------------------------- |
-| GET    | `/api/habitos`     | Lista hábitos del usuario autenticado |
-| POST   | `/api/habitos`     | Crea un nuevo hábito                  |
-| PUT    | `/api/habitos/:id` | Actualiza un hábito existente         |
-| DELETE | `/api/habitos/:id` | Elimina un hábito existente           |
+Todas las rutas anteriores verifican el token con **Firebase Admin** antes de invocar Prisma/Supabase.
 
-La autenticación (login/registro) se hace en el **cliente** usando Firebase Auth (no existen endpoints `/api/auth/*` en este proyecto). El token se guarda en una cookie y se verifica en:
+## Policies RLS en Supabase
 
-- El **middleware/proxy** (`src/proxy.ts`) para proteger rutas como `/habitos`.
-- Las **API Routes** (`/api/habitos`, `/api/profile`) usando Firebase Admin y Prisma.
+Con RLS activado en `public.users` y `public.habitos`, se aplican estas políticas (basadas en `auth.uid()`):
+
+```sql
+CREATE POLICY "insert own profile"
+  ON public.users FOR INSERT
+  WITH CHECK ((auth.uid())::uuid = uid);
+
+CREATE POLICY "select own profile"
+  ON public.users FOR SELECT
+  USING ((auth.uid())::uuid = uid);
+
+CREATE POLICY "update own profile"
+  ON public.users FOR UPDATE
+  USING ((auth.uid())::uuid = uid)
+  WITH CHECK ((auth.uid())::uuid = uid);
+
+CREATE POLICY "insert own habit"
+  ON public.habitos FOR INSERT
+  WITH CHECK ((auth.uid())::uuid = user_id);
+
+CREATE POLICY "select own habits"
+  ON public.habitos FOR SELECT
+  USING ((auth.uid())::uuid = user_id);
+
+CREATE POLICY "update own habits"
+  ON public.habitos FOR UPDATE
+  USING ((auth.uid())::uuid = user_id)
+  WITH CHECK ((auth.uid())::uuid = user_id);
+
+CREATE POLICY "delete own habits"
+  ON public.habitos FOR DELETE
+  USING ((auth.uid())::uuid = user_id);
+```
+
+
+## Resumen del flujo completo
+
+1. El usuario se registra (`useRegister`) → se valida dominio/contraseña → se envía verificación y se cierra sesión.
+2. Hace clic en el correo de verificación → vuelve a `/login`.
+3. Inicia sesión (`useLogin`) → si el correo está verificado se genera cookie `token`.
+4. `requireNoAuth` y `proxy.ts` usan Firebase Admin para decidir si envían al usuario a `/habitos` o al login.
+5. Las API Routes (`/api/habitos`, `/api/profile`) validan la cookie y ejecutan Prisma.
+6. Supabase aplica las policies RLS para que cada usuario solo lea/escriba sus filas.

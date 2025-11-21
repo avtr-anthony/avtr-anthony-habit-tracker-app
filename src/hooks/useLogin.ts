@@ -32,8 +32,11 @@ export function useLogin() {
       await loginUser(email, password); // Llamada a Firebase para iniciar sesión
       router.push("/habitos"); // Redirigir a la página de hábitos
     } catch (err: unknown) {
-      // Manejo de errores de Firebase
-      if (err instanceof FirebaseError) {
+      if (err instanceof Error && err.message === "email-not-verified") {
+        setError(
+          "Debes verificar tu correo antes de iniciar sesión. Revisa tu bandeja de entrada."
+        );
+      } else if (err instanceof FirebaseError) {
         switch (err.code) {
           case "auth/invalid-credential":
             setError("Correo o contraseña incorrectos.");
@@ -45,7 +48,9 @@ export function useLogin() {
             setError("El formato del correo no es válido.");
             break;
           default:
-            setError("No se pudo iniciar sesión. Intenta nuevamente.");
+            setError(
+              "No se pudo iniciar sesión. Intenta nuevamente. !No olvides verificar tu correo electrónico!"
+            );
         }
       } else {
         setError("Error desconocido.");
