@@ -3,6 +3,7 @@
 import clsx from "clsx";
 import Logo from "@/features/ui/Logo";
 import Button from "@/features/ui/Button";
+import { Settings } from "lucide-react";
 import { useGetUsername } from "@/hooks/useGetUsername";
 
 // Interfaz para los botones del header
@@ -18,6 +19,7 @@ interface HeaderProps {
   showUser?: boolean; // Mostrar usuario logueado
   buttons?: HeaderButton[]; // Lista de botones a mostrar
   onClick?: () => void; // Función de logout
+  onSettingsClick?: () => void; // Función de click en settings
 }
 
 // Componente funcional Header
@@ -25,7 +27,8 @@ export default function Header({
   variant = "hDefault",
   showUser = false,
   buttons = [],
-  onClick
+  onClick,
+  onSettingsClick
 }: HeaderProps) {
   // Obtener el nombre de usuario mediante hook
   const username = useGetUsername();
@@ -56,7 +59,15 @@ export default function Header({
           <p className="text-text! text-xl font-bold md:text-3xl">
             Hola, <span className="text-primaryHover">{username}</span>
           </p>
-          <Button label="Cerrar Sesión" onClick={onClick} variant="close" />
+          <div className="flex items-center gap-2">
+            <Button label="Cerrar Sesión" onClick={onClick} variant="close" />
+            <div className="bg-primary hover:bg-primaryHover cursor-pointer rounded-lg p-2 transition-colors duration-300 ease-in-out">
+              <Settings
+                onClick={onSettingsClick}
+                className="text-surface background-surface h-7 w-7 transition-colors duration-300 ease-in-out"
+              />
+            </div>
+          </div>
         </div>
       )}
     </header>

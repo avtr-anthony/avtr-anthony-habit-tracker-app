@@ -14,11 +14,12 @@ import CalendarioHabitos from "@/features/habitos/AsideSection";
 import { useMemo, useState } from "react";
 import { Habito } from "@/types/Habito";
 import { useUpdateHabito } from "@/hooks/habitos/useUpdateHabito";
-
+import { useRouter } from "next/navigation";
 // Componente principal de la sección de hábitos
 export default function Habitos() {
   // Hook de logout y estado de carga
   const { logout, loading: authLoading } = useLogout();
+  const router = useRouter();
 
   // Hook para crear hábitos (efecto secundario, se inicializa al montar)
   useCreateHabito();
@@ -64,7 +65,12 @@ export default function Habitos() {
   return (
     <>
       {/* Header de la página con opción de logout */}
-      <Header variant="hPanel" showUser onClick={logout} />
+      <Header
+        variant="hPanel"
+        showUser
+        onClick={logout}
+        onSettingsClick={() => router.push("/settings")}
+      />
 
       {/* Contenedor principal */}
       <Container variant="panel">
@@ -91,7 +97,7 @@ export default function Habitos() {
             </div>
 
             {/* Grid principal para mostrar lista de hábitos y panel secundario */}
-            <div className="grid w-full grid-rows-[1fr] gap-4 md:flex md:grid-cols-[1fr_1fr] md:grid-rows-none md:overflow-hidden">
+            <div className="grid h-full w-full grid-rows-[1fr] gap-4 md:flex md:grid-cols-[1fr_1fr] md:grid-rows-none md:overflow-hidden">
               {/* Sección de hábitos */}
               <div className="scrollbar-transparent bg-surface/20 w-full overflow-x-auto overflow-y-hidden rounded-lg p-4 shadow-xl/5 backdrop-blur-xl md:pb-0">
                 {habitosLoading ? (
