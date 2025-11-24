@@ -18,7 +18,7 @@ export async function apiFetch<T>(input: RequestInfo, init?: RequestInit): Promi
     }
   });
 
-  let data: any = null;
+  let data: unknown = null;
 
   try {
     // Intentamos parsear siempre la respuesta como JSON
@@ -29,9 +29,10 @@ export async function apiFetch<T>(input: RequestInfo, init?: RequestInit): Promi
 
   // Si la respuesta tiene error HTTP (status no 2xx)
   if (!res.ok) {
+    const errorData = (data ?? {}) as { error?: string; message?: string };
     const message =
-      data?.error || // Si API devuelve "error"
-      data?.message || // O usa "message"
+      errorData.error || // Si API devuelve "error"
+      errorData.message || // O usa "message"
       "Error en la petición"; // Mensaje por defecto
 
     // Lanza error personalizado con mensaje y status

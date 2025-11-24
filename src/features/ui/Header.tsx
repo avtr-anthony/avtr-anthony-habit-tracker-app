@@ -22,7 +22,9 @@ interface HeaderProps {
   onSettingsClick?: () => void; // Función de click en settings
 }
 
-// Componente funcional Header
+// Componente funcional Header.
+// - En variante hDefault: muestra logo + botones de navegación.
+// - En variante hPanel: además muestra saludo con username y acciones de sesión (logout, settings).
 export default function Header({
   variant = "hDefault",
   showUser = false,
@@ -30,10 +32,10 @@ export default function Header({
   onClick,
   onSettingsClick
 }: HeaderProps) {
-  // Obtener el nombre de usuario mediante hook
+  // Obtener el nombre de usuario mediante hook (desde API de perfil).
   const username = useGetUsername();
 
-  // Clases dinámicas según variante del header
+  // Clases dinámicas según variante del header.
   const headerClass = clsx(
     "w-full bg-surface/40 backdrop-blur-xl shadow-lg text-surface  z-1 p-4 sm:px-6 md:px-8 flex",
     variant === "hDefault"
@@ -46,7 +48,7 @@ export default function Header({
       {/* Logo de la aplicación */}
       <Logo />
 
-      {/* Botones de navegación */}
+      {/* Botones de navegación (se usan en login / register) */}
       <div className="flex w-full items-center justify-start gap-2 md:justify-end">
         {buttons.map((btn, i) => (
           <Button key={i} label={btn.label} href={btn.href} variant={btn.variant} />
@@ -60,13 +62,18 @@ export default function Header({
             Hola, <span className="text-primaryHover">{username}</span>
           </p>
           <div className="flex items-center gap-2">
+            {/* Botón para cerrar sesión (usa handler pasado por props) */}
             <Button label="Cerrar Sesión" onClick={onClick} variant="close" />
-            <div className="bg-primary hover:bg-primaryHover cursor-pointer rounded-lg p-2 transition-colors duration-300 ease-in-out">
-              <Settings
-                onClick={onSettingsClick}
-                className="text-surface background-surface h-7 w-7 transition-colors duration-300 ease-in-out"
-              />
-            </div>
+
+            {/* Botón/icono para abrir panel de usuario (ajustes) */}
+            <button
+              type="button"
+              onClick={onSettingsClick}
+              className="bg-primary hover:bg-primaryHover cursor-pointer rounded-lg p-2 transition-colors duration-300 ease-in-out"
+              aria-label="Panel de usuario"
+            >
+              <Settings className="text-surface background-surface h-5 w-5 md:h-7 md:w-7" />
+            </button>
           </div>
         </div>
       )}

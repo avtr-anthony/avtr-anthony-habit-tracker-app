@@ -69,10 +69,10 @@ export default function Habitos() {
         variant="hPanel"
         showUser
         onClick={logout}
-        onSettingsClick={() => router.push("/settings")}
+        onSettingsClick={() => router.push("/profile")}
       />
 
-      {/* Contenedor principal */}
+    {/*  */}
       <Container variant="panel">
         <section className="bg-op h-auto w-full flex-1 gap-4 md:h-full">
           <div className="flex h-full w-full flex-col gap-4">

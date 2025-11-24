@@ -20,7 +20,7 @@ export default function Button({
 }: ButtonProps) {
   // Clases dinámicas según el tipo de botón
   const classes = clsx(
-    "inline-flex justify-center items-center px-6 sm:px-7 py-3 rounded-lg font-medium text-sm sm:text-base transition focus:outline-none focus:ring-2 focus:ring-primary  ",
+    "inline-flex justify-center items-center px-6 sm:px-7 py-3 rounded-lg font-medium text-sm sm:text-base transition focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer ",
     {
       "bg-primary text-surface hover:bg-primaryHover border-none cursor-pointer":
         variant === "primary",

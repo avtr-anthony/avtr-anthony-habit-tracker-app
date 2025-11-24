@@ -5,7 +5,7 @@ import { Eye, EyeOff } from "lucide-react";
 
 // Props del input
 export interface InputFieldProps {
-  label: string; // Etiqueta del input
+  label?: string; // Etiqueta del input
   type?: string; // Tipo de input (text, password, email, etc.)
   placeholder?: string; // Placeholder
   name?: string; // Nombre del input
@@ -42,10 +42,11 @@ export default function InputField({
 
   return (
     <div className="flex w-full flex-col">
-      {/* Etiqueta del input */}
-      <label htmlFor={name} className="text-textSecondary mb-1 text-sm font-medium">
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={name} className="text-textSecondary mb-1 text-sm font-medium">
+          {label}
+        </label>
+      )}
 
       <div className="relative">
         {/* Input principal */}
