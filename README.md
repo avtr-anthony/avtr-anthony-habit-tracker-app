@@ -10,7 +10,7 @@ Aplicación web para llevar un seguimiento de hábitos diarios por usuario.
 - **Tailwind CSS** para estilos
 - **Prisma ORM** sobre **PostgreSQL (Supabase)**
 - **Firebase Auth** para autenticación de usuarios
-- **Firebase Hosting** para deploy (vía GitHub Actions a futuro)
+- **Firebase Hosting + Cloud Functions (Web Frameworks)** para deploy de la app Next (SSR + API Routes)
 - **Docker** (Dockerfile + `docker-compose.yml`) para entorno local / pruebas
 
 ---
@@ -82,6 +82,26 @@ docker-compose up --build
 ```
 
 Esto levanta un contenedor con la app en el puerto `3000` usando el `Dockerfile` y `.env.production`.
+
+---
+
+## Deploy con Firebase App Hosting
+
+### 1. Producción (rama `main`)
+
+- **Código fuente**: repositorio en GitHub.
+- **Rama de producción**: `main`.
+- Firebase App Hosting está conectado al repo y:
+  - Clona la rama `main`.
+  - Ejecuta `npm install` y `npm run build`.
+  - Despliega la app Next (SSR + API Routes) en una URL de producción (`*.web.app` / `*.firebaseapp.com`).
+
+### 2. Desarrollo / previews (rama `develop`)
+
+- El desarrollo diario se hace en la rama `develop`.
+- Cada `git push origin develop` puede crear un **preview deployment**:
+  - App Hosting compila esa rama y expone una **URL temporal** para probar cambios.
+  - Cuando todo está OK, se hace merge de `develop` → `main` y se actualiza producción.
 
 ---
 

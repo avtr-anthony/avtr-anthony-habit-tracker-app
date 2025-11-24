@@ -2,13 +2,16 @@
   "name": "avtr-anthony-habit-tracker-app",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
-    "local": "dotenv -e .env.local prisma db pull"
+  "engines": {
+    "node": "20"
   },
+  "scripts": {
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "eslint",
+  "local": "dotenv -e .env.local prisma db pull"
+},
   "dependencies": {
     "@headlessui/react": "^2.2.9",
     "@prisma/adapter-pg": "^7.0.0",

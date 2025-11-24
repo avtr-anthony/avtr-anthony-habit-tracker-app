@@ -73,7 +73,7 @@ export default function Habitos() {
             {/* Título y botón para crear nuevo hábito */}
             <div className="flex w-full items-center justify-between gap-4">
               <div className="bg-surface/20 w-full rounded-xl p-4 shadow-xl/5 backdrop-blur-2xl">
-                <h1 className="text-3xl font-bold">Tus Hábitos</h1>
+                <h1 className="text-xl font-bold md:text-2xl">Tus Hábitos</h1>
               </div>
 
               {/* Botón para abrir modal de creación de hábito */}
@@ -91,7 +91,7 @@ export default function Habitos() {
             </div>
 
             {/* Grid principal para mostrar lista de hábitos y panel secundario */}
-            <div className="grid h-full w-full grid-rows-[1fr] gap-4 md:grid-cols-[1fr_1fr] md:grid-rows-none md:overflow-hidden">
+            <div className="grid w-full grid-rows-[1fr] gap-4 md:flex md:grid-cols-[1fr_1fr] md:grid-rows-none md:overflow-hidden">
               {/* Sección de hábitos */}
               <div className="scrollbar-transparent bg-surface/20 w-full overflow-x-auto overflow-y-hidden rounded-lg p-4 shadow-xl/5 backdrop-blur-xl md:pb-0">
                 {habitosLoading ? (
@@ -152,7 +152,7 @@ export default function Habitos() {
               </div>
 
               {/* Panel secundario de contenido adicional */}
-              <div className="row-start-1 h-full md:col-start-2">
+              <div className="row-start-1 h-full w-full md:col-start-2">
                 <CalendarioHabitos
                   habitosCount={habitos.length}
                   selectedDate={selectedDate}

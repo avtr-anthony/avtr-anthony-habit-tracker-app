@@ -72,13 +72,13 @@ export default function CalendarioHabitos({
           value={selectedDate}
         />
       </aside>
-      <div className="bg-surface/20 flex h-full flex-col justify-center gap-4 rounded-lg p-6 text-center shadow-xl/5 backdrop-blur-xl">
+      <div className="bg-surface/20 flex h-full flex-col justify-center gap-1 rounded-lg p-4 text-center shadow-xl/5 backdrop-blur-xl">
         <p className="text-textSecondary text-sm uppercase">Frase positiva del día</p>
 
         {loading ? (
           <p className="text-textSecondary text-sm">Cargando...</p>
         ) : (
-          <blockquote className="text-text text-lg font-light italic md:text-xl">
+          <blockquote className="text-text text-md w-full font-light italic md:text-lg">
             “{quote || "Sin frase disponible"}”
           </blockquote>
         )}
