@@ -10,7 +10,7 @@ Aplicación web para llevar un seguimiento de hábitos diarios por usuario.
 - **Tailwind CSS** para estilos
 - **Prisma ORM** sobre **PostgreSQL (Supabase)**
 - **Firebase Auth** para autenticación de usuarios
-- **Firebase Hosting** para deploy (vía GitHub Actions a futuro)
+- **Firebase Hosting + Cloud Functions (Web Frameworks)** para deploy de la app Next (SSR + API Routes)
 - **Docker** (Dockerfile + `docker-compose.yml`) para entorno local / pruebas
 
 ---
@@ -29,7 +29,7 @@ Aplicación web para llevar un seguimiento de hábitos diarios por usuario.
 
 ---
 
-![Diagrama de arquitectura](./docs/images/diagramaArquitecturaV3.png)
+![Diagrama de arquitectura](./docs/images/diagramaArquitecturaV5.png)
 
 - **Diagrama de secuencia**
 
@@ -85,6 +85,26 @@ Esto levanta un contenedor con la app en el puerto `3000` usando el `Dockerfile`
 
 ---
 
+## Deploy con Firebase Hosting + Functions (Web Frameworks)
+
+### 1. Producción (rama `main`)
+
+- **Código fuente**: repositorio en GitHub.
+- **Rama de producción**: `main`.
+- Firebase App Hosting está conectado al repo y:
+  - Clona la rama `main`.
+  - Ejecuta `npm install` y `npm run build`.
+  - Despliega la app Next (SSR + API Routes) en una URL de producción (`*.web.app` / `*.firebaseapp.com`).
+
+### 2. Desarrollo / previews (rama `develop`)
+
+- El desarrollo diario se hace en la rama `develop`.
+- Cada `git push origin develop` puede crear un **preview deployment**:
+  - App Hosting compila esa rama y expone una **URL temporal** para probar cambios.
+  - Cuando todo está OK, se hace merge de `develop` → `main` y se actualiza producción.
+
+---
+
 ## Flujo de autenticación y verificación de correo
 
 1. **Registro (cliente)**
@@ -110,10 +130,11 @@ Esto levanta un contenedor con la app en el puerto `3000` usando el `Dockerfile`
 
 ### Perfil (`/api/profile`)
 
-| Método | Ruta                   | Descripción                              |
-| ------ | ---------------------- | ---------------------------------------- |
-| POST   | `/api/profile`         | Guarda `uid`, `email`, `username` en BD  |
-| GET    | `/api/profile?uid=UID` | Devuelve el `username` asociado al `uid` |
+| Método | Ruta                   | Descripción                                  |
+| ------ | ---------------------- | -------------------------------------------- |
+| POST   | `/api/profile`         | Guarda `uid`, `email`, `username` en BD      |
+| GET    | `/api/profile?uid=UID` | Devuelve el `username` asociado al `uid`     |
+| PUT    | `/api/profile`         | Actualiza `username` y/o `email` del usuario |
 
 ### Hábitos (`/api/habitos`)
 
@@ -125,6 +146,23 @@ Esto levanta un contenedor con la app en el puerto `3000` usando el `Dockerfile`
 | DELETE | `/api/habitos/:id` | Elimina un hábito propio                  |
 
 Todas las rutas anteriores verifican el token con **Firebase Admin** antes de invocar Prisma/Supabase.
+
+### Panel de usuario (`/profile`)
+
+- Permite ver y actualizar datos de la cuenta del usuario autenticado.
+- **Nombre de usuario**:
+  - Muestra el username actual (obtenido desde `/api/profile?uid=UID`).
+  - Permite cambiarlo mediante un formulario simple que llama a `PUT /api/profile`.
+- **Correo**:
+  - Muestra el correo actual (de Firebase Auth).
+  - Pide un nuevo correo y la contraseña actual del usuario.
+  - Reautentica al usuario con `reauthenticateWithCredential` y luego llama a `verifyBeforeUpdateEmail`, que envía un correo de verificación al nuevo email.
+  - Sincroniza el nuevo correo en la tabla `users` con `PUT /api/profile` y maneja el caso de correo ya usado (409).
+- **Contraseña**:
+  - Pide contraseña actual, nueva contraseña y confirmación.
+  - Valida longitud mínima (8 caracteres) y que ambas contraseñas coincidan.
+  - Reautentica con la contraseña actual y luego ejecuta `updatePassword` en Firebase Auth.
+  - Tras cambios sensibles (correo o contraseña) se abre un modal que sugiere volver a iniciar sesión por seguridad.
 
 ## Policies RLS en Supabase
 
