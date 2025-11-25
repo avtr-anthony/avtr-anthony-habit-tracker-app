@@ -1,4 +1,5 @@
 import { auth } from "./firebase";
+import { SESSION_COOKIE_NAME } from "./constants";
 
 import {
   createUserWithEmailAndPassword,
@@ -17,10 +18,18 @@ export async function registerUser(email: string, password: string): Promise<Use
   return user;
 }
 
-// Elimina manualmente la cookie `token`
-// Esto fuerza al cliente a borrar el token de sesión.
+function buildCookieAttributes() {
+  const attributes = ["path=/", "SameSite=Lax"];
+  if (typeof window !== "undefined" && window.location.protocol === "https:") {
+    attributes.push("Secure");
+  }
+  return attributes.join("; ");
+}
+
+// Elimina manualmente la cookie de sesión utilizada por Firebase Hosting.
 export function destroyToken() {
-  document.cookie = `token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+  if (typeof document === "undefined") return;
+  document.cookie = `${SESSION_COOKIE_NAME}=; ${buildCookieAttributes()}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
 }
 
 // Inicia sesión con email y contraseña.
@@ -47,8 +56,8 @@ export async function loginUser(email: string, password: string) {
   // Solicita a Firebase el idToken del usuario autenticado
   const idToken = await userCredential.user.getIdToken();
 
-  // Guarda el token en una cookie para autenticar peticiones posteriores
-  document.cookie = `token=${idToken}; path=/;`;
+  // Guarda el token en la cookie `__session` (única que reenvía Firebase Hosting)
+  document.cookie = `${SESSION_COOKIE_NAME}=${idToken}; ${buildCookieAttributes()}`;
 
   return userCredential.user;
 }

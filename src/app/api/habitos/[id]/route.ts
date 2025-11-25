@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server"; // NextRequest y NextResponse permiten manejar requests y responses en rutas API de Next.js
 import { adminAuth } from "@/lib/firebaseAdmin"; // Importa la instancia de Firebase Admin para verificar tokens de autenticación
 import prisma from "@/lib/prisma"; // Cliente de Prisma para interactuar con la base de datos
+import { SESSION_COOKIE_NAME } from "@/lib/constants";
 
 // Interfaz que define los posibles campos que se pueden actualizar en un hábito
 interface UpdateHabitoBody {
@@ -25,7 +26,7 @@ export async function PUT(
     if (isNaN(habitId)) return NextResponse.json({ error: "ID inválido" }, { status: 400 });
 
     // Verificar que exista un token de autenticación en las cookies
-    const token = req.cookies.get("token")?.value;
+    const token = req.cookies.get(SESSION_COOKIE_NAME)?.value;
     if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
     // Verificar que adminAuth no sea null antes de usarlo
@@ -81,7 +82,7 @@ export async function DELETE(
     if (isNaN(habitId)) return NextResponse.json({ error: "ID inválido" }, { status: 400 });
 
     // Verificar token de autenticación
-    const token = req.cookies.get("token")?.value;
+    const token = req.cookies.get(SESSION_COOKIE_NAME)?.value;
     if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
     // Decodificar token para obtener el UID del usuario
