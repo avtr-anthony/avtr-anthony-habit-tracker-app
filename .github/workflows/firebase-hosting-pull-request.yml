@@ -33,5 +33,5 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_AVTR_ANTHONY_HABIT_TRACKER_APP }}
           projectId: avtr-anthony-habit-tracker-app
         env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
           FIREBASE_EXTENSIONS_EXPERIMENT: skip
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
