@@ -32,5 +32,5 @@ jobs:
           channelId: live
           projectId: avtr-anthony-habit-tracker-app
         env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
           FIREBASE_EXTENSIONS_EXPERIMENT: skip
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
