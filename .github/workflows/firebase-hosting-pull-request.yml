@@ -29,6 +29,8 @@ jobs:
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
+          firebaseToolsVersion: latest
+          disableComment: true
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_AVTR_ANTHONY_HABIT_TRACKER_APP }}
           projectId: avtr-anthony-habit-tracker-app
