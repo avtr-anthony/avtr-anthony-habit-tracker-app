@@ -85,23 +85,16 @@ Esto levanta un contenedor con la app en el puerto `3000` usando el `Dockerfile`
 
 ---
 
-## Deploy con Firebase Hosting + Functions (Web Frameworks)
+## Pipeline automático (GitHub Actions + Firebase Hosting)
 
-### 1. Producción (rama `main`)
+Cada `pull_request` al repositorio principal dispara `firebase-hosting-pull-request.yml`, que construye la app y publica un preview en Firebase Hosting:
 
-- **Código fuente**: repositorio en GitHub.
-- **Rama de producción**: `main`.
-- Firebase App Hosting está conectado al repo y:
-  - Clona la rama `main`.
-  - Ejecuta `npm install` y `npm run build`.
-  - Despliega la app Next (SSR + API Routes) en una URL de producción (`*.web.app` / `*.firebaseapp.com`).
+1. `actions/checkout@v4` clona la rama del PR si pertenece al mismo repo.
+2. `npm ci` instala dependencias idénticas a `package-lock.json`.
+3. `npm run build` compila Next.js con las env vars `NEXT_PUBLIC_*` tomadas de los `secrets`.
+4. `FirebaseExtended/action-hosting-deploy@v0` sube un **preview** usando el service account `FIREBASE_SERVICE_ACCOUNT_AVTR_ANTHONY_HABIT_TRACKER_APP`.
 
-### 2. Desarrollo / previews (rama `develop`)
-
-- El desarrollo diario se hace en la rama `develop`.
-- Cada `git push origin develop` puede crear un **preview deployment**:
-  - App Hosting compila esa rama y expone una **URL temporal** para probar cambios.
-  - Cuando todo está OK, se hace merge de `develop` → `main` y se actualiza producción.
+`PR abierto → Workflow build_and_preview → Firebase Preview URL` (la URL temporal queda listada dentro de Firebase Hosting).
 
 ---
 
