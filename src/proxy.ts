@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { adminAuth } from "@/lib/firebaseAdmin";
+import { SESSION_COOKIE_NAME } from "@/lib/constants";
 
 // Middleware principal encargado de manejar:
 // - Protección de rutas
@@ -11,7 +12,7 @@ export async function proxy(req: NextRequest) {
   const url = req.nextUrl.clone();
 
   // Se obtiene el token JWT almacenado en cookies (el Firebase ID Token)
-  const token = req.cookies.get("token")?.value;
+  const token = req.cookies.get(SESSION_COOKIE_NAME)?.value;
 
   // Rutas públicas de autenticación
   const isAuthRoute = url.pathname === "/login" || url.pathname === "/register";
@@ -39,7 +40,7 @@ export async function proxy(req: NextRequest) {
     } catch (err) {
       // Si el token es inválido/expirado → se elimina cookie y se redirige a login
       const res = NextResponse.redirect(new URL("/login", req.url));
-      res.cookies.delete("token");
+      res.cookies.delete(SESSION_COOKIE_NAME);
       return res;
     }
   }
