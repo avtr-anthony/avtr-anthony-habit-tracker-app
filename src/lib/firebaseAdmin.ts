@@ -27,8 +27,6 @@ try {
   }
 
   adminAuth = getAuth();
-  // eslint-disable-next-line no-console
-  console.log("Firebase Admin inicializado correctamente.");
 } catch (error) {
   // eslint-disable-next-line no-console
   console.error("Error al inicializar Firebase Admin:", error);
