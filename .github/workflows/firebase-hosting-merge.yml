@@ -31,7 +31,6 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_AVTR_ANTHONY_HABIT_TRACKER_APP }}
           channelId: live
           projectId: avtr-anthony-habit-tracker-app
-          args: "--only hosting"
         env:
           FIREBASE_EXTENSIONS_EXPERIMENT: skip
           FIREBASE_CLI_EXPERIMENTS: webframeworks
