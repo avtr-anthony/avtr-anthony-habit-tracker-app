@@ -208,3 +208,5 @@ CREATE POLICY "delete own habits"
 4. `requireNoAuth` y `proxy.ts` usan Firebase Admin para decidir si envían al usuario a `/habitos` o al login.
 5. Las API Routes (`/api/habitos`, `/api/profile`) validan la cookie y ejecutan Prisma.
 6. Supabase aplica las policies RLS para que cada usuario solo lea/escriba sus filas.
+
+#
