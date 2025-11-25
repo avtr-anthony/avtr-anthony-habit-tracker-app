@@ -32,8 +32,8 @@ export async function proxy(req: NextRequest) {
       if (!adminAuth) {
         throw new Error("Firebase Admin Auth is not initialized");
       }
-      // Se decodifica el token y se verifica que sea válido
-      const decoded = await adminAuth.verifyIdToken(token);
+      // Se decodifica la cookie de sesión y se verifica que sea válida
+      const decoded = await adminAuth.verifySessionCookie(token, true);
 
       // Si todo ok, se adjunta el UID en los headers para acceso interno
       req.headers.set("x-user-uid", decoded.uid);

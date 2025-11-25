@@ -9,7 +9,7 @@ export async function requireNoAuth() {
 
   if (!adminAuth) return false;
   try {
-    await adminAuth.verifyIdToken(token);
+    await adminAuth.verifySessionCookie(token, true);
     return true; // usuario está logueado
   } catch {
     return false;

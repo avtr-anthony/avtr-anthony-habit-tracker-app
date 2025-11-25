@@ -35,7 +35,7 @@ export async function PUT(
     }
 
     // Decodificar el token para obtener el UID del usuario
-    const decoded = await adminAuth.verifyIdToken(token);
+    const decoded = await adminAuth.verifySessionCookie(token, true);
     const userId = decoded.uid;
 
     // Obtener los datos enviados en el body de la petición
@@ -91,7 +91,7 @@ export async function DELETE(
     }
     let decoded;
     try {
-      decoded = await adminAuth.verifyIdToken(token);
+      decoded = await adminAuth.verifySessionCookie(token, true);
     } catch (error) {
       return NextResponse.json({ error: "Token inválido o expirado" }, { status: 401 });
     }

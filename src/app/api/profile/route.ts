@@ -123,7 +123,7 @@ export async function PUT(
     }
 
     // 2. Verificar token y obtener uid del usuario autenticado.
-    const decoded = await adminAuth.verifyIdToken(token);
+    const decoded = await adminAuth.verifySessionCookie(token, true);
     const uid = decoded.uid;
 
     // 3. Leer campos a actualizar desde el body (pueden venir uno o ambos).
