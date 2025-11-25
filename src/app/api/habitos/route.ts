@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Decodificar token para obtener UID del usuario
-    const decoded = await adminAuth.verifyIdToken(token);
+    const decoded = await adminAuth.verifySessionCookie(token, true);
     const userId = decoded.uid;
 
     // Obtener los datos enviados en el body de la petición
@@ -77,7 +77,7 @@ export async function GET(req: NextRequest) {
         { status: 500 }
       );
     }
-    const decoded = await adminAuth.verifyIdToken(token);
+    const decoded = await adminAuth.verifySessionCookie(token, true);
     const userId = decoded.uid;
 
     // Validar si se solicitó una fecha específica

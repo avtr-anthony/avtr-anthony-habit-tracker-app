@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { destroyToken, logoutUser } from "@/lib/authService";
+import { logoutUser } from "@/lib/authService";
 
 // Hook personalizado para manejar logout de usuarios
 export function useLogout() {
@@ -14,9 +14,6 @@ export function useLogout() {
     setLoading(true); // Indicar que se está cerrando sesión
     try {
       await logoutUser(); // Llamada a Firebase para cerrar sesión
-
-      // Eliminar cookie de token de autenticación
-      destroyToken();
 
       // Pequeña espera para animaciones u otros procesos
       await new Promise((resolve) => setTimeout(resolve, 700));

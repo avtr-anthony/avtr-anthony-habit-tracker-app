@@ -1,5 +1,4 @@
 import { auth } from "./firebase";
-import { SESSION_COOKIE_NAME } from "./constants";
 
 import {
   createUserWithEmailAndPassword,
@@ -8,6 +7,8 @@ import {
   signOut,
   User
 } from "firebase/auth";
+
+const SESSION_ENDPOINT = "/api/auth/session";
 
 // Recibe email y contraseña.
 // Crea una nueva cuenta en Firebase Auth.
@@ -18,18 +19,27 @@ export async function registerUser(email: string, password: string): Promise<Use
   return user;
 }
 
-function buildCookieAttributes() {
-  const attributes = ["path=/", "SameSite=Lax"];
-  if (typeof window !== "undefined" && window.location.protocol === "https:") {
-    attributes.push("Secure");
+async function setSessionCookie(idToken: string) {
+  if (typeof fetch === "undefined") return;
+  const response = await fetch(SESSION_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ idToken })
+  });
+
+  if (!response.ok) {
+    throw new Error("session-cookie");
   }
-  return attributes.join("; ");
 }
 
-// Elimina manualmente la cookie de sesión utilizada por Firebase Hosting.
-export function destroyToken() {
-  if (typeof document === "undefined") return;
-  document.cookie = `${SESSION_COOKIE_NAME}=; ${buildCookieAttributes()}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+// Solicita al backend que elimine la cookie de sesión (__session).
+export async function destroyToken() {
+  if (typeof fetch === "undefined") return;
+  try {
+    await fetch(SESSION_ENDPOINT, { method: "DELETE" });
+  } catch (error) {
+    console.error("Failed to destroy session cookie", error);
+  }
 }
 
 // Inicia sesión con email y contraseña.
@@ -42,30 +52,30 @@ export function destroyToken() {
 export async function loginUser(email: string, password: string) {
   if (!auth) throw new Error("Firebase Auth is not initialized");
   await signOut(auth); // Asegura que no exista sesión previa
-  destroyToken(); // Limpia token previo
+  await destroyToken(); // Limpia token previo
 
   const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
   if (!userCredential.user.emailVerified) {
     await sendEmailVerification(userCredential.user);
     await signOut(auth);
-    destroyToken();
+    await destroyToken();
     throw new Error("email-not-verified");
   }
 
   // Solicita a Firebase el idToken del usuario autenticado
   const idToken = await userCredential.user.getIdToken();
 
-  // Guarda el token en la cookie `__session` (única que reenvía Firebase Hosting)
-  document.cookie = `${SESSION_COOKIE_NAME}=${idToken}; ${buildCookieAttributes()}`;
+  // Solicita al backend crear la cookie de sesión (__session) usando Firebase Admin
+  await setSessionCookie(idToken);
 
   return userCredential.user;
 }
 
 // Cierra la sesión del usuario.
 // Firebase elimina la sesión local automáticamente.
-// (No se implementa eliminación de cookies aquí, pero podría hacerse si se requiere)
 export async function logoutUser(): Promise<void> {
+  await destroyToken();
   if (auth) {
     await signOut(auth);
   }
