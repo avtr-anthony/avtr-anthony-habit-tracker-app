@@ -1,0 +1,65 @@
+[debug] [2025-11-25T12:26:53.562Z] ----------------------------------------------------------------------
+[debug] [2025-11-25T12:26:53.564Z] Command:       C:\nvm4w\nodejs\node.exe C:\nvm4w\nodejs\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting,functions --project avtr-anthony-habit-tracker-app
+[debug] [2025-11-25T12:26:53.565Z] CLI Version:   14.26.0
+[debug] [2025-11-25T12:26:53.565Z] Platform:      win32
+[debug] [2025-11-25T12:26:53.565Z] Node Version:  v20.19.5
+[debug] [2025-11-25T12:26:53.565Z] Time:          Tue Nov 25 2025 09:26:53 GMT-0300 (hora de verano de Chile)
+[debug] [2025-11-25T12:26:53.565Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-11-25T12:26:53.567Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2025-11-25T12:26:53.816Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-11-25T12:26:53.816Z] > authorizing via signed-in user (avtr.anthony@gmail.com)
+[debug] [2025-11-25T12:26:53.816Z] [iam] checking project avtr-anthony-habit-tracker-app for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-11-25T12:26:53.817Z] Checked if tokens are valid: false, expires at: 1764019403668
+[debug] [2025-11-25T12:26:53.817Z] Checked if tokens are valid: false, expires at: 1764019403668
+[debug] [2025-11-25T12:26:53.817Z] > refreshing access token with scopes: []
+[debug] [2025-11-25T12:26:53.818Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-11-25T12:26:53.818Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-11-25T12:26:53.907Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-11-25T12:26:53.908Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-11-25T12:26:53.927Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/avtr-anthony-habit-tracker-app:testIamPermissions [none]
+[debug] [2025-11-25T12:26:53.927Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/avtr-anthony-habit-tracker-app:testIamPermissions x-goog-quota-user=projects/avtr-anthony-habit-tracker-app
+[debug] [2025-11-25T12:26:53.927Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/avtr-anthony-habit-tracker-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-11-25T12:26:54.162Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2025-11-25T12:26:54.162Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2025-11-25T12:26:55.067Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/avtr-anthony-habit-tracker-app:testIamPermissions 200
+[debug] [2025-11-25T12:26:55.067Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/avtr-anthony-habit-tracker-app:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-11-25T12:26:55.068Z] Checked if tokens are valid: true, expires at: 1764077212908
+[debug] [2025-11-25T12:26:55.068Z] Checked if tokens are valid: true, expires at: 1764077212908
+[debug] [2025-11-25T12:26:55.069Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/avtr-anthony-habit-tracker-app [none]
+[debug] [2025-11-25T12:26:55.400Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/avtr-anthony-habit-tracker-app 200
+[debug] [2025-11-25T12:26:55.400Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/avtr-anthony-habit-tracker-app {"projectId":"avtr-anthony-habit-tracker-app","projectNumber":"1037549965455","displayName":"avtr-anthony-habit-tracker-app","name":"projects/avtr-anthony-habit-tracker-app","resources":{"hostingSite":"avtr-anthony-habit-tracker-app"},"state":"ACTIVE","etag":"1_dfd703b4-c245-460e-b648-e48cec3f6a5a"}
+[debug] [2025-11-25T12:26:58.684Z] defaultcredentials: writing to file C:\Users\Anthony Adasme\AppData\Roaming\firebase\avtr_anthony_gmail.com_application_default_credentials.json
+[debug] [2025-11-25T12:26:58.693Z] Checked if tokens are valid: true, expires at: 1764077212908
+[debug] [2025-11-25T12:26:58.693Z] Checked if tokens are valid: true, expires at: 1764077212908
+[debug] [2025-11-25T12:26:58.694Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/avtr-anthony-habit-tracker-app/sites pageToken=&pageSize=10
+[debug] [2025-11-25T12:26:59.749Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/avtr-anthony-habit-tracker-app/sites 200
+[debug] [2025-11-25T12:26:59.749Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/avtr-anthony-habit-tracker-app/sites {"sites":[{"name":"projects/avtr-anthony-habit-tracker-app/sites/avtr-anthony-habit-tracker-app","defaultUrl":"https://avtr-anthony-habit-tracker-app.web.app","appId":"1:1037549965455:web:a51e698b500ba832da60fa","type":"DEFAULT_SITE"}]}
+[debug] [2025-11-25T12:26:59.749Z] Checked if tokens are valid: true, expires at: 1764077212908
+[debug] [2025-11-25T12:26:59.749Z] Checked if tokens are valid: true, expires at: 1764077212908
+[debug] [2025-11-25T12:26:59.749Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:1037549965455:web:a51e698b500ba832da60fa/config [none]
+[debug] [2025-11-25T12:27:00.692Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:1037549965455:web:a51e698b500ba832da60fa/config 200
+[debug] [2025-11-25T12:27:00.692Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:1037549965455:web:a51e698b500ba832da60fa/config {"projectId":"avtr-anthony-habit-tracker-app","appId":"1:1037549965455:web:a51e698b500ba832da60fa","storageBucket":"avtr-anthony-habit-tracker-app.firebasestorage.app","apiKey":"AIzaSyDSuNsSgrezut2mLwbUeI5kGJqrKwUUKo0","authDomain":"avtr-anthony-habit-tracker-app.firebaseapp.com","messagingSenderId":"1037549965455","projectNumber":"1037549965455","version":"2"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 15.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2025-11-25T12:27:08.396Z] Checked if tokens are valid: true, expires at: 1764077212908
+[debug] [2025-11-25T12:27:08.396Z] Checked if tokens are valid: true, expires at: 1764077212908
+[debug] [2025-11-25T12:27:08.397Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/avtr-anthony-habit-tracker-app/sites/avtr-anthony-habit-tracker-app [none]
+[debug] [2025-11-25T12:27:09.330Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/avtr-anthony-habit-tracker-app/sites/avtr-anthony-habit-tracker-app 200
+[debug] [2025-11-25T12:27:09.330Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/avtr-anthony-habit-tracker-app/sites/avtr-anthony-habit-tracker-app {"name":"projects/avtr-anthony-habit-tracker-app/sites/avtr-anthony-habit-tracker-app","defaultUrl":"https://avtr-anthony-habit-tracker-app.web.app","appId":"1:1037549965455:web:a51e698b500ba832da60fa","type":"DEFAULT_SITE"}
+[info]    ▲ Next.js 16.0.1 (Turbopack)
+
+[info]    - Environments: .env.local, .env.production, .env
+
+
+[info]    Creating an optimized production build ...
+
