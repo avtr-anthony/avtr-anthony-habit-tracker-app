@@ -10,7 +10,7 @@ Aplicación web para llevar un seguimiento de hábitos diarios por usuario.
 - **Tailwind CSS** para estilos
 - **Prisma ORM** sobre **PostgreSQL (Supabase)**
 - **Firebase Auth** para autenticación de usuarios
-- **Firebase Hosting + Cloud Functions (Web Frameworks)** para deploy de la app Next (SSR + API Routes)
+- **Vercel** para deploy de la app Next (SSR + API Routes)
 - **Docker** (Dockerfile + `docker-compose.yml`) para entorno local / pruebas
 
 ---
@@ -29,7 +29,7 @@ Aplicación web para llevar un seguimiento de hábitos diarios por usuario.
 
 ---
 
-![Diagrama de arquitectura](./docs/images/diagramaArquitecturaV5.png)
+![Diagrama de arquitectura](./docs/images/diagramaArquitecturaV6.png)
 
 - **Diagrama de secuencia**
 
@@ -85,16 +85,13 @@ Esto levanta un contenedor con la app en el puerto `3000` usando el `Dockerfile`
 
 ---
 
-## Pipeline automático (GitHub Actions + Firebase Hosting)
+## Deploy en producción (Vercel)
 
-Cada `pull_request` al repositorio principal dispara `firebase-hosting-pull-request.yml`, que construye la app y publica un preview en Firebase Hosting:
+La app está pensada para desplegarse en **Vercel**:
 
-1. `actions/checkout@v4` clona la rama del PR si pertenece al mismo repo.
-2. `npm ci` instala dependencias idénticas a `package-lock.json`.
-3. `npm run build` compila Next.js con las env vars `NEXT_PUBLIC_*` tomadas de los `secrets`.
-4. `FirebaseExtended/action-hosting-deploy@v0` sube un **preview** usando el service account `FIREBASE_SERVICE_ACCOUNT_AVTR_ANTHONY_HABIT_TRACKER_APP`.
-
-`PR abierto → Workflow build_and_preview → Firebase Preview URL` (la URL temporal queda listada dentro de Firebase Hosting).
+- Conecta el repositorio en Vercel.
+- Configura las variables de entorno (las mismas de `.env.local`, usando los prefijos `NEXT_PUBLIC_*`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`, `DIRECT_URL`, etc.).
+- Cada push a la rama configurada (por ejemplo `main`) dispara un nuevo deploy automático.
 
 ---
 
