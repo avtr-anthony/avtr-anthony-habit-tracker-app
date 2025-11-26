@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { adminAuth } from "@/lib/firebaseAdmin";
+import { SESSION_COOKIE_NAME } from "@/lib/constants";
 
 // Interfaz para definir los datos que se reciben al crear o actualizar un perfil
 interface ProfileBody {
@@ -102,14 +103,14 @@ export async function GET(
 }
 
 // Actualizar username y/o email del usuario autenticado (HTTP PUT).
-// - Obtiene el uid a partir del token (cookie `token`) usando Firebase Admin.
+// - Obtiene el uid a partir del token (cookie `__session`) usando Firebase Admin.
 // - Permite cambiar username, email o ambos en la tabla `users`.
 export async function PUT(
   req: NextRequest
 ): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
   try {
     // 1. Leer token de la cookie enviada desde el cliente.
-    const token = req.cookies.get("token")?.value;
+    const token = req.cookies.get(SESSION_COOKIE_NAME)?.value;
     if (!token) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
@@ -122,7 +123,7 @@ export async function PUT(
     }
 
     // 2. Verificar token y obtener uid del usuario autenticado.
-    const decoded = await adminAuth.verifyIdToken(token);
+    const decoded = await adminAuth.verifySessionCookie(token, true);
     const uid = decoded.uid;
 
     // 3. Leer campos a actualizar desde el body (pueden venir uno o ambos).

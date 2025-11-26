@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth } from "@/lib/firebaseAdmin";
 import prisma from "@/lib/prisma";
+import { SESSION_COOKIE_NAME } from "@/lib/constants";
 
 // Función que maneja la creación de un nuevo hábito (HTTP POST)
 export async function POST(req: NextRequest) {
   try {
     // Obtener token de autenticación desde cookies
-    const token = req.cookies.get("token")?.value;
+    const token = req.cookies.get(SESSION_COOKIE_NAME)?.value;
     if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
     // Verificar que el servicio de autenticación esté disponible
@@ -18,7 +19,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Decodificar token para obtener UID del usuario
-    const decoded = await adminAuth.verifyIdToken(token);
+    const decoded = await adminAuth.verifySessionCookie(token, true);
     const userId = decoded.uid;
 
     // Obtener los datos enviados en el body de la petición
@@ -66,7 +67,7 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     // Verificar token de autenticación
-    const token = req.cookies.get("token")?.value;
+    const token = req.cookies.get(SESSION_COOKIE_NAME)?.value;
     if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
     // Decodificar token para obtener UID del usuario
@@ -76,7 +77,7 @@ export async function GET(req: NextRequest) {
         { status: 500 }
       );
     }
-    const decoded = await adminAuth.verifyIdToken(token);
+    const decoded = await adminAuth.verifySessionCookie(token, true);
     const userId = decoded.uid;
 
     // Validar si se solicitó una fecha específica

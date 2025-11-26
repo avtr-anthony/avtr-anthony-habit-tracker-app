@@ -15,9 +15,6 @@ export function useLogout() {
     try {
       await logoutUser(); // Llamada a Firebase para cerrar sesión
 
-      // Eliminar cookie de token de autenticación
-      document.cookie = `token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-
       // Pequeña espera para animaciones u otros procesos
       await new Promise((resolve) => setTimeout(resolve, 700));
 
