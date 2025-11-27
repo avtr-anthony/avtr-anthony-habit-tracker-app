@@ -12,6 +12,7 @@ Aplicación web para llevar un seguimiento de hábitos diarios por usuario.
 - **Firebase Auth** para autenticación de usuarios
 - **Vercel** para deploy de la app Next (SSR + API Routes)
 - **Docker** (Dockerfile + `docker-compose.yml`) para entorno local / pruebas
+- **GitHub Actions** para CI/CD (deploys de preview en PR y producción en Vercel)
 
 ---
 
@@ -37,7 +38,9 @@ Aplicación web para llevar un seguimiento de hábitos diarios por usuario.
 
 ---
 
-## ![Diagrama de secuencia](./docs/images/diagramaSecuenciaV2.png)
+![Diagrama de secuencia](./docs/images/diagramaSecuenciaV2.png)
+
+---
 
 ## Cómo ejecutar el proyecto
 
@@ -61,10 +64,10 @@ Crea un archivo `.env.local` (para desarrollo) con, al menos:
   - `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...`
   - `NEXT_PUBLIC_FIREBASE_APP_ID=...`
 - Firebase Admin (servidor):
-  - `FIREBASE_CLIENT_EMAIL=...`
-  - `FIREBASE_PRIVATE_KEY=...`
+  - `CLIENT_EMAIL_FIREBASE=...`
+  - `PRIVATE_KEY_FIREBASE=...`
 
-> Nota: los nombres exactos se pueden ver en `src/lib/firebase.ts` y `src/lib/firebaseAdmin.ts`.
+> Nota: los nombres exactos (por ejemplo `CLIENT_EMAIL_FIREBASE`, `PRIVATE_KEY_FIREBASE`) se pueden ver en `src/lib/firebase.ts` y `src/lib/firebaseAdmin.ts`.
 
 ### 3. Desarrollo local (sin Docker)
 
@@ -90,8 +93,8 @@ Esto levanta un contenedor con la app en el puerto `3000` usando el `Dockerfile`
 La app está pensada para desplegarse en **Vercel**:
 
 - Conecta el repositorio en Vercel.
-- Configura las variables de entorno (las mismas de `.env.local`, usando los prefijos `NEXT_PUBLIC_*`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`, `DIRECT_URL`, etc.).
-- Cada push a la rama configurada (por ejemplo `main`) dispara un nuevo deploy automático.
+- Configura las variables de entorno (las mismas de `.env.local`, usando los prefijos `NEXT_PUBLIC_*`, `CLIENT_EMAIL_FIREBASE`, `PRIVATE_KEY_FIREBASE`, `DIRECT_URL`, etc.).
+- Cada push a la rama configurada (por ejemplo `main`) puede disparar un nuevo deploy automático o controlado mediante GitHub Actions (ver sección de CI/CD más abajo).
 
 ---
 
@@ -114,7 +117,14 @@ La app está pensada para desplegarse en **Vercel**:
 
 4. **Protecciones en la UI**
    - `LoginClient` y `RegisterClient` solo consideran “autenticado” a un usuario con `emailVerified`.
-   - Si un usuario sin verificar navega atrás/adelante entre `/login` y `/register`, las pantallas se renderizan sin mostrar el loading infinito.
+   - Si un usuario sin verificar navega atrás/adelante entre `/login` y `/register`, las pantallas se renderizan normal
+
+## Detalles tecnicos actuales
+
+- La cookie de sesión HTTP-only se llama actualmente `__session` y se crea a traves de la API `/api/auth/session` usando Firebase Admin.
+- `SESSION_COOKIE_NAME` y `SESSION_COOKIE_MAX_AGE_MS` se definen en `src/lib/constants.ts` (por defecto `__session` con duraciónn de 7 dias).
+- `proxy.ts` y `requireNoAuth` leen la cookie `__session` para decidir las redirecciones y protección de rutas.
+- Para Firebase Admin en el backend se usan las variables `CLIENT_EMAIL_FIREBASE` y `PRIVATE_KEY_FIREBASE` (ver tambien `.env.production`).
 
 ## APIs y flujo de datos
 
@@ -137,7 +147,9 @@ La app está pensada para desplegarse en **Vercel**:
 
 Todas las rutas anteriores verifican el token con **Firebase Admin** antes de invocar Prisma/Supabase.
 
-### Panel de usuario (`/profile`)
+---
+
+## Panel de usuario (`/profile`)
 
 - Permite ver y actualizar datos de la cuenta del usuario autenticado.
 - **Nombre de usuario**:

@@ -7,7 +7,10 @@ const IS_PROD = process.env.NODE_ENV === "production";
 export async function POST(req: NextRequest) {
   try {
     if (!adminAuth) {
-      return NextResponse.json({ error: "Servicio de autenticación no disponible" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Servicio de autenticación no disponible" },
+        { status: 500 }
+      );
     }
 
     const { idToken } = (await req.json()) as { idToken?: string };
@@ -49,4 +52,3 @@ export async function DELETE() {
   });
   return response;
 }
-

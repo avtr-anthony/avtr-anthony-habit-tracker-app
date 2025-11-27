@@ -44,6 +44,7 @@ export async function proxy(req: NextRequest) {
       return res;
     }
   }
+  
 
   // Si el usuario autenticado intenta entrar a login/register → se redirige a /habitos
   if (isAuthRoute && token) {

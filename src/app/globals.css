@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "react-calendar/dist/Calendar.css";
+
 :root {
   --foreground: #171717;
 }
@@ -21,6 +22,7 @@
   --color-errorHover: #e25959;
 }
 
+
 body {
   min-height: 100vh;
   font-family: var(--font-montserrat), sans-serif;
@@ -39,6 +41,7 @@ p {
     opacity: 0;
     transform: scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -56,20 +59,19 @@ p {
 ::-webkit-scrollbar-thumb {
   background-color: #00000049;
   border-radius: 200px;
-  
-}
-
-.background-gradient{
-  background: 
-  radial-gradient(ellipse 80% 60% at 70% 20%, rgba(175, 109, 255, 0.85), transparent 68%),
-  radial-gradient(ellipse 70% 60% at 20% 80%, rgba(255, 100, 180, 0.75), transparent 68%),
-  radial-gradient(ellipse 60% 50% at 60% 65%, rgba(255, 235, 170, 0.98), transparent 68%),
-  radial-gradient(ellipse 65% 40% at 50% 60%, rgba(120, 190, 255, 0.3), transparent 68%),
-  linear-gradient(180deg, #f7eaff 0%, #fde2ea 100%)
 
 }
 
-.background-image{
+.background-gradient {
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 20%, rgba(175, 109, 255, 0.85), transparent 68%),
+    radial-gradient(ellipse 70% 60% at 20% 80%, rgba(255, 100, 180, 0.75), transparent 68%),
+    radial-gradient(ellipse 60% 50% at 60% 65%, rgba(255, 235, 170, 0.98), transparent 68%),
+    radial-gradient(ellipse 65% 40% at 50% 60%, rgba(120, 190, 255, 0.3), transparent 68%),
+    linear-gradient(180deg, #f7eaff 0%, #fde2ea 100%)
+}
+
+.background-image {
   background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.35) 1px, transparent 0);
   background-size: 20px 20px;
 }
@@ -84,7 +86,7 @@ p {
 
 .calendar-habitos button {
   border-radius: 12px;
-  margin: 5px 10px; 
+  margin: 5px 10px;
   transition: all 0.2s ease;
 }
 
@@ -111,7 +113,7 @@ p {
 
 
 .calendar-habitos .react-calendar__month-view__days button {
- margin: 2px auto;
+  margin: 2px auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -119,7 +121,7 @@ p {
   height: 100%;
 }
 
-.calendar-habitos .react-calendar__month-view__days button:hover{
+.calendar-habitos .react-calendar__month-view__days button:hover {
   background-color: var(--color-);
 }
 
@@ -127,5 +129,3 @@ p {
   pointer-events: none;
   cursor: default !important;
 }
-
-
