@@ -6,8 +6,8 @@ let adminAuth: Auth | null = null;
 
 // Intenta usar credenciales explícitas (desarrollo/local)
 const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
-const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+const clientEmail = process.env.CLIENT_EMAIL_FIREBASE;
+const privateKey = process.env.PRIVATE_KEY_FIREBASE?.replace(/\\n/g, "\n");
 
 try {
   if (!getApps().length) {
@@ -21,7 +21,7 @@ try {
         })
       });
     } else {
-      // Entorno de Firebase Functions: usa credenciales por defecto del runtime
+      // Entorno de Generales: usa credenciales por defecto del runtime
       initializeApp();
     }
   }
