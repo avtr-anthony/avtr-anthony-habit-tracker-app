@@ -46,7 +46,7 @@ export default function InputField({
   return (
     <div className="flex w-full flex-col">
       {label && (
-        <label htmlFor={name} className="text-textSecondary mb-1 text-sm font-medium">
+        <label htmlFor={inputId} className="text-textSecondary mb-1 text-sm font-medium">
           {label}
         </label>
       )}
