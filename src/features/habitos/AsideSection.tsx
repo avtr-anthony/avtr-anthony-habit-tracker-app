@@ -53,7 +53,9 @@ export default function CalendarioHabitos({
       >
         {/* Encabezado informativo */}
         <div className="flex flex-col gap-1">
-          <p className="text-xl font-semibold capitalize">{formattedDate}</p>
+          <p className="text-xl font-semibold capitalize" suppressHydrationWarning>
+            {formattedDate}
+          </p>
           {typeof habitosCount === "number" && (
             <span className="text-textSecondary text-sm">
               {habitosCount} hábito{habitosCount === 1 ? "" : "s"} programado
@@ -68,7 +70,7 @@ export default function CalendarioHabitos({
           locale="es-ES"
           next2Label={null}
           prev2Label={null}
-          onChange={(value, _event) => handleChange(value as CalendarValue)}
+          onChange={(value) => handleChange(value as CalendarValue)}
           value={selectedDate}
         />
       </aside>

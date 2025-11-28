@@ -97,6 +97,7 @@ export default function PerfilPage() {
                     label="Nuevo correo"
                   />
                   <InputField
+                    id="currentPassword-email"
                     type="password"
                     name="currentPassword"
                     maxLength={20}
@@ -123,6 +124,7 @@ export default function PerfilPage() {
                 <h2 className="text-lg font-semibold">Contraseña</h2>
 
                 <InputField
+                  id="currentPassword-password"
                   type="password"
                   name="currentPassword"
                   maxLength={20}
