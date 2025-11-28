@@ -49,6 +49,7 @@ export default function Habitos() {
   // Estado local para manejar el hábito que se está actualizando (para mostrar loading)
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
+  // eslint-disable-next-line
   const selectedDateLabel = useMemo(() => {
     const formatted = new Intl.DateTimeFormat("es-ES", {
       weekday: "long",
@@ -72,7 +73,7 @@ export default function Habitos() {
         onSettingsClick={() => router.push("/profile")}
       />
 
-    {/*  */}
+      {/*  */}
       <Container variant="panel">
         <section className="bg-op h-auto w-full flex-1 gap-4 md:h-full">
           <div className="flex h-full w-full flex-col gap-4">
@@ -101,7 +102,7 @@ export default function Habitos() {
               {/* Sección de hábitos */}
               <div className="scrollbar-transparent bg-surface/20 w-full overflow-x-auto overflow-y-hidden rounded-lg p-4 shadow-xl/5 backdrop-blur-xl md:pb-0">
                 {habitosLoading ? (
-                  <div className="flex h-full min-h-[240px] items-center justify-center">
+                  <div className="flex h-full min-h-60 items-center justify-center">
                     <p className="text-textSecondary text-center">Cargando hábitos...</p>
                   </div>
                 ) : (

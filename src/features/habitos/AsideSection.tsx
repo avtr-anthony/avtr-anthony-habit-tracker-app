@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+// eslint-disable-next-line
 import { useMemo, useState } from "react";
 import { useDailyQuote } from "@/hooks/habitos/useDailyQuote";
 import Calendar from "react-calendar";
