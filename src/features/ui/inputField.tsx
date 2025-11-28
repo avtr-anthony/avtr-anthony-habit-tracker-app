@@ -5,6 +5,7 @@ import { Eye, EyeOff } from "lucide-react";
 
 // Props del input
 export interface InputFieldProps {
+  id?: string; // ID del input
   label?: string; // Etiqueta del input
   type?: string; // Tipo de input (text, password, email, etc.)
   placeholder?: string; // Placeholder
@@ -16,6 +17,7 @@ export interface InputFieldProps {
 
 // Componente funcional InputField
 export default function InputField({
+  id,
   label,
   type = "text",
   placeholder = "",
@@ -24,6 +26,7 @@ export default function InputField({
   pattern,
   defaultValue = ""
 }: InputFieldProps) {
+  const inputId = id || name; // Usa el ID proporcionado o el nombre como ID
   const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
   const isPassword = type === "password"; // Determina si es un input de contraseña
   const [value, setValue] = useState(defaultValue); // Estado del valor del input
@@ -51,7 +54,7 @@ export default function InputField({
       <div className="relative">
         {/* Input principal */}
         <input
-          id={name}
+          id={inputId}
           name={name}
           type={isPassword && showPassword ? "text" : type} // Mostrar texto si se activa showPassword
           placeholder={placeholder}

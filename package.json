@@ -6,12 +6,12 @@
     "node": "24.x"
   },
   "scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start",
-  "lint": "eslint",
-  "local": "dotenv -e .env.local prisma db pull"
-},
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "local": "dotenv -e .env.local prisma db pull"
+  },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
     "@prisma/adapter-pg": "^7.0.0",
@@ -37,6 +37,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
+    "baseline-browser-mapping": "^2.8.32",
     "dotenv": "^17.2.3",
     "eslint": "^9",
     "eslint-config-next": "16.0.1",
