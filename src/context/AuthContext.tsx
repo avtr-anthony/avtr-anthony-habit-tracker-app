@@ -24,7 +24,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Efecto para escuchar cambios en la autenticación de Firebase
   useEffect(() => {
     if (!auth) {
-      setLoading(false);
       return;
     }
     // onAuthStateChanged escucha cambios en el estado de login

@@ -18,7 +18,6 @@ export function useGetUsername() {
 
   useEffect(() => {
     if (!user) {
-      setUsername(""); // Si no hay usuario, limpiar el estado.
       return;
     }
 
