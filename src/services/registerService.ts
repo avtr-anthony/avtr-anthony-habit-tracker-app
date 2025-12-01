@@ -1,4 +1,4 @@
-import { registerUser } from "@/lib/authService";
+import { registerUser } from "@/services/authService";
 import { apiFetch } from "@/lib/apiClient";
 import { sendEmailVerification } from "firebase/auth";
 
