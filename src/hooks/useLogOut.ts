@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { logoutUser } from "@/lib/authService";
+import { logoutUser } from "@/services/authService";
 
 // Hook personalizado para manejar logout de usuarios
 export function useLogout() {

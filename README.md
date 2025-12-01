@@ -171,35 +171,45 @@ Todas las rutas anteriores verifican el token con **Firebase Admin** antes de in
 Con RLS activado en `public.users` y `public.habitos`, se aplican estas políticas (basadas en `auth.uid()`):
 
 ```sql
+-- USERS
 CREATE POLICY "insert own profile"
-  ON public.users FOR INSERT
-  WITH CHECK ((auth.uid())::uuid = uid);
+  ON public.users
+  FOR INSERT
+  WITH CHECK (auth.jwt()->>'sub' = uid);
 
 CREATE POLICY "select own profile"
-  ON public.users FOR SELECT
-  USING ((auth.uid())::uuid = uid);
+  ON public.users
+  FOR SELECT
+  USING (auth.jwt()->>'sub' = uid);
 
 CREATE POLICY "update own profile"
-  ON public.users FOR UPDATE
-  USING ((auth.uid())::uuid = uid)
-  WITH CHECK ((auth.uid())::uuid = uid);
+  ON public.users
+  FOR UPDATE
+  USING (auth.jwt()->>'sub' = uid)
+  WITH CHECK (auth.jwt()->>'sub' = uid);
 
+-- HABITOS
 CREATE POLICY "insert own habit"
-  ON public.habitos FOR INSERT
-  WITH CHECK ((auth.uid())::uuid = user_id);
+  ON public.habitos
+  FOR INSERT
+  WITH CHECK (auth.jwt()->>'sub' = user_id);
 
 CREATE POLICY "select own habits"
-  ON public.habitos FOR SELECT
-  USING ((auth.uid())::uuid = user_id);
+  ON public.habitos
+  FOR SELECT
+  USING (auth.jwt()->>'sub' = user_id);
 
 CREATE POLICY "update own habits"
-  ON public.habitos FOR UPDATE
-  USING ((auth.uid())::uuid = user_id)
-  WITH CHECK ((auth.uid())::uuid = user_id);
+  ON public.habitos
+  FOR UPDATE
+  USING (auth.jwt()->>'sub' = user_id)
+  WITH CHECK (auth.jwt()->>'sub' = user_id);
 
 CREATE POLICY "delete own habits"
-  ON public.habitos FOR DELETE
-  USING ((auth.uid())::uuid = user_id);
+  ON public.habitos
+  FOR DELETE
+  USING (auth.jwt()->>'sub' = user_id);
+
 ```
 
 ## Resumen del flujo completo
