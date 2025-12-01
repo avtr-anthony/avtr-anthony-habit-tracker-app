@@ -3,7 +3,6 @@ import { getAuth, Auth } from "firebase/auth";
 
 const isServer = typeof window === "undefined";
 
-// Tipado estricto sin `any`
 let app: FirebaseApp | null = null;
 let auth: Auth | null = null;
 

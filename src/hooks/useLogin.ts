@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { loginUser } from "@/lib/authService";
+import { loginUser } from "@/services/authService";
 import { FirebaseError } from "firebase/app";
 
 // Hook personalizado para manejar login de usuarios

@@ -4,7 +4,6 @@ import type { Auth } from "firebase-admin/auth";
 
 let adminAuth: Auth | null = null;
 
-// Intenta usar credenciales explícitas (desarrollo/local)
 const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
 const clientEmail = process.env.CLIENT_EMAIL_FIREBASE;
 const privateKey = process.env.PRIVATE_KEY_FIREBASE?.replace(/\\n/g, "\n");

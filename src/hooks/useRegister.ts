@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { registerAndSaveUser } from "@/services/registerService";
 import { FirebaseError } from "firebase/app";
-import { logoutUser } from "@/lib/authService";
+import { logoutUser } from "@/services/authService";
 
 // Hook personalizado para manejar el registro de usuarios
 export function useRegister() {
