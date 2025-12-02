@@ -1,37 +1,43 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { apiFetch } from "@/lib/apiClient";
 
-// Interfaz de respuesta esperada de la API
 interface UsernameResponse {
   username: string;
 }
 
-// Hook personalizado para obtener el username del usuario logueado.
-// - Usa el uid del usuario de Firebase Auth.
-// - Llama a la API /api/profile?uid=... y guarda el username en estado local.
 export function useGetUsername() {
-  const { user } = useAuth(); // Obtener el usuario desde el contexto de auth.
-  const [username, setUsername] = useState(""); // Estado local del username.
+  const { user } = useAuth();
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     if (!user) {
+      // sin usuario, no hacemos fetch y devolvemos string vacío en el return
       return;
     }
 
-    // Función asíncrona autoejecutable para llamar a la API.
+    let cancelled = false;
+
     (async () => {
       try {
-        // Llamada a la API para obtener username por UID.
         const data = await apiFetch<UsernameResponse>(`/api/profile?uid=${user.uid}`);
-        setUsername(data.username); // Guardar username en el estado.
+        if (!cancelled) {
+          setUsername(data.username);
+        }
       } catch {
-        setUsername(""); // En caso de error, limpiar el estado.
+        if (!cancelled) {
+          setUsername("");
+        }
       }
     })();
-  }, [user]); // Se ejecuta cada vez que cambia el usuario.
 
-  return username; // Retorna el username para ser usado en la UI.
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.uid]);
+
+  // Si no hay user, devolvemos vacío sin tocar estado en el efecto
+  return user ? username : "";
 }

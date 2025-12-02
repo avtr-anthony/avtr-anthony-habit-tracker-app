@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Container from "@/features/ui/Container";
 import Header from "@/features/ui/Header";
@@ -15,38 +15,30 @@ import { useMemo, useState } from "react";
 import { Habito } from "@/types/Habito";
 import { useUpdateHabito } from "@/hooks/habitos/useUpdateHabito";
 import { useRouter } from "next/navigation";
+
 // Componente principal de la sección de hábitos
 export default function Habitos() {
-  // Hook de logout y estado de carga
   const { logout, loading: authLoading } = useLogout();
   const router = useRouter();
 
-  // Hook para crear hábitos (efecto secundario, se inicializa al montar)
   useCreateHabito();
 
-  // Estado para manejar la fecha seleccionada en el calendario
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const selectedDateISO = useMemo(() => selectedDate.toISOString().split("T")[0], [selectedDate]);
 
-  // Hook para cargar hábitos y manejar el modal
   const {
     habitos,
     openModal,
     setOpenModal,
     cargarHabitos,
-    loading: habitosLoading
+    loading: habitosLoading,
+    updateHabitoLocal
   } = useCargaHabitos(selectedDateISO);
 
-  // Hook para eliminar hábitos
   const { handleDelete } = useDeleteHabito();
-
-  // Hook para actualizar hábitos
   const { handleUpdate } = useUpdateHabito();
 
-  // Estado local para almacenar el hábito que se está editando
   const [habitoEditando, setHabitoEditando] = useState<Habito | null>(null);
-
-  // Estado local para manejar el hábito que se está actualizando (para mostrar loading)
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   // eslint-disable-next-line
@@ -60,12 +52,10 @@ export default function Habitos() {
     return formatted.charAt(0).toUpperCase() + formatted.slice(1);
   }, [selectedDate]);
 
-  // Mostrar pantalla de carga si el logout o auth está en proceso
   if (authLoading) return <Loading />;
 
   return (
     <>
-      {/* Header de la página con opción de logout */}
       <Header
         variant="hPanel"
         showUser
@@ -73,22 +63,19 @@ export default function Habitos() {
         onSettingsClick={() => router.push("/profile")}
       />
 
-      {/*  */}
       <Container variant="panel">
         <section className="bg-op h-auto w-full flex-1 gap-4 md:h-full">
           <div className="flex h-full w-full flex-col gap-4">
-            {/* Título y botón para crear nuevo hábito */}
             <div className="flex w-full items-center justify-between gap-4">
               <div className="bg-surface/20 w-full rounded-xl p-4 shadow-xl/5 backdrop-blur-2xl">
                 <h1 className="text-xl font-bold md:text-2xl">Tus Hábitos</h1>
               </div>
 
-              {/* Botón para abrir modal de creación de hábito */}
               <div className="bg-surface/20 rounded-xl p-4 shadow-xl/5 backdrop-blur-xl">
                 <button
                   onClick={() => {
-                    setHabitoEditando(null); // No se está editando, es un hábito nuevo
-                    setOpenModal(true); // Abrir modal
+                    setHabitoEditando(null);
+                    setOpenModal(true);
                   }}
                   className="bg-primary text-surface hover:bg-primaryHover h-10 w-10 cursor-pointer rounded-full text-2xl font-bold shadow-md transition"
                 >
@@ -97,9 +84,7 @@ export default function Habitos() {
               </div>
             </div>
 
-            {/* Grid principal para mostrar lista de hábitos y panel secundario */}
             <div className="grid h-full w-full grid-rows-[1fr] gap-4 md:flex md:grid-cols-[1fr_1fr] md:grid-rows-none md:overflow-hidden">
-              {/* Sección de hábitos */}
               <div className="scrollbar-transparent bg-surface/20 w-full overflow-x-auto overflow-y-hidden rounded-lg p-4 shadow-xl/5 backdrop-blur-xl md:pb-0">
                 {habitosLoading ? (
                   <div className="flex h-full min-h-60 items-center justify-center">
@@ -107,48 +92,43 @@ export default function Habitos() {
                   </div>
                 ) : (
                   <div className="flex h-full max-h-[400px] flex-col flex-wrap gap-0 md:max-h-full md:min-w-max md:gap-4">
-                    {/* Renderizado de cada hábito como Card */}
                     {habitos.map((h) => (
                       <CardHabitos
                         key={h.id_habito}
                         id={h.id_habito}
                         label={h.label}
                         description={h.descripcion}
-                        // Función para eliminar un hábito
                         onDelete={async (id) => {
                           const deleted = await handleDelete(id);
                           if (deleted) {
-                            cargarHabitos({ silent: true }); // Recargar lista después de eliminar sin bloquear UI
+                            cargarHabitos({ silent: true });
                           }
                         }}
-                        // Función para editar un hábito
                         onEdit={(id) => {
                           const hSeleccionado = habitos.find((x) => x.id_habito === id);
                           if (hSeleccionado) {
-                            setHabitoEditando(hSeleccionado); // Establecer hábito a editar
-                            setOpenModal(true); // Abrir modal de edición
+                            setHabitoEditando(hSeleccionado);
+                            setOpenModal(true);
                           }
                         }}
-                        // Estado de completado del hábito
                         completed={h.completado}
-                        // Toggle de completado
                         onToggleCompleted={async (id, completed) => {
-                          setUpdatingId(id); // Marcar hábito como en actualización
+                          setUpdatingId(id);
                           try {
                             const updated = await handleUpdate(id, { completado: completed });
-                            if (updated) cargarHabitos({ silent: true }); // Recargar hábitos si se actualizó
+                            if (updated?.habito) {
+                              updateHabitoLocal(id, { completado: completed });
+                            }
                           } catch (error) {
                             console.error("Error al actualizar hábito:", error);
                           } finally {
-                            setUpdatingId(null); // Terminar estado de actualización
+                            setUpdatingId(null);
                           }
                         }}
-                        // Indicar si el hábito está en proceso de actualización
                         isUpdating={updatingId === h.id_habito}
                       />
                     ))}
 
-                    {/* Mensaje cuando no hay hábitos */}
                     {habitos.length === 0 && (
                       <p className="text-textSecondary text-center">
                         No tienes hábitos para esta fecha.
@@ -158,7 +138,6 @@ export default function Habitos() {
                 )}
               </div>
 
-              {/* Panel secundario de contenido adicional */}
               <div className="row-start-1 h-full w-full md:col-start-2">
                 <CalendarioHabitos
                   habitosCount={habitos.length}
@@ -173,21 +152,20 @@ export default function Habitos() {
         </section>
       </Container>
 
-      {/* Modal de creación/edición de hábito */}
       <ModalDialog
         open={openModal}
         onClose={() => {
-          setOpenModal(false); // Cerrar modal
-          setHabitoEditando(null); // Limpiar hábito editando
+          setOpenModal(false);
+          setHabitoEditando(null);
         }}
       >
         <FormHabito
-          habito={habitoEditando} // Pasar hábito a editar
+          habito={habitoEditando}
           defaultDate={selectedDateISO}
           onSuccess={() => {
-            setOpenModal(false); // Cerrar modal después de guardar
-            setHabitoEditando(null); // Limpiar estado de edición
-            cargarHabitos(); // Recargar hábitos
+            setOpenModal(false);
+            setHabitoEditando(null);
+            cargarHabitos();
           }}
         />
       </ModalDialog>
