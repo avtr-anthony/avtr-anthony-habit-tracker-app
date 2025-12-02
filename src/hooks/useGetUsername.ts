@@ -36,7 +36,7 @@ export function useGetUsername() {
     return () => {
       cancelled = true;
     };
-  }, [user?.uid]);
+  }, [user]);
 
   // Si no hay user, devolvemos vacío sin tocar estado en el efecto
   return user ? username : "";
