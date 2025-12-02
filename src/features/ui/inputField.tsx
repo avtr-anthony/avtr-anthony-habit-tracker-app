@@ -13,6 +13,8 @@ export interface InputFieldProps {
   maxLength?: number; // Longitud máxima
   pattern?: string; // Patrón de validación
   defaultValue?: string; // Valor por defecto
+  value?: string; // Valor controlado desde el componente padre
+  onChange?: (value: string) => void; // Callback cuando cambia el valor
 }
 
 // Componente funcional InputField
@@ -24,23 +26,26 @@ export default function InputField({
   name,
   maxLength,
   pattern,
-  defaultValue = ""
+  defaultValue = "",
+  value,
+  onChange
 }: InputFieldProps) {
   const inputId = id || name; // Usa el ID proporcionado o el nombre como ID
   const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
   const isPassword = type === "password"; // Determina si es un input de contraseña
-  const [value, setValue] = useState(defaultValue); // Estado del valor del input
+  const [internalValue, setInternalValue] = useState(defaultValue); // Estado del valor del input cuando no es controlado
+  const isControlled = value !== undefined;
+  const inputValue = isControlled ? value : internalValue;
 
   // Manejo de cambios en el input con validación de patrón
   function handleChange(ev: React.ChangeEvent<HTMLInputElement>) {
     const val = ev.target.value;
+    const meetsPattern = pattern ? new RegExp(pattern).test(val) || val === "" : true;
 
-    if (pattern) {
-      const regex = new RegExp(pattern);
-      if (regex.test(val) || val === "") setValue(val); // Solo aceptar si cumple patrón o está vacío
-    } else {
-      setValue(val); // Si no hay patrón, aceptar cualquier valor
-    }
+    if (!meetsPattern) return;
+
+    if (!isControlled) setInternalValue(val); // Actualiza el estado interno solo si no es controlado
+    onChange?.(val);
   }
 
   return (
@@ -60,7 +65,7 @@ export default function InputField({
           placeholder={placeholder}
           maxLength={maxLength}
           pattern={pattern}
-          value={value}
+          value={inputValue}
           onChange={handleChange}
           className="border-border/20 focus:ring-primary w-full rounded-lg border p-2 pr-10 transition focus:border-transparent focus:ring-2 focus:outline-none sm:p-3"
         />

@@ -13,11 +13,15 @@ export default function PerfilPage() {
   const { user } = useAuth();
   const { logout, loading: authLoading } = useLogout();
   const currentUsername = useGetUsername();
+  const [username, setUsername] = useState(currentUsername ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  // TODO: aquí luego conectamos la lógica real de actualización
+  const handlePendingUpdate = (field: string) => {
+    setMessage(`La actualización de ${field} estará disponible muy pronto.`);
+  };
+
 
   if (authLoading) return <Loading />;
 
@@ -40,8 +44,14 @@ export default function PerfilPage() {
               name="username"
               maxLength={20}
               placeholder={"Nuevo nombre de usuario"}
+              value={username}
+              onChange={setUsername}
             />
-            <Button label="Guardar nombre de usuario" variant="primary" />
+            <Button
+              label="Guardar nombre de usuario"
+              variant="primary"
+              onClick={() => handlePendingUpdate("nombre de usuario")}
+            />
           </div>
 
           {/* Cambiar correo */}
@@ -49,8 +59,19 @@ export default function PerfilPage() {
             <h2 className="flex flex-col text-lg font-semibold">
               Correo actual<span className="text-primaryHover">{user?.email}</span>
             </h2>
-            <InputField type="email" name="email" maxLength={35} placeholder="Nuevo correo" />
-            <Button label="Guardar correo" variant="primary" />
+            <InputField
+              type="email"
+              name="email"
+              maxLength={35}
+              placeholder="Nuevo correo"
+              value={email}
+              onChange={setEmail}
+            />
+            <Button
+              label="Guardar correo"
+              variant="primary"
+              onClick={() => handlePendingUpdate("correo")}
+            />
           </div>
 
           {/* Cambiar contraseña */}
@@ -62,8 +83,14 @@ export default function PerfilPage() {
               maxLength={20}
               placeholder="Nueva contraseña"
               label=""
+              value={password}
+              onChange={setPassword}
             />
-            <Button label="Guardar contraseña" variant="primary" />
+            <Button
+              label="Guardar contraseña"
+              variant="primary"
+              onClick={() => handlePendingUpdate("contraseña")}
+            />
           </div>
 
           {message && <p className="text-primaryHover text-sm">{message}</p>}
