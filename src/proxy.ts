@@ -38,13 +38,13 @@ export async function proxy(req: NextRequest) {
       // Si todo ok, se adjunta el UID en los headers para acceso interno
       req.headers.set("x-user-uid", decoded.uid);
     } catch (err) {
+      console.error("Error verificando cookie de sesión en middleware", err);
       // Si el token es inválido/expirado → se elimina cookie y se redirige a login
       const res = NextResponse.redirect(new URL("/login", req.url));
       res.cookies.delete(SESSION_COOKIE_NAME);
       return res;
     }
   }
-  
 
   // Si el usuario autenticado intenta entrar a login/register → se redirige a /habitos
   if (isAuthRoute && token) {

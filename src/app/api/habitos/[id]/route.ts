@@ -41,7 +41,6 @@ export async function PUT(
     // Obtener los datos enviados en el body de la petición
     const body = await req.json();
 
-
     // Objeto que contendrá los campos permitidos a actualizar
     const allowedUpdates: UpdateHabitoBody & { completado?: boolean } = {};
 
@@ -101,12 +100,16 @@ export async function DELETE(
 
     // Decodificar token para obtener el UID del usuario
     if (!adminAuth) {
-      return NextResponse.json({ error: "Servicio de autenticación no disponible" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Servicio de autenticación no disponible" },
+        { status: 500 }
+      );
     }
     let decoded;
     try {
       decoded = await adminAuth.verifySessionCookie(token, true);
     } catch (error) {
+      console.error("Error verificando cookie de sesión en DELETE /habitos/[id]", error);
       return NextResponse.json({ error: "Token inválido o expirado" }, { status: 401 });
     }
     const userId = decoded.uid;
