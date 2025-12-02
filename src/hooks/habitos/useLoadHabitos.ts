@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useCallback, useEffect, useState } from "react";
 import { getHabitos } from "@/services/habitosService";
 import { Habito } from "@/types/Habito";
@@ -10,39 +10,43 @@ interface LoadHabitosOptions {
 
 // Hook encargado de cargar todos los hábitos del usuario
 export function useCargaHabitos(date?: string) {
-  const [habitos, setHabitos] = useState<Habito[]>([]); // Lista de hábitos cargados desde la API
-  const [openModal, setOpenModal] = useState(false); // Controla si el modal de crear/editar está abierto
-  const [loading, setLoading] = useState(true); // Estado de carga mientras se obtienen hábitos
+  const [habitos, setHabitos] = useState<Habito[]>([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Función principal que obtiene hábitos desde el backend
   const cargarHabitos = useCallback(
     async (options?: LoadHabitosOptions) => {
       const { customDate, silent } = options ?? {};
       try {
-        if (!silent) setLoading(true); // Activa estado de carga
+        if (!silent) setLoading(true);
         const queryDate = customDate ?? date;
-        const data = await getHabitos(queryDate ? { date: queryDate } : undefined); // Llama al servicio para obtener hábitos
-        setHabitos(data.habitos || []); // Guarda hábitos (o array vacío por seguridad)
+        const data = await getHabitos(queryDate ? { date: queryDate } : undefined);
+        setHabitos(data.habitos || []);
       } catch (err) {
-        console.error("Error cargando hábitos", err); // Error de red o backend
+        console.error("Error cargando hábitos", err);
       } finally {
-        if (!silent) setLoading(false); // Finaliza estado de carga siempre
+        if (!silent) setLoading(false);
       }
     },
     [date]
   );
 
-  // Cargar hábitos automáticamente al montar el componente
+  // Actualiza un hábito en memoria sin recargar toda la lista
+  const updateHabitoLocal = useCallback((id: string, patch: Partial<Habito>) => {
+    setHabitos((prev) => prev.map((h) => (h.id_habito === id ? { ...h, ...patch } : h)));
+  }, []);
+
   useEffect(() => {
     cargarHabitos();
   }, [cargarHabitos]);
 
-  // Expone estados y funciones al componente que lo use
   return {
-    habitos, // Lista de hábitos
-    loading, // Estado de carga
-    openModal, // Estado del modal
-    setOpenModal, // Controlador para abrir/cerrar modal
-    cargarHabitos // Función para recargar hábitos manualmente
+    habitos,
+    loading,
+    openModal,
+    setOpenModal,
+    cargarHabitos,
+    updateHabitoLocal
   };
 }

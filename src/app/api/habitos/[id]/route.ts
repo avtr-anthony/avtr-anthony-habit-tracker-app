@@ -61,8 +61,22 @@ export async function PUT(
     if (updated.count === 0)
       return NextResponse.json({ error: "No encontrado o no autorizado" }, { status: 404 });
 
-    // Retornar respuesta exitosa
-    return NextResponse.json({ success: true }, { status: 200 });
+    // Volver a leer el hábito actualizado para retornarlo al cliente
+    const habito = await prisma.habito.findFirst({
+      where: { id_habito: habitId, user_id: userId }
+    });
+
+    if (!habito) {
+      return NextResponse.json({ error: "No encontrado o no autorizado" }, { status: 404 });
+    }
+
+    const habitoResponse = {
+      ...habito,
+      id_habito: Number(habito.id_habito)
+    };
+
+    // Retornar respuesta exitosa con el hábito actualizado
+    return NextResponse.json({ habito: habitoResponse }, { status: 200 });
   } catch (err) {
     // Manejo de errores generales
     console.error("Error PUT:", err);
