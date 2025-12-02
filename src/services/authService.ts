@@ -57,7 +57,6 @@ export async function loginUser(email: string, password: string) {
   const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
   if (!userCredential.user.emailVerified) {
-    await sendEmailVerification(userCredential.user);
     await signOut(auth);
     await destroyToken();
     throw new Error("email-not-verified");
