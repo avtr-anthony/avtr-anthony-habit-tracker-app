@@ -6,7 +6,6 @@ import CardHabitos from "@/features/habitos/CardHabitos";
 import ModalDialog from "@/features/ui/ModalDialog";
 import FormHabito from "@/features/habitos/FormHabitos";
 import { useCargaHabitos } from "@/hooks/habitos/useLoadHabitos";
-import { useCreateHabito } from "@/hooks/habitos/useCreateHabitos";
 import { useLogout } from "@/hooks/useLogOut";
 import Loading from "@/features/ui/Loading";
 import { useDeleteHabito } from "@/hooks/habitos/useDeleteHabito";
@@ -20,8 +19,6 @@ import { useRouter } from "next/navigation";
 export default function Habitos() {
   const { logout, loading: authLoading } = useLogout();
   const router = useRouter();
-
-  useCreateHabito();
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const selectedDateISO = useMemo(() => selectedDate.toISOString().split("T")[0], [selectedDate]);
@@ -40,17 +37,6 @@ export default function Habitos() {
 
   const [habitoEditando, setHabitoEditando] = useState<Habito | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
-
-  // eslint-disable-next-line
-  const selectedDateLabel = useMemo(() => {
-    const formatted = new Intl.DateTimeFormat("es-ES", {
-      weekday: "long",
-      day: "2-digit",
-      month: "long",
-      year: "numeric"
-    }).format(selectedDate);
-    return formatted.charAt(0).toUpperCase() + formatted.slice(1);
-  }, [selectedDate]);
 
   if (authLoading) return <Loading />;
 
