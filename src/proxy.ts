@@ -5,13 +5,12 @@ import { SESSION_COOKIE_NAME } from "@/lib/constants";
 
 // Middleware principal encargado de manejar:
 // - Protección de rutas
-// - Verificación de tokens Firebase
+// - Verificación de tokens Firebase (cookie de sesión)
 // - Redirecciones automáticas según autenticación
 export async function proxy(req: NextRequest) {
-  // Se clona la URL para poder modificarla (ej: redirecciones)
   const url = req.nextUrl.clone();
 
-  // Se obtiene el token JWT almacenado en cookies (el Firebase ID Token)
+  // Se obtiene el token JWT almacenado en cookies (session cookie de Firebase)
   const token = req.cookies.get(SESSION_COOKIE_NAME)?.value;
 
   // Rutas públicas de autenticación
@@ -32,11 +31,9 @@ export async function proxy(req: NextRequest) {
       if (!adminAuth) {
         throw new Error("Firebase Admin Auth is not initialized");
       }
-      // Se decodifica la cookie de sesión y se verifica que sea válida
-      const decoded = await adminAuth.verifySessionCookie(token, true);
-
-      // Si todo ok, se adjunta el UID en los headers para acceso interno
-      req.headers.set("x-user-uid", decoded.uid);
+      // Verifica que la cookie de sesión sea válida (firma, expiración, revocación)
+      await adminAuth.verifySessionCookie(token, true);
+      // Si todo ok, simplemente continúa el flujo normal
     } catch (err) {
       console.error("Error verificando cookie de sesión en middleware", err);
       // Si el token es inválido/expirado → se elimina cookie y se redirige a login
@@ -66,3 +63,4 @@ export async function proxy(req: NextRequest) {
 export const config = {
   matcher: ["/", "/habitos/:path*", "/login", "/register"]
 };
+
